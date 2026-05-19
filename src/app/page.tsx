@@ -1,6 +1,9 @@
+import Navbar from "@/components/layout/navbar";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
+      <Navbar />
       <div className="container mx-auto px-6 py-10">
         <h1 className="text-5xl font-bold">
           CareerFlyght
