@@ -1,6 +1,9 @@
-export default function WhatCanIBePage() {
+import Navbar from "@/components/layout/navbar";
+
+export default function NinthBoxPage() {
   return (
-    <main className="min-h-screen p-10">
+    <main className="min-h-screen">
+      <Navbar />
       <h1 className="text-5xl font-bold">
         9thBox
       </h1>
