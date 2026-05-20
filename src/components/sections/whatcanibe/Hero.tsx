@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
@@ -20,6 +20,13 @@ import {
   Bell,
   ShieldCheck
 } from "lucide-react";
+import HeroBackground from "./HeroBackground";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // --- Mock Data ---
 
@@ -89,13 +96,57 @@ export default function Hero() {
   const rotateX = useSpring(useTransform(mouseY, [0, 1], [10, -10]));
   const rotateY = useSpring(useTransform(mouseX, [0, 1], [-10, 10]));
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const dashboardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !contentRef.current || !dashboardRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Cinematic entrance for the entire hero content
+      gsap.from(contentRef.current, {
+        opacity: 0,
+        y: 100,
+        duration: 1.5,
+        ease: "expo.out",
+      });
+
+      gsap.from(dashboardRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        rotateX: -20,
+        duration: 2,
+        delay: 0.5,
+        ease: "elastic.out(1, 0.75)",
+      });
+
+      // Subtle parallax on scroll for the hero background
+      gsap.to("#hero-bg-blobs", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+        y: 200,
+        opacity: 0,
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      id="hero"
+      ref={sectionRef}
       className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden bg-[#020202]"
       onMouseMove={handleMouseMove}
     >
+      <HeroBackground />
       {/* Background Immersive Elements */}
-      <div className="absolute inset-0 -z-10 pointer-events-none">
+      <div id="hero-bg-blobs" className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-violet-600/15 blur-[140px] rounded-full animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-blue-600/15 blur-[140px] rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] bg-fuchsia-600/10 blur-[160px] rounded-full" />
@@ -109,10 +160,8 @@ export default function Hero() {
 
           {/* LEFT CONTENT: High Energy Copy & Partners */}
           <motion.div
+            ref={contentRef}
             className="lg:col-span-5"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
           >
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -161,6 +210,7 @@ export default function Hero() {
 
           {/* RIGHT CONTENT: Immersive Bento Box Dashboard */}
           <motion.div
+            ref={dashboardRef}
             className="lg:col-span-7 relative"
             style={{ rotateX, rotateY, perspective: 1000 }}
           >
@@ -173,7 +223,10 @@ export default function Hero() {
                   {/* Profile & Live Feed (Column 1) */}
                   <div className="col-span-5 space-y-6">
                      {/* User Identity Card */}
-                     <div className="p-6 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
+                     <motion.div
+                        whileHover={{ scale: 1.02, rotateY: 5 }}
+                        className="p-6 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group cursor-pointer"
+                      >
                         <div className="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 blur-2xl -z-10 group-hover:bg-violet-600/20 transition-colors" />
                         <div className="flex items-center gap-4 mb-4">
                            <div className="w-14 h-14 rounded-2xl overflow-hidden border border-white/20">
@@ -198,7 +251,7 @@ export default function Hero() {
                               />
                            </div>
                         </div>
-                     </div>
+                     </motion.div>
 
                      {/* Live Activity Feed */}
                      <div className="p-6 rounded-3xl bg-black/40 border border-white/5 backdrop-blur-md">
@@ -215,7 +268,10 @@ export default function Hero() {
                   {/* Main Visualization Area (Column 2) */}
                   <div className="col-span-7 space-y-6">
                      {/* Interactive Roadmap Map */}
-                     <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 h-64 relative overflow-hidden group">
+                     <motion.div
+                        whileHover={{ scale: 1.01 }}
+                        className="p-6 rounded-[2rem] bg-white/5 border border-white/10 h-64 relative overflow-hidden group cursor-pointer"
+                      >
                         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=800')] opacity-10 grayscale group-hover:scale-110 transition-transform duration-1000" />
                         <div className="relative z-10">
                            <div className="flex items-center justify-between mb-4">
@@ -240,7 +296,7 @@ export default function Hero() {
                               ))}
                            </div>
                         </div>
-                     </div>
+                     </motion.div>
 
                      {/* Mentors & Charts Row */}
                      <div className="grid grid-cols-2 gap-6">
