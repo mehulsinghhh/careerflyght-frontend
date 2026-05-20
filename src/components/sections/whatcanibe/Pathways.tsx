@@ -1,104 +1,143 @@
-import { Search, Map, Users, Target } from "lucide-react";
+"use client";
 
-const steps = [
+import React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import {
+  Search,
+  Map,
+  BrainCircuit,
+  Rocket,
+  Users,
+  Target,
+  Sparkles,
+  Zap,
+  ArrowRight,
+  ChevronRight,
+  TrendingUp,
+  Cpu
+} from "lucide-react";
+
+const STEPS = [
   {
-    title: "Discovery",
-    description: "Take AI-powered assessments to match your personality and skills with potential careers.",
-    icon: Search,
-    color: "bg-blue-500",
+    title: "AI Discovery",
+    label: "Phase 01",
+    desc: "Our neural engine analyzes your personality, cognitive strengths, and passions to uncover hidden career potentials.",
+    icon: BrainCircuit,
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4628c9759?auto=format&fit=crop&q=80&w=600",
+    color: "from-blue-600 to-cyan-400"
   },
   {
-    title: "Mapping",
-    description: "Visualize step-by-step roadmaps from where you are now to your first day on the job.",
+    title: "Strategic Mapping",
+    label: "Phase 02",
+    desc: "Generate detailed, multi-year roadmaps including specific degrees, certifications, and skills needed for your target roles.",
     icon: Map,
-    color: "bg-violet-500",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600",
+    color: "from-violet-600 to-purple-400"
   },
   {
-    title: "Mentorship",
-    description: "Connect with professionals who have walked the path before and get real-world advice.",
+    title: "Mentor Synthesis",
+    label: "Phase 03",
+    desc: "Get matched with industry-leading mentors for 1-on-1 sessions, portfolio reviews, and exclusive career insights.",
     icon: Users,
-    color: "bg-purple-500",
+    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=600",
+    color: "from-fuchsia-600 to-pink-400"
   },
   {
-    title: "Growth",
-    description: "Access curated internships, projects, and certifications to build your professional profile.",
-    icon: Target,
-    color: "bg-fuchsia-500",
-  },
+    title: "Career Launch",
+    label: "Phase 04",
+    desc: "Apply to high-growth internships and jobs with a verified profile backed by AI-driven career milestones.",
+    icon: Rocket,
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600",
+    color: "from-green-600 to-emerald-400"
+  }
 ];
 
 export default function Pathways() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-32 px-6 bg-[#020202] relative">
+      {/* Background visual storytelling elements */}
+      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-violet-600/5 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-blue-600/5 blur-[140px] rounded-full pointer-events-none" />
+
       <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">The Roadmap to Your <span className="text-violet-400">Success</span></h2>
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              We've decoded the journey from student to professional. No more guessing—just clear, actionable steps tailored to your unique goals.
-            </p>
+        <div className="text-center max-w-3xl mx-auto mb-24">
+           <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-400 text-[10px] uppercase font-black tracking-widest mb-6"
+           >
+              <Zap className="w-3 h-3" />
+              The Journey
+           </motion.div>
+           <h2 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-[0.95] mb-8">
+              Your Evolution <br /> <span className="bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent text-6xl md:text-8xl">Visualized.</span>
+           </h2>
+           <p className="text-xl text-gray-400 leading-relaxed">
+              We've engineered the perfect pipeline from student to industry expert. Step into the future of career planning.
+           </p>
+        </div>
 
-            <div className="space-y-4">
-              {steps.map((step, idx) => (
-                <div key={step.title} className="flex gap-6 p-6 rounded-2xl border border-white/5 hover:border-white/10 bg-white/5 transition-colors">
-                  <div className={`shrink-0 w-12 h-12 rounded-full ${step.color} flex items-center justify-center`}>
-                    <step.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-1">{step.title}</h3>
-                    <p className="text-gray-400 text-sm">{step.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Immersive Stacked Pathway Visual */}
+        <div className="space-y-32">
+           {STEPS.map((step, idx) => (
+             <div key={step.title} className={`flex flex-col lg:flex-row items-center gap-16 ${idx % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
 
-          <div className="lg:w-1/2 relative">
-            <div className="relative z-10 aspect-square rounded-3xl border border-white/10 bg-gradient-to-br from-violet-500/10 to-purple-500/10 p-8 flex items-center justify-center overflow-hidden">
-               {/* Visual representation of a roadmap */}
-               <div className="absolute inset-0 opacity-20 pointer-events-none">
-                  <svg className="w-full h-full" viewBox="0 0 400 400" fill="none">
-                    <path d="M50 350 C 150 350, 150 50, 350 50" stroke="white" strokeWidth="2" strokeDasharray="8 8" />
-                    <circle cx="50" cy="350" r="10" fill="white" />
-                    <circle cx="350" cy="50" r="10" fill="white" />
-                  </svg>
-               </div>
+                {/* Visual Media Side */}
+                <motion.div
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  className="lg:w-1/2 relative group"
+                >
+                   <div className={`absolute -inset-4 bg-gradient-to-br ${step.color} opacity-20 blur-2xl rounded-[3rem] group-hover:opacity-40 transition-opacity`} />
+                   <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl">
+                      <img src={step.image} alt={step.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-               <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-black/80 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl translate-y-8">
-                    <p className="text-xs text-violet-400 font-bold mb-2 uppercase tracking-widest">Year 1</p>
-                    <p className="font-bold text-white">Fundamentals</p>
-                    <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-full bg-violet-500" />
-                    </div>
-                  </div>
-                  <div className="bg-black/80 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl -translate-y-8">
-                    <p className="text-xs text-purple-400 font-bold mb-2 uppercase tracking-widest">Year 2</p>
-                    <p className="font-bold text-white">Specialization</p>
-                    <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-[65%] bg-purple-500" />
-                    </div>
-                  </div>
-                  <div className="bg-black/80 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl translate-y-8">
-                    <p className="text-xs text-fuchsia-400 font-bold mb-2 uppercase tracking-widest">Year 3</p>
-                    <p className="font-bold text-white">Practical Exp.</p>
-                    <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-[30%] bg-fuchsia-500" />
-                    </div>
-                  </div>
-                  <div className="bg-black/80 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl -translate-y-8 opacity-50">
-                    <p className="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Final</p>
-                    <p className="font-bold text-white/50">Dream Job</p>
-                    <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-0 bg-gray-500" />
-                    </div>
-                  </div>
-               </div>
-            </div>
+                      {/* Floating UI Elements inside Image */}
+                      <motion.div
+                        animate={{ y: [0, -15, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: idx * 0.5 }}
+                        className="absolute bottom-8 left-8 bg-white/5 backdrop-blur-xl border border-white/20 p-4 rounded-2xl flex items-center gap-3"
+                      >
+                         <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${step.color} flex items-center justify-center`}>
+                            <step.icon className="w-4 h-4 text-white" />
+                         </div>
+                         <p className="text-[10px] font-black text-white uppercase tracking-widest">{step.title} Active</p>
+                      </motion.div>
+                   </div>
+                </motion.div>
 
-            {/* Background blur */}
-            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-violet-600/20 blur-[100px] rounded-full" />
-          </div>
+                {/* Text Content Side */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="lg:w-1/2"
+                >
+                   <p className={`text-sm font-black uppercase tracking-[0.4em] mb-4 bg-gradient-to-r ${step.color} bg-clip-text text-transparent`}>{step.label}</p>
+                   <h3 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight leading-[1.1]">{step.title}</h3>
+                   <p className="text-lg text-gray-400 leading-relaxed mb-8">
+                      {step.desc}
+                   </p>
+                   <ul className="space-y-4 mb-10">
+                      {[1, 2, 3].map(i => (
+                        <li key={i} className="flex items-center gap-3 text-sm text-gray-300">
+                           <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                              <ChevronRight className="w-3 h-3 text-violet-500" />
+                           </div>
+                           Proprietary AI Optimization Level {i}
+                        </li>
+                      ))}
+                   </ul>
+                   <Button variant="outline" className="h-12 border-white/10 px-8 text-white font-bold rounded-xl gap-2 hover:bg-white/5">
+                      Explore {step.title}
+                      <ArrowRight className="w-4 h-4" />
+                   </Button>
+                </motion.div>
+             </div>
+           ))}
         </div>
       </div>
     </section>
