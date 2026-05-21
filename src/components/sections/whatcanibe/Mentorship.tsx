@@ -13,10 +13,7 @@ export default function Mentorship() {
   return (
     <section className="py-24 px-6 bg-black relative overflow-hidden">
       {/* Subtle background texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}
-      />
+      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] pointer-events-none" />
 
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
