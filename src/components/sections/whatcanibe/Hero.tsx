@@ -1,7 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("careerflyghtUser");
+    setIsLoggedIn(!!user);
+  }, []);
+
   return (
     <section className="relative overflow-hidden py-24 px-6 md:py-32">
       {/* Background Glows */}
@@ -31,16 +41,33 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/signup" className="w-full sm:w-auto">
-            <Button size="lg" className="w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-violet-600/25 border-none">
-              Start Exploring Free
-            </Button>
-          </Link>
-          <Link href="/whatcanibe/pathways" className="w-full sm:w-auto">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-8 h-12 text-base rounded-xl transition-all">
-              See How It Works
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-violet-600/25 border-none">
+                  Dashboard
+                </Button>
+              </Link>
+              <Link href="/whatcanibe/careers" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-8 h-12 text-base rounded-xl transition-all">
+                  Explore Careers
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/signup" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-violet-600/25 border-none">
+                  Start Exploring Free
+                </Button>
+              </Link>
+              <Link href="/whatcanibe/pathways" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-8 h-12 text-base rounded-xl transition-all">
+                  See How It Works
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Hero Visual Placeholder */}

@@ -36,13 +36,18 @@ export default function WhatCanIBeNavbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-8">
           <Link
-            href="/whatcanibe"
+            href={user ? "/whatcanibe/dashboard" : "/whatcanibe"}
             className="text-xl font-bold tracking-tight bg-gradient-to-r from-violet-400 to-purple-600 bg-clip-text text-transparent"
           >
             WhatCanIBe
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
+            {user && (
+              <Link href="/whatcanibe/dashboard" className="hover:text-white transition-colors">
+                Dashboard
+              </Link>
+            )}
             <Link href="/whatcanibe/careers" className="hover:text-white transition-colors">
               Careers
             </Link>
