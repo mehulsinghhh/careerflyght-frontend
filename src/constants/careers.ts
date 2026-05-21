@@ -6,6 +6,9 @@ export interface Career {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   demand: "Low" | "Medium" | "High";
   category: string;
+  featured?: boolean;
+  growthRate?: string;
+  skills?: string[];
 }
 
 export const MOCK_CAREERS: Career[] = [
@@ -16,7 +19,10 @@ export const MOCK_CAREERS: Career[] = [
     salaryRange: "$120k - $250k",
     difficulty: "Advanced",
     demand: "High",
-    category: "Software Engineering"
+    category: "Software Engineering",
+    featured: true,
+    growthRate: "+35%",
+    skills: ["Python", "PyTorch", "TensorFlow", "NLP"]
   },
   {
     id: "2",
@@ -25,7 +31,10 @@ export const MOCK_CAREERS: Career[] = [
     salaryRange: "$80k - $160k",
     difficulty: "Intermediate",
     demand: "High",
-    category: "Software Engineering"
+    category: "Software Engineering",
+    featured: true,
+    growthRate: "+22%",
+    skills: ["React", "Node.js", "TypeScript", "PostgreSQL"]
   },
   {
     id: "3",
@@ -34,7 +43,9 @@ export const MOCK_CAREERS: Career[] = [
     salaryRange: "$100k - $180k",
     difficulty: "Intermediate",
     demand: "High",
-    category: "Infrastructure"
+    category: "Infrastructure",
+    growthRate: "+28%",
+    skills: ["AWS", "Kubernetes", "Docker", "Terraform"]
   },
   {
     id: "4",
@@ -43,7 +54,9 @@ export const MOCK_CAREERS: Career[] = [
     salaryRange: "$70k - $130k",
     difficulty: "Beginner",
     demand: "Medium",
-    category: "Data Science"
+    category: "Data Science",
+    growthRate: "+15%",
+    skills: ["SQL", "Tableau", "Python", "Statistics"]
   },
   {
     id: "5",
@@ -52,7 +65,10 @@ export const MOCK_CAREERS: Career[] = [
     salaryRange: "$90k - $170k",
     difficulty: "Advanced",
     demand: "High",
-    category: "Security"
+    category: "Security",
+    featured: true,
+    growthRate: "+31%",
+    skills: ["Network Security", "Ethical Hacking", "SIEM", "Cryptography"]
   },
   {
     id: "6",
@@ -61,6 +77,30 @@ export const MOCK_CAREERS: Career[] = [
     salaryRange: "$75k - $140k",
     difficulty: "Beginner",
     demand: "Medium",
-    category: "Design"
+    category: "Design",
+    growthRate: "+12%",
+    skills: ["Figma", "User Research", "Prototyping", "Visual Design"]
+  },
+  {
+    id: "7",
+    title: "Product Manager",
+    description: "Lead the development and strategy of products, bridging the gap between business, design, and engineering.",
+    salaryRange: "$110k - $190k",
+    difficulty: "Intermediate",
+    demand: "High",
+    category: "Business & Management",
+    growthRate: "+18%",
+    skills: ["Agile", "Strategy", "Roadmapping", "Market Analysis"]
+  },
+  {
+    id: "8",
+    title: "Blockchain Developer",
+    description: "Design and implement secure and decentralized blockchain-based applications and protocols.",
+    salaryRange: "$130k - $220k",
+    difficulty: "Advanced",
+    demand: "Medium",
+    category: "Software Engineering",
+    growthRate: "+45%",
+    skills: ["Solidity", "Smart Contracts", "Ethereum", "Cryptography"]
   }
 ];
