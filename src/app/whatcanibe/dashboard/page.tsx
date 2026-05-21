@@ -43,11 +43,12 @@ export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
+  const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("careerflyghtUser");
     if (!storedUser) {
-      router.push("/login");
+      router.push("/whatcanibe/login");
     } else {
       try {
         const parsedUser = JSON.parse(storedUser);
@@ -55,7 +56,7 @@ export default function DashboardPage() {
         setMounted(true);
       } catch (error) {
         console.error("Error parsing user:", error);
-        router.push("/login");
+        router.push("/whatcanibe/login");
       }
     }
   }, [router]);
@@ -204,10 +205,19 @@ export default function DashboardPage() {
 
                             {milestone.status === 'active' && (
                               <div className="mt-6 flex flex-wrap gap-3">
-                                <Button size="sm" className="bg-violet-600 hover:bg-violet-700 h-9 px-4 rounded-xl font-bold">
+                                <Button
+                                  onClick={() => setIsMilestoneModalOpen(true)}
+                                  size="sm"
+                                  className="bg-violet-600 hover:bg-violet-700 h-9 px-4 rounded-xl font-bold"
+                                >
                                   Continue Learning
                                 </Button>
-                                <Button size="sm" variant="outline" className="border-white/10 h-9 px-4 rounded-xl font-bold bg-white/5">
+                                <Button
+                                  onClick={() => setIsMilestoneModalOpen(true)}
+                                  size="sm"
+                                  variant="outline"
+                                  className="border-white/10 h-9 px-4 rounded-xl font-bold bg-white/5"
+                                >
                                   View Resources
                                 </Button>
                               </div>
@@ -236,7 +246,11 @@ export default function DashboardPage() {
                 <CardContent className="p-6 pt-2">
                   <div className="space-y-4">
                     {MOCK_DASHBOARD_DATA.recommendations.map((rec) => (
-                      <div key={rec.id} className="group p-4 rounded-2xl border border-white/5 bg-white/5 hover:border-purple-500/30 transition-all cursor-pointer">
+                      <div
+                        key={rec.id}
+                        onClick={() => setIsMilestoneModalOpen(true)}
+                        className="group p-4 rounded-2xl border border-white/5 bg-white/5 hover:border-purple-500/30 transition-all cursor-pointer"
+                      >
                         <div className="flex items-center justify-between mb-2">
                            <div className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-widest">
                              {rec.type}
@@ -250,7 +264,11 @@ export default function DashboardPage() {
                       </div>
                     ))}
                   </div>
-                  <Button variant="ghost" className="w-full mt-4 text-purple-400 hover:text-purple-300 hover:bg-purple-500/5 rounded-xl font-bold">
+                  <Button
+                    onClick={() => setIsMilestoneModalOpen(true)}
+                    variant="ghost"
+                    className="w-full mt-4 text-purple-400 hover:text-purple-300 hover:bg-purple-500/5 rounded-xl font-bold"
+                  >
                     View All Insights
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>
@@ -330,6 +348,41 @@ export default function DashboardPage() {
           </div>
           <Button className="w-full h-12 bg-violet-600 hover:bg-violet-700 rounded-xl font-bold" onClick={() => setIsPathwaysModalOpen(false)}>
             Update Path Settings
+          </Button>
+        </div>
+      </PolishedModal>
+
+      <PolishedModal
+        isOpen={isMilestoneModalOpen}
+        onClose={() => setIsMilestoneModalOpen(false)}
+        title="Milestone Details"
+        description="Deep dive into your next learning objective."
+      >
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl border border-white/5 bg-white/5">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-12 w-12 rounded-xl bg-violet-600/20 flex items-center justify-center">
+                <BookOpen className="h-6 w-6 text-violet-400" />
+              </div>
+              <div>
+                <h4 className="text-white font-bold">Advanced React Patterns</h4>
+                <p className="text-xs text-gray-500">Estimated time: 4 hours</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-400 leading-relaxed mb-6">
+              Master higher-order components, render props, and advanced hook patterns to build highly reusable UI architectures.
+            </p>
+            <div className="space-y-3">
+              {["Custom Hooks", "Context API", "Compound Components"].map(item => (
+                <div key={item} className="flex items-center gap-2 text-xs text-gray-300">
+                  <div className="h-1 w-1 rounded-full bg-violet-500" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <Button className="w-full h-12 bg-violet-600 hover:bg-violet-700 rounded-xl font-bold" onClick={() => setIsMilestoneModalOpen(false)}>
+            Launch Lesson
           </Button>
         </div>
       </PolishedModal>

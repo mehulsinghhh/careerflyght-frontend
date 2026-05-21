@@ -3,6 +3,7 @@
 import { Search, Map, Users, Target, CheckCircle2, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const steps = [
   {
@@ -36,6 +37,8 @@ const steps = [
 ];
 
 export default function Pathways() {
+  const router = useRouter();
+
   return (
     <section className="py-24 px-6 overflow-hidden">
       <div className="container mx-auto">
@@ -88,7 +91,11 @@ export default function Pathways() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="mt-10"
             >
-              <Button size="lg" className="bg-white text-black hover:bg-gray-200 rounded-xl px-8 h-12 font-bold group">
+              <Button
+                onClick={() => router.push('/whatcanibe/signup')}
+                size="lg"
+                className="bg-white text-black hover:bg-gray-200 rounded-xl px-8 h-12 font-bold group"
+              >
                 Build My Roadmap
                 <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>

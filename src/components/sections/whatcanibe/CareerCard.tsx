@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRight, TrendingUp, BrainCircuit } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlowCard } from "@/components/ui/glow-card";
+import { useRouter } from "next/navigation";
 
 interface CareerCardProps {
   career: Career;
 }
 
 export default function CareerCard({ career }: CareerCardProps) {
+  const router = useRouter();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -61,7 +64,10 @@ export default function CareerCard({ career }: CareerCardProps) {
         </div>
 
         <div className="p-4 border-t border-white/5 bg-white/[0.02] mt-auto">
-          <Button className="w-full bg-white/5 hover:bg-violet-600 text-white hover:text-white border-white/10 hover:border-violet-500 rounded-xl group/btn transition-all duration-300">
+          <Button
+            onClick={() => router.push(`/whatcanibe/dashboard`)}
+            className="w-full bg-white/5 hover:bg-violet-600 text-white hover:text-white border-white/10 hover:border-violet-500 rounded-xl group/btn transition-all duration-300"
+          >
             View Roadmap
             <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
           </Button>

@@ -107,7 +107,7 @@ export default function Hero() {
             </>
           ) : (
             <>
-              <Link href="/signup" className="w-full sm:w-auto">
+              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
                 <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
                   Start Exploring Free
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

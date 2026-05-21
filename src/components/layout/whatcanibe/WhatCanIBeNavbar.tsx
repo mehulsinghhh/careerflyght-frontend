@@ -88,12 +88,12 @@ export default function WhatCanIBeNavbar() {
               </>
             ) : (
               <>
-                <Link href="/login">
+              <Link href="/whatcanibe/login">
                   <Button variant="ghost" className="text-xs font-bold text-gray-500 hover:text-white uppercase tracking-widest px-6 h-10">
                     Log in
                   </Button>
                 </Link>
-                <Link href="/signup">
+              <Link href="/whatcanibe/signup">
                   <Button className="bg-violet-600 hover:bg-violet-700 text-white border-none rounded-xl px-6 h-10 font-bold text-xs shadow-lg shadow-violet-600/20">
                     Get Started
                   </Button>
@@ -148,12 +148,12 @@ export default function WhatCanIBeNavbar() {
                 </Button>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  <Link href="/login" className="w-full">
+                <Link href="/whatcanibe/login" className="w-full">
                     <Button variant="outline" className="w-full h-12 border-white/10 rounded-2xl font-bold">
                       Log In
                     </Button>
                   </Link>
-                  <Link href="/signup" className="w-full">
+                <Link href="/whatcanibe/signup" className="w-full">
                     <Button className="w-full h-12 bg-violet-600 text-white border-none rounded-2xl font-bold">
                       Get Started
                     </Button>
