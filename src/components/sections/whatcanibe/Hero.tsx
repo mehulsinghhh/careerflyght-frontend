@@ -2,18 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import CareerEcosystem from "./CareerEcosystem";
 
 export default function Hero() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const user = localStorage.getItem("careerflyghtUser");
-    setIsLoggedIn(!!user);
-  }, []);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -91,103 +84,23 @@ export default function Hero() {
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          {isLoggedIn ? (
-            <>
-              <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
-                  Dashboard
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Link href="/whatcanibe/careers" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-8 h-12 text-base rounded-xl transition-all">
-                  Explore Careers
-                </Button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
-                  Start Exploring Free
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Link href="/whatcanibe/pathways" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-8 h-12 text-base rounded-xl transition-all">
-                  See How It Works
-                </Button>
-              </Link>
-            </>
-          )}
+          <Link href="/whatcanibe/careers" className="w-full sm:w-auto">
+            <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
+              Start Exploring Free
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Hero Visual */}
         <motion.div
           variants={itemVariants}
-          className="mt-20 relative group"
+          className="mt-20 relative group min-h-[500px]"
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-          <div className="relative rounded-2xl border border-white/10 bg-black p-2 backdrop-blur-sm">
-             <div className="rounded-xl border border-white/10 bg-[#0A0A0A] overflow-hidden aspect-[16/9] flex items-center justify-center relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-violet-900/10 to-transparent" />
-
-                {/* Mock UI Elements */}
-                <div className="w-full h-full p-8 flex flex-col">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                    </div>
-                    <div className="h-6 w-32 bg-white/5 rounded-full" />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-6 flex-1">
-                    <div className="col-span-2 space-y-6">
-                      <div className="h-40 w-full bg-white/5 rounded-2xl border border-white/5 p-6">
-                        <div className="flex items-center gap-4 mb-6">
-                          <div className="h-10 w-10 rounded-lg bg-violet-600/20" />
-                          <div className="space-y-2">
-                            <div className="h-3 w-32 bg-white/10 rounded" />
-                            <div className="h-2 w-20 bg-white/5 rounded" />
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <div className="h-2 w-full bg-white/5 rounded" />
-                          <div className="h-2 w-4/5 bg-white/5 rounded" />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-6">
-                        <div className="h-32 bg-white/5 rounded-2xl border border-white/5" />
-                        <div className="h-32 bg-white/5 rounded-2xl border border-white/5" />
-                      </div>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="h-full bg-white/5 rounded-2xl border border-white/5 p-6">
-                        <div className="h-4 w-20 bg-white/10 rounded mb-6" />
-                        <div className="space-y-4">
-                          {[1, 2, 3, 4, 5].map((i) => (
-                            <div key={i} className="flex items-center gap-3">
-                              <div className="h-2 w-2 rounded-full bg-violet-500" />
-                              <div className="h-2 flex-1 bg-white/5 rounded" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating Decorative Glow */}
-                <motion.div
-                  animate={{
-                    x: [0, 100, 0],
-                    y: [0, -50, 0]
-                  }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-1/4 right-1/4 w-32 h-32 bg-violet-500/20 blur-[60px] rounded-full"
-                />
+          <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
+          <div className="relative rounded-[2.5rem] border border-white/5 bg-black/20 p-2 backdrop-blur-sm">
+             <div className="rounded-[2.25rem] border border-white/5 bg-[#050505] overflow-hidden flex items-center justify-center relative shadow-2xl">
+                <CareerEcosystem />
              </div>
           </div>
         </motion.div>

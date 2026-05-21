@@ -31,7 +31,10 @@ export default function FinalCTA() {
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-600/10 to-transparent blur-3xl" />
 
           {/* Grid Pattern */}
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] [mask-image:radial-gradient(white,transparent_70%)]" />
+          <div
+            className="absolute inset-0 opacity-[0.05] [mask-image:radial-gradient(white,transparent_70%)]"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")` }}
+          />
 
           <div className="relative z-10 text-center max-w-3xl mx-auto">
             <motion.div
@@ -51,13 +54,13 @@ export default function FinalCTA() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
+              <Link href="/signup" className="w-full sm:w-auto">
                 <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-10 h-16 text-lg font-bold rounded-2xl transition-all shadow-xl shadow-violet-600/30 border-none">
                   Create Free Account
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Link href="/whatcanibe/login" className="w-full sm:w-auto">
+              <Link href="/login" className="w-full sm:w-auto">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-10 h-16 text-lg font-bold rounded-2xl transition-all">
                   Log in to Portal
                 </Button>
