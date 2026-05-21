@@ -111,7 +111,10 @@ export default function Pathways() {
               className="relative z-10 aspect-[4/5] md:aspect-square rounded-[2.5rem] border border-white/10 bg-[#050505] p-8 flex items-center justify-center overflow-hidden shadow-2xl"
             >
                {/* Animated Grid Background */}
-               <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:radial-gradient(white,transparent_85%)] opacity-20" />
+               <div
+                 className="absolute inset-0 bg-center [mask-image:radial-gradient(white,transparent_85%)] opacity-20"
+                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")` }}
+               />
 
                {/* Visual Roadmap Path */}
                <div className="absolute inset-0 flex items-center justify-center opacity-30">
