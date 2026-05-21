@@ -1,0 +1,20 @@
+
+> careerflyght-frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 524ms
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+
+○ Compiling /whatcanibe ...
+ GET /whatcanibe 200 in 7.7s (next.js: 6.8s, application-code: 953ms)
+ GET /grid.svg 404 in 1040ms (next.js: 810ms, application-code: 231ms)
+ GET /noise.png 404 in 1039ms (next.js: 851ms, application-code: 188ms)
+ GET /whatcanibe/careers 200 in 1448ms (next.js: 1255ms, application-code: 193ms)
+ GET /whatcanibe/dashboard 200 in 1070ms (next.js: 978ms, application-code: 92ms)
