@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,12 +22,6 @@ import { GlowCard } from "@/components/ui/glow-card";
 import { PolishedModal } from "@/components/ui/polished-modal";
 import { ProgressRing } from "@/components/ui/progress-ring";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,
   Award,
@@ -37,35 +30,9 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [mounted, setMounted] = useState(false);
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("careerflyghtUser");
-    if (!storedUser) {
-      router.push("/whatcanibe/login");
-    } else {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setMounted(true);
-      } catch (error) {
-        console.error("Error parsing user:", error);
-        router.push("/whatcanibe/login");
-      }
-    }
-  }, [router]);
-
-  if (!mounted || !user) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="h-12 w-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -108,7 +75,7 @@ export default function DashboardPage() {
               Member Console
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
-              Welcome back, <span className="bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent">{user.name.split(' ')[0]}</span>
+              Welcome back, <span className="bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent">Member</span>
             </h1>
             <p className="text-gray-500 mt-3 font-medium flex items-center gap-2 text-sm md:text-base">
               <Sparkles className="h-4 w-4 text-violet-500" />

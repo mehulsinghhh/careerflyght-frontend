@@ -2,19 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import CareerEcosystem from "./CareerEcosystem";
 
 export default function Hero() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const user = localStorage.getItem("careerflyghtUser");
-    setIsLoggedIn(!!user);
-  }, []);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -92,30 +84,12 @@ export default function Hero() {
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          {isLoggedIn ? (
-            <>
-              <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
-                  Dashboard
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Link href="/whatcanibe/careers" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-8 h-12 text-base rounded-xl transition-all">
-                  Explore Careers
-                </Button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
-                  Start Exploring Free
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </>
-          )}
+          <Link href="/whatcanibe/careers" className="w-full sm:w-auto">
+            <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-8 h-12 text-base rounded-xl transition-all shadow-lg shadow-violet-600/25 border-none">
+              Start Exploring Free
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Hero Visual */}

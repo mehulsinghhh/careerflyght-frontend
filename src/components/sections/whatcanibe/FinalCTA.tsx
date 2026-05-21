@@ -54,13 +54,13 @@ export default function FinalCTA() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
+              <Link href="/signup" className="w-full sm:w-auto">
                 <Button size="lg" className="group w-full sm:w-auto bg-violet-600 hover:bg-violet-700 text-white px-10 h-16 text-lg font-bold rounded-2xl transition-all shadow-xl shadow-violet-600/30 border-none">
                   Create Free Account
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Link href="/whatcanibe/login" className="w-full sm:w-auto">
+              <Link href="/login" className="w-full sm:w-auto">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 px-10 h-16 text-lg font-bold rounded-2xl transition-all">
                   Log in to Portal
                 </Button>
