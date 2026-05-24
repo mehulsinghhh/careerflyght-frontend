@@ -4,34 +4,35 @@ import { Search, Map, Users, Target, CheckCircle2, ChevronRight } from "lucide-r
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { GlowCard } from "@/components/ui/glow-card";
 
 const steps = [
   {
-    title: "Discovery",
-    description: "Take AI-powered assessments to match your personality and skills with potential careers.",
+    title: "Intelligence Discovery",
+    description: "Analyze your cognitive profile and interests through our proprietary assessment framework.",
     icon: Search,
-    color: "bg-blue-500",
+    color: "from-blue-500 to-cyan-500",
     status: "done"
   },
   {
-    title: "Mapping",
-    description: "Visualize step-by-step roadmaps from where you are now to your first day on the job.",
+    title: "Trajectory Mapping",
+    description: "Project your growth across timeline milestones from current status to destination.",
     icon: Map,
-    color: "bg-violet-500",
+    color: "from-violet-500 to-purple-500",
     status: "active"
   },
   {
-    title: "Mentorship",
-    description: "Connect with professionals who have walked the path before and get real-world advice.",
+    title: "Expert Calibration",
+    description: "Refine your roadmap with direct insights from those who have already achieved mastery.",
     icon: Users,
-    color: "bg-purple-500",
+    color: "from-purple-500 to-fuchsia-500",
     status: "pending"
   },
   {
-    title: "Growth",
-    description: "Access curated internships, projects, and certifications to build your professional profile.",
+    title: "Strategic Execution",
+    description: "Access a curated pipeline of opportunities, projects, and certifications.",
     icon: Target,
-    color: "bg-fuchsia-500",
+    color: "from-fuchsia-500 to-pink-500",
     status: "pending"
   },
 ];
@@ -40,46 +41,61 @@ export default function Pathways() {
   const router = useRouter();
 
   return (
-    <section className="py-24 px-6 overflow-hidden">
-      <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+    <section className="py-32 px-6 bg-black relative overflow-hidden">
+      <div className="container mx-auto max-w-7xl relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-20 lg:gap-32">
           <div className="lg:w-1/2">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.1]">The Roadmap to Your <br /><span className="text-violet-400">Success</span></h2>
-              <p className="text-gray-400 text-lg mb-8 leading-relaxed max-w-xl">
-                We&apos;ve decoded the journey from student to professional. No more guessing&mdash;just clear, actionable steps tailored to your unique goals.
+              <div className="text-brand-primary font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
+                Architecting <br />
+                <span className="bg-gradient-to-r from-brand-primary to-violet-400 bg-clip-text text-transparent">Professional Ascent.</span>
+              </h2>
+              <p className="text-zinc-500 text-lg mb-12 leading-relaxed font-medium max-w-xl">
+                We decompose the journey from ambition to achievement into precise, actionable milestones. Remove the fog of uncertainty.
               </p>
             </motion.div>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               {steps.map((step, idx) => (
                 <motion.div
                   key={step.title}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className={`flex gap-6 p-6 rounded-2xl border transition-all duration-300 group ${
-                    step.status === 'active'
-                      ? 'border-violet-500/30 bg-violet-500/5 ring-1 ring-violet-500/20'
-                      : 'border-white/5 bg-white/5 hover:border-white/10'
-                  }`}
+                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className={`shrink-0 w-12 h-12 rounded-xl ${step.color} flex items-center justify-center shadow-lg shadow-black/20 group-hover:scale-110 transition-transform`}>
-                    <step.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                      {step.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                  <GlowCard
+                    glowColor="rgba(168, 85, 247, 0.1)"
+                    className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-500 group ${
+                      step.status === 'active'
+                        ? 'border-brand-primary/30 bg-zinc-950/50 shadow-2xl shadow-brand-primary/5'
+                        : 'border-white/5 bg-zinc-900/20 hover:border-white/10'
+                    }`}
+                  >
+                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-500`}>
+                      <step.icon className="w-7 h-7 text-white" />
                     </div>
-                    <p className="text-gray-400 text-sm leading-relaxed">{step.description}</p>
-                  </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xl font-bold text-white tracking-tight">{step.title}</h3>
+                        {step.status === 'done' && (
+                          <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                          </div>
+                        )}
+                        {step.status === 'active' && (
+                          <div className="px-2 py-1 rounded-md bg-brand-primary/20 text-brand-primary text-[8px] font-black uppercase tracking-widest">In Progress</div>
+                        )}
+                      </div>
+                      <p className="text-zinc-500 text-sm leading-relaxed font-medium">{step.description}</p>
+                    </div>
+                  </GlowCard>
                 </motion.div>
               ))}
             </div>
@@ -88,46 +104,43 @@ export default function Pathways() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-10"
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="mt-12"
             >
               <Button
                 onClick={() => router.push('/whatcanibe/signup')}
                 size="lg"
-                className="bg-white text-black hover:bg-gray-200 rounded-xl px-8 h-12 font-bold group"
+                className="bg-white text-black hover:bg-zinc-200 rounded-2xl px-10 h-16 text-lg font-bold group shadow-2xl transition-all"
               >
-                Build My Roadmap
-                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Initiate Roadmap
+                <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </motion.div>
           </div>
 
           <div className="lg:w-1/2 relative">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 aspect-[4/5] md:aspect-square rounded-[2.5rem] border border-white/10 bg-[#050505] p-8 flex items-center justify-center overflow-hidden shadow-2xl"
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-zinc-950 p-12 flex items-center justify-center overflow-hidden shadow-[0_0_100px_rgba(168,85,247,0.1)]"
             >
-               {/* Animated Grid Background */}
-               <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:radial-gradient(white,transparent_85%)] opacity-20" />
-
                {/* Visual Roadmap Path */}
-               <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                  <svg className="w-full h-full max-w-[80%]" viewBox="0 0 400 400" fill="none">
+               <div className="absolute inset-0 flex items-center justify-center opacity-40">
+                  <svg className="w-full h-full p-20" viewBox="0 0 400 400" fill="none">
                     <motion.path
                       initial={{ pathLength: 0 }}
                       whileInView={{ pathLength: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 2, ease: "easeInOut" }}
-                      d="M50 350 C 150 350, 150 50, 350 50"
-                      stroke="url(#gradient)"
-                      strokeWidth="3"
+                      transition={{ duration: 3, ease: "easeInOut" }}
+                      d="M50 350 C 50 200, 350 200, 350 50"
+                      stroke="url(#pathGradient)"
+                      strokeWidth="2"
                       strokeDasharray="12 8"
                     />
                     <defs>
-                      <linearGradient id="gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <linearGradient id="pathGradient" x1="0%" y1="100%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#8B5CF6" />
                         <stop offset="100%" stopColor="#D946EF" />
                       </linearGradient>
@@ -135,30 +148,30 @@ export default function Pathways() {
                   </svg>
                </div>
                
-               <div className="grid grid-cols-2 gap-6 md:gap-8 relative z-20">
+               <div className="grid grid-cols-2 gap-8 relative z-20">
                   {[
-                    { year: "Year 1", title: "Fundamentals", color: "text-blue-400", bg: "bg-blue-500/10", progress: 100, delay: 0.2, y: 20 },
-                    { year: "Year 2", title: "Specialization", color: "text-violet-400", bg: "bg-violet-500/10", progress: 65, delay: 0.4, y: -20 },
-                    { year: "Year 3", title: "Practical Exp.", color: "text-fuchsia-400", bg: "bg-fuchsia-500/10", progress: 30, delay: 0.6, y: 20 },
-                    { year: "Final", title: "Dream Job", color: "text-emerald-400", bg: "bg-emerald-500/10", progress: 0, delay: 0.8, y: -20 },
+                    { year: "Phase 01", title: "Core Synthesis", color: "text-blue-400", bg: "bg-blue-500/20", progress: 100, delay: 0.2, y: 30 },
+                    { year: "Phase 02", title: "Domain Mastery", color: "text-brand-primary", bg: "bg-brand-primary/20", progress: 65, delay: 0.4, y: -30 },
+                    { year: "Phase 03", title: "Market Entry", color: "text-fuchsia-400", bg: "bg-fuchsia-500/20", progress: 30, delay: 0.6, y: 30 },
+                    { year: "Terminal", title: "Apex Placement", color: "text-emerald-400", bg: "bg-emerald-500/20", progress: 0, delay: 0.8, y: -30 },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: item.y + 40 }}
+                      initial={{ opacity: 0, y: item.y + 50 }}
                       whileInView={{ opacity: 1, y: item.y }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.8, delay: item.delay, ease: [0.16, 1, 0.3, 1] }}
-                      className="bg-black/60 backdrop-blur-xl p-5 md:p-6 rounded-2xl border border-white/10 shadow-2xl w-40 md:w-48 group hover:border-white/20 transition-colors"
+                      transition={{ duration: 1, delay: item.delay, ease: [0.22, 1, 0.36, 1] }}
+                      className="bg-zinc-900/40 backdrop-blur-3xl p-8 rounded-3xl border border-white/5 shadow-2xl w-48 group hover:border-white/10 transition-colors"
                     >
-                      <p className={`text-[10px] font-bold mb-2 uppercase tracking-[0.2em] ${item.color}`}>{item.year}</p>
-                      <p className="font-bold text-white text-sm md:text-base mb-4">{item.title}</p>
+                      <p className={`text-[9px] font-black mb-3 uppercase tracking-[0.25em] ${item.color}`}>{item.year}</p>
+                      <p className="font-bold text-white text-base mb-6 tracking-tight leading-tight">{item.title}</p>
                       <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${item.progress}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 1.5, delay: item.delay + 0.5, ease: "easeOut" }}
-                          className={`h-full ${item.bg.replace('/10', '')}`}
+                          transition={{ duration: 2, delay: item.delay + 0.5, ease: "easeOut" }}
+                          className={`h-full bg-gradient-to-r from-transparent to-current ${item.color}`}
                         />
                       </div>
                     </motion.div>
@@ -166,15 +179,8 @@ export default function Pathways() {
                </div>
             </motion.div>
             
-            {/* Background blur decorative element */}
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.15, 0.25, 0.15]
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-violet-600/20 blur-[120px] rounded-full"
-            />
+            {/* Background decoration */}
+            <div className="absolute -top-20 -right-20 w-[120%] h-[120%] bg-brand-primary/5 blur-[120px] rounded-full pointer-events-none" />
           </div>
         </div>
       </div>

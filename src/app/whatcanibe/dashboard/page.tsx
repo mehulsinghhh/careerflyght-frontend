@@ -46,20 +46,35 @@ export default function DashboardPage() {
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
   useEffect(() => {
+  const syncUser = () => {
     const storedUser = localStorage.getItem("careerflyghtUser");
+
     if (!storedUser) {
+      setUser(null);
       router.push("/whatcanibe/login");
-    } else {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setMounted(true);
-      } catch (error) {
-        console.error("Error parsing user:", error);
-        router.push("/whatcanibe/login");
-      }
+      return;
     }
-  }, [router]);
+
+    try {
+      setUser(JSON.parse(storedUser));
+      setMounted(true);
+    } catch (error) {
+      console.error(error);
+      router.push("/whatcanibe/login");
+    }
+  };
+
+  syncUser();
+
+  window.addEventListener("auth-change", syncUser);
+
+  return () => {
+    window.removeEventListener("auth-change", syncUser);
+  };
+}, [router]);
+  
+
+if (!user) return null;
 
   if (!mounted || !user) {
     return (
@@ -84,7 +99,7 @@ export default function DashboardPage() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
     },
   };
 

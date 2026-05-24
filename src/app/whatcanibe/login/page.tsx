@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -15,21 +15,49 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     // Simulate auth
-    setTimeout(() => {
-      localStorage.setItem("careerflyghtUser", JSON.stringify({
-        id: "1",
-        name: "Test User",
-        email: email || "user@example.com"
-      }));
-      router.push("/whatcanibe/dashboard");
-      setIsLoading(false);
-    }, 1500);
+    try {
+  const response = await fetch("http://localhost:5000/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    setIsLoading(false);
+    alert(data.message || "Login failed");
+    return;
+  }
+
+  localStorage.setItem(
+    "careerflyghtUser",
+    JSON.stringify(data.user)
+  );
+
+  window.dispatchEvent(new Event("auth-change"));
+  setIsLoading(false);
+  router.push("/whatcanibe/dashboard");
+  
+
+} catch (error) {
+  console.error(error);
+  alert("Something went wrong");
+}
+
   };
+  
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-6 relative overflow-hidden">
@@ -139,4 +167,4 @@ export default function LoginPage() {
       </motion.div>
     </div>
   );
-}
+  }
