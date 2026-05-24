@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     // Simulate auth
     try {
-  const response = await fetch("http://localhost:5000/api/auth/login", {
+  const response = await fetch("https://careerflyght-backend.onrender.com/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
