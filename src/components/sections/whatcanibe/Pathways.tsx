@@ -49,7 +49,7 @@ export default function Pathways() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const}}
             >
               <div className="text-brand-primary font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
               <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
@@ -68,7 +68,7 @@ export default function Pathways() {
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] as const}}
                 >
                   <GlowCard
                     glowColor="rgba(168, 85, 247, 0.1)"
@@ -123,7 +123,7 @@ export default function Pathways() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1]as const }}
               className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-zinc-950 p-12 flex items-center justify-center overflow-hidden shadow-[0_0_100px_rgba(168,85,247,0.1)]"
             >
                {/* Visual Roadmap Path */}
@@ -160,7 +160,7 @@ export default function Pathways() {
                       initial={{ opacity: 0, y: item.y + 50 }}
                       whileInView={{ opacity: 1, y: item.y }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, delay: item.delay, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 1, delay: item.delay, ease: [0.22, 1, 0.36, 1]as const }}
                       className="bg-zinc-900/40 backdrop-blur-3xl p-8 rounded-3xl border border-white/5 shadow-2xl w-48 group hover:border-white/10 transition-colors"
                     >
                       <p className={`text-[9px] font-black mb-3 uppercase tracking-[0.25em] ${item.color}`}>{item.year}</p>

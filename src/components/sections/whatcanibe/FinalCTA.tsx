@@ -23,7 +23,7 @@ export default function FinalCTA() {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as const}}
           className="relative border border-white/5 bg-zinc-950/50 rounded-[4rem] py-24 px-8 md:px-16 backdrop-blur-3xl overflow-hidden shadow-2xl"
         >
           {/* Decorative elements */}
