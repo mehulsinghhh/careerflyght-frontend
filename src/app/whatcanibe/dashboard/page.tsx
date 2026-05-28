@@ -17,7 +17,10 @@ import {
   Users,
   Bookmark,
   Target,
-  LucideIcon
+  LucideIcon,
+  Zap,
+  Quote,
+  Trophy
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -92,11 +95,12 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-20 px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-background pt-32 pb-20 px-4 md:px-6 relative overflow-hidden transition-colors duration-500">
       {/* Background Elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[10%] right-[5%] w-[40%] h-[40%] bg-brand-primary/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] left-[5%] w-[40%] h-[40%] bg-brand-secondary/5 blur-[120px] rounded-full" />
+        <div className="absolute top-[10%] right-[5%] w-[40%] h-[40%] bg-brand-primary/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[10%] left-[5%] w-[40%] h-[40%] bg-brand-secondary/10 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-noise opacity-[0.02] dark:opacity-[0.05]" />
       </div>
 
       <motion.div
@@ -106,116 +110,133 @@ export default function DashboardPage() {
         className="container mx-auto max-w-7xl relative z-10"
       >
         {/* Header Section */}
-        <motion.div variants={itemVariants} className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div>
-            <div className="flex items-center gap-2 text-brand-primary text-[11px] font-bold mb-4 uppercase tracking-[0.2em]">
-              <div className="h-1 w-6 bg-brand-primary rounded-full" />
-              Member Hub
+        <motion.div variants={itemVariants} className="mb-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-[10px] font-black uppercase tracking-[0.2em] mb-2">
+              <Zap className="h-3 w-3" />
+              Active Protocol
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
-              Welcome back, <span className="bg-gradient-to-r from-brand-primary to-violet-400 bg-clip-text text-transparent">{user.name.split(' ')[0]}</span>.
+            <h1 className="text-4xl md:text-5xl font-black dark:text-white text-zinc-900 tracking-tighter leading-none">
+              Welcome, <span className="text-gradient-purple">{user.name.split(' ')[0]}</span>.
             </h1>
-            <p className="text-muted-foreground mt-3 font-normal flex items-center gap-2 text-base">
+            <p className="dark:text-zinc-400 text-zinc-500 font-bold flex items-center gap-2 text-base">
               <Calendar className="h-4 w-4 opacity-50" />
-              May 24, 2024 &mdash; You&apos;re on a {MOCK_DASHBOARD_DATA.streak.currentStreak} day streak
+              May 24 &mdash; You&apos;re on a {MOCK_DASHBOARD_DATA.streak.currentStreak} day streak
             </p>
           </div>
 
-          <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-xl">
-            <div className="h-10 w-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-              <Flame className="h-5 w-5 text-orange-500" />
+          <div className="flex items-center gap-4 bg-white/80 dark:bg-white/5 border border-zinc-200 dark:border-white/10 p-5 rounded-[2rem] shadow-xl backdrop-blur-xl">
+            <div className="h-12 w-12 rounded-2xl bg-orange-500/10 flex items-center justify-center shadow-inner">
+              <Flame className="h-6 w-6 text-orange-500" />
             </div>
             <div>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Streak</p>
-              <p className="text-xl font-bold text-white leading-none">{MOCK_DASHBOARD_DATA.streak.currentStreak} Days</p>
+              <p className="text-[10px] font-black dark:text-zinc-500 text-zinc-400 uppercase tracking-widest mb-0.5">Momentum</p>
+              <p className="text-2xl font-black dark:text-white text-zinc-900 leading-none">{MOCK_DASHBOARD_DATA.streak.currentStreak} Days</p>
             </div>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            {/* Quick Stats */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-8 space-y-8">
+            {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {MOCK_DASHBOARD_DATA.stats.map((stat, i) => {
                 const Icon = iconMap[stat.icon];
                 return (
-                  <GlowCard key={i} className="p-6 glass-card border-white/[0.08]">
-                    <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center mb-4 border border-white/5">
-                      <Icon className="h-5 w-5 text-brand-primary" />
+                  <GlowCard key={i} className="p-6 glass glass-hover border-zinc-100 dark:border-white/[0.08] rounded-[2rem]">
+                    <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-white/5 flex items-center justify-center mb-5 border border-zinc-100 dark:border-white/5 shadow-sm group-hover:scale-110 transition-transform">
+                      <Icon className="h-6 w-6 text-brand-primary" />
                     </div>
-                    <p className="text-2xl font-bold text-white tracking-tight">
+                    <p className="text-3xl font-black dark:text-white text-zinc-900 tracking-tighter">
                       <AnimatedCounter value={stat.value} />
                     </p>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">{stat.label}</p>
+                    <p className="text-[10px] font-black dark:text-zinc-500 text-zinc-400 uppercase tracking-[0.2em] mt-1">{stat.label}</p>
                   </GlowCard>
                 );
               })}
             </div>
 
-            {/* Roadmap */}
+            {/* Motivational Quote - Immersive Element */}
+            <motion.div variants={itemVariants} className="p-8 rounded-[2.5rem] bg-gradient-to-br from-brand-primary/20 via-brand-secondary/10 to-transparent border border-brand-primary/10 relative overflow-hidden group">
+               <Quote className="absolute -top-4 -right-4 h-32 w-32 text-brand-primary/10 rotate-12 group-hover:rotate-0 transition-transform duration-1000" />
+               <div className="relative z-10">
+                 <p className="text-2xl font-heading italic font-bold dark:text-white text-zinc-800 leading-tight mb-4">
+                   &quot;The only way to predict the future is to build it.&quot;
+                 </p>
+                 <div className="flex items-center gap-3">
+                   <div className="h-px w-8 bg-brand-primary" />
+                   <span className="text-xs font-black uppercase tracking-widest text-brand-primary">Daily Insight</span>
+                 </div>
+               </div>
+            </motion.div>
+
+            {/* Learning Roadmap - Redesigned Timeline */}
             <motion.div variants={itemVariants}>
-              <Card className="glass-card border-white/10 overflow-hidden rounded-[2.5rem] shadow-2xl">
-                <CardHeader className="border-b border-white/5 p-8">
+              <Card className="glass border-zinc-100 dark:border-white/10 overflow-hidden rounded-[2.5rem] shadow-2xl">
+                <CardHeader className="border-b border-zinc-100 dark:border-white/5 p-8 md:p-10">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg font-bold text-white flex items-center gap-3">
-                      <Map className="h-5 w-5 text-brand-primary" />
-                      Learning Roadmap
+                    <CardTitle className="text-2xl font-black dark:text-white text-zinc-900 flex items-center gap-4">
+                      <div className="p-3 rounded-2xl bg-brand-primary/10">
+                        <Map className="h-6 w-6 text-brand-primary" />
+                      </div>
+                      Mission Roadmap
                     </CardTitle>
-                    <div className="px-3 py-1 bg-brand-primary/10 border border-brand-primary/20 rounded-full">
-                      <span className="text-[10px] font-bold text-brand-primary uppercase tracking-widest">Junior Path</span>
+                    <div className="px-4 py-1.5 bg-brand-primary text-white rounded-full shadow-lg shadow-brand-primary/20">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em]">Level 04</span>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="p-8">
+                <CardContent className="p-8 md:p-10">
                   <div className="relative">
-                    <div className="absolute left-[19px] top-4 bottom-4 w-px bg-white/5" />
+                    <div className="absolute left-[23px] top-6 bottom-6 w-1 bg-gradient-to-b from-brand-primary via-brand-secondary/20 to-transparent rounded-full" />
 
-                    <div className="space-y-10">
+                    <div className="space-y-12">
                       {MOCK_DASHBOARD_DATA.roadmap.map((milestone) => (
-                        <div key={milestone.id} className="relative pl-12">
-                          <div className={`absolute left-0 top-1.5 w-10 h-10 rounded-full border border-black flex items-center justify-center z-10 ${
-                            milestone.status === 'completed' ? 'bg-brand-primary shadow-lg shadow-brand-primary/20' :
-                            milestone.status === 'active' ? 'bg-background border-brand-primary' : 'bg-zinc-900 border-white/5'
+                        <div key={milestone.id} className="relative pl-16">
+                          {/* Animated Node */}
+                          <div className={`absolute left-0 top-1.5 w-12 h-12 rounded-2xl border-2 flex items-center justify-center z-10 transition-all duration-500 ${
+                            milestone.status === 'completed' ? 'bg-brand-primary border-brand-primary shadow-xl shadow-brand-primary/30 rotate-12' :
+                            milestone.status === 'active' ? 'bg-white dark:bg-zinc-900 border-brand-primary scale-110' : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-white/5'
                           }`}>
                             {milestone.status === 'completed' ? (
-                              <Award className="h-5 w-5 text-white" />
+                              <Award className="h-6 w-6 text-white" />
                             ) : (
-                              <div className={`w-2 h-2 rounded-full ${milestone.status === 'active' ? 'bg-brand-primary animate-pulse' : 'bg-white/10'}`} />
+                              <div className={`w-3 h-3 rounded-full ${milestone.status === 'active' ? 'bg-brand-primary animate-pulse' : 'bg-zinc-300 dark:bg-zinc-800'}`} />
                             )}
                           </div>
 
-                          <div className={`p-6 rounded-2xl border transition-all duration-300 ${
-                            milestone.status === 'active' ? 'bg-brand-primary/5 border-brand-primary/20' : 'bg-white/[0.02] border-white/5'
+                          <div className={`p-8 rounded-[2rem] border transition-all duration-500 group ${
+                            milestone.status === 'active' ? 'bg-brand-primary/[0.03] dark:bg-brand-primary/5 border-brand-primary/20 shadow-xl' : 'bg-zinc-50/50 dark:bg-white/[0.02] border-zinc-100 dark:border-white/5'
                           }`}>
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
-                              <h3 className={`text-base font-bold tracking-tight ${milestone.status === 'locked' ? 'text-muted-foreground/50' : 'text-white'}`}>
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4">
+                              <h3 className={`text-xl md:text-2xl font-black tracking-tight transition-colors ${milestone.status === 'locked' ? 'text-zinc-400 dark:text-zinc-600' : 'dark:text-white text-zinc-900'}`}>
                                 {milestone.title}
                               </h3>
                               {milestone.date && (
-                                <span className="text-[10px] font-bold text-muted-foreground flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded-lg border border-white/5 uppercase tracking-wider">
-                                  <Clock className="h-3 w-3" />
+                                <span className="text-[10px] font-black dark:text-zinc-400 text-zinc-500 flex items-center gap-2 bg-white dark:bg-black/40 px-3 py-1.5 rounded-xl border border-zinc-100 dark:border-white/10 uppercase tracking-widest">
+                                  <Clock className="h-3.5 w-3.5" />
                                   {milestone.date}
                                 </span>
                               )}
                             </div>
-                            <p className="text-base text-muted-foreground leading-relaxed font-normal">
+                            <p className="text-base dark:text-zinc-400 text-zinc-500 leading-relaxed font-bold">
                               {milestone.description}
                             </p>
 
                             {milestone.status === 'active' && (
-                              <div className="mt-6 flex flex-wrap gap-3">
+                              <div className="mt-8 flex flex-wrap gap-4">
                                 <Button
                                   onClick={() => setIsMilestoneModalOpen(true)}
-                                  size="sm"
-                                  className="bg-brand-primary hover:bg-brand-primary/90 h-9 px-5 rounded-xl font-semibold text-xs"
+                                  size="lg"
+                                  className="bg-brand-primary hover:bg-brand-primary/90 h-12 px-8 rounded-2xl font-black text-sm text-white shadow-xl shadow-brand-primary/20 active:scale-95 transition-all"
                                 >
-                                  Continue Mission
+                                  Deploy Mission
                                 </Button>
                                 <Button
                                   onClick={() => setIsMilestoneModalOpen(true)}
-                                  size="sm"
+                                  size="lg"
                                   variant="outline"
-                                  className="border-white/10 h-9 px-5 rounded-xl font-semibold text-xs bg-white/5"
+                                  className="border-zinc-200 dark:border-white/10 h-12 px-8 rounded-2xl font-black text-sm bg-white dark:bg-white/5 dark:text-white text-zinc-900 hover:bg-zinc-50 dark:hover:bg-white/10"
                                 >
                                   Resources
                                 </Button>
@@ -231,74 +252,91 @@ export default function DashboardPage() {
             </motion.div>
           </div>
 
-          <div className="space-y-8">
-            {/* Recommendations */}
+          <div className="lg:col-span-4 space-y-8">
+            {/* AI Insights - Colorful Widget */}
             <motion.div variants={itemVariants}>
-              <Card className="glass-card border-white/10 rounded-[2rem] overflow-hidden shadow-xl">
-                <CardHeader className="p-6 pb-2">
-                  <CardTitle className="text-base font-bold text-white flex items-center gap-2">
-                    <Sparkles className="h-4.5 w-4.5 text-brand-primary" />
-                    AI Insights
+              <Card className="glass border-zinc-100 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/20 blur-[60px] rounded-full" />
+                <CardHeader className="p-8 pb-4 relative">
+                  <CardTitle className="text-xl font-black dark:text-white text-zinc-900 flex items-center gap-3">
+                    <Sparkles className="h-6 w-6 text-brand-primary" />
+                    Neural Insights
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6 pt-4">
-                  <div className="space-y-4">
+                <CardContent className="p-8 pt-4 relative">
+                  <div className="space-y-5">
                     {MOCK_DASHBOARD_DATA.recommendations.map((rec) => (
                       <div
                         key={rec.id}
                         onClick={() => setIsMilestoneModalOpen(true)}
-                        className="group p-4 rounded-xl border border-white/5 bg-white/5 hover:border-brand-primary/30 transition-all cursor-pointer"
+                        className="group p-5 rounded-2xl border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-white/5 hover:border-brand-primary/40 hover:bg-brand-primary/[0.02] transition-all cursor-pointer"
                       >
-                        <div className="flex items-center justify-between mb-2">
-                           <div className="px-2 py-0.5 rounded-md bg-white/5 text-muted-foreground text-[9px] font-bold uppercase tracking-wider">
+                        <div className="flex items-center justify-between mb-3">
+                           <div className="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-white/10 text-brand-primary text-[9px] font-black uppercase tracking-[0.2em]">
                              {rec.type}
                            </div>
-                           <div className="text-[9px] font-bold text-brand-primary">
+                           <div className="text-[10px] font-black text-brand-vibrant">
                              {rec.matchScore}% Match
                            </div>
                         </div>
-                        <h4 className="text-white text-sm font-bold mb-1 group-hover:text-brand-primary transition-colors tracking-tight">{rec.title}</h4>
-                        <p className="text-[11px] text-muted-foreground leading-relaxed font-normal line-clamp-2">{rec.description}</p>
+                        <h4 className="dark:text-white text-zinc-900 text-base font-black mb-2 group-hover:text-brand-primary transition-colors tracking-tight">{rec.title}</h4>
+                        <p className="text-xs dark:text-zinc-400 text-zinc-500 leading-relaxed font-bold line-clamp-2">{rec.description}</p>
                       </div>
                     ))}
                   </div>
                   <Button
                     onClick={() => setIsMilestoneModalOpen(true)}
                     variant="ghost"
-                    className="w-full mt-4 text-brand-primary hover:text-brand-primary/80 hover:bg-brand-primary/5 rounded-xl font-semibold text-xs"
+                    className="w-full mt-6 text-brand-primary hover:text-brand-primary/80 hover:bg-brand-primary/10 h-12 rounded-2xl font-black text-xs transition-all"
                   >
-                    View All Matches
-                    <ChevronRight className="ml-1 h-3.5 w-3.5" />
+                    Calibrate Matches
+                    <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </CardContent>
               </Card>
             </motion.div>
 
-            {/* Activity */}
+            {/* Achievement Preview Module */}
+            <motion.div variants={itemVariants} className="p-8 rounded-[2.5rem] bg-zinc-950 dark:bg-white text-white dark:text-zinc-900 flex items-center justify-between group cursor-pointer shadow-2xl overflow-hidden relative">
+               <div className="absolute top-0 right-0 w-24 h-24 bg-brand-vibrant/20 blur-3xl rounded-full" />
+               <div className="relative z-10">
+                 <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-1">Upcoming Reward</p>
+                 <h4 className="text-xl font-black tracking-tight">System Architect</h4>
+               </div>
+               <div className="relative z-10 h-14 w-14 rounded-2xl bg-white/10 dark:bg-zinc-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                 <Trophy className="h-7 w-7 text-brand-vibrant" />
+               </div>
+            </motion.div>
+
+            {/* Activity Stream */}
             <motion.div variants={itemVariants}>
-              <Card className="glass-card border-white/10 rounded-[2rem] overflow-hidden shadow-xl">
-                <CardHeader className="p-6 pb-2">
-                  <CardTitle className="text-base font-bold text-white flex items-center gap-2">
-                    <TrendingUp className="h-4.5 w-4.5 text-brand-primary" />
-                    Activity
+              <Card className="glass border-zinc-100 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+                <CardHeader className="p-8 pb-4">
+                  <CardTitle className="text-xl font-black dark:text-white text-zinc-900 flex items-center gap-3">
+                    <TrendingUp className="h-6 w-6 text-brand-secondary" />
+                    Activity Stream
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6 pt-4">
-                  <div className="space-y-6">
+                <CardContent className="p-8 pt-4">
+                  <div className="space-y-8">
                     {MOCK_DASHBOARD_DATA.activities.map((act) => (
-                      <div key={act.id} className="flex gap-4">
+                      <div key={act.id} className="flex gap-5 relative">
                         <div className="relative">
-                          <div className={`h-8 w-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 border border-white/5 ${
-                            act.type === 'skill' ? 'text-blue-400' :
-                            act.type === 'milestone' ? 'text-brand-primary' : 'text-emerald-400'
+                          <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 bg-zinc-50 dark:bg-white/5 border border-zinc-100 dark:border-white/5 shadow-sm ${
+                            act.type === 'skill' ? 'text-blue-500' :
+                            act.type === 'milestone' ? 'text-brand-primary' : 'text-emerald-500'
                           }`}>
-                            {act.type === 'skill' ? <Award className="h-4 w-4" /> :
-                             act.type === 'milestone' ? <Target className="h-4 w-4" /> : <Users className="h-4 w-4" />}
+                            {act.type === 'skill' ? <Award className="h-5 w-5" /> :
+                             act.type === 'milestone' ? <Target className="h-5 w-5" /> : <Users className="h-5 w-5" />}
                           </div>
+                          {/* Pulse indicator for the most recent one */}
+                          {act.id === MOCK_DASHBOARD_DATA.activities[0].id && (
+                             <div className="absolute -top-1 -right-1 h-3 w-3 bg-brand-vibrant rounded-full border-2 border-white dark:border-zinc-900 animate-pulse" />
+                          )}
                         </div>
                         <div className="flex-1">
-                          <p className="text-xs font-bold text-white leading-tight mb-1 tracking-tight">{act.title}</p>
-                          <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{act.timestamp}</p>
+                          <p className="text-sm font-black dark:text-white text-zinc-900 leading-tight mb-1 tracking-tight">{act.title}</p>
+                          <p className="text-[9px] dark:text-zinc-500 text-zinc-400 font-black uppercase tracking-[0.2em]">{act.timestamp}</p>
                         </div>
                       </div>
                     ))}
@@ -306,9 +344,9 @@ export default function DashboardPage() {
                   <Button
                     onClick={() => setIsPathwaysModalOpen(true)}
                     variant="outline"
-                    className="w-full mt-8 border-white/10 text-muted-foreground hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs"
+                    className="w-full mt-10 border-zinc-200 dark:border-white/10 dark:text-zinc-400 text-zinc-500 hover:text-brand-primary hover:border-brand-primary/40 rounded-2xl h-12 font-black text-xs transition-all"
                   >
-                    Customize Path
+                    Adjust Trajectory
                   </Button>
                 </CardContent>
               </Card>
@@ -320,31 +358,38 @@ export default function DashboardPage() {
       <PolishedModal
         isOpen={isPathwaysModalOpen}
         onClose={() => setIsPathwaysModalOpen(false)}
-        title="Path Calibration"
-        description="Fine-tune your career trajectory using AI."
+        title="Mission Calibration"
+        description="Fine-tune your career trajectory using Neural Intelligence."
       >
-        <div className="space-y-6">
-          <div className="space-y-4">
-             <div className="p-5 rounded-2xl border border-white/5 bg-white/5">
-                <p className="text-xs font-bold text-white mb-3 uppercase tracking-widest">Industry Focus</p>
-                <div className="flex flex-wrap gap-2">
+        <div className="space-y-8">
+          <div className="space-y-5">
+             <div className="p-6 rounded-[2rem] border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-white/5">
+                <p className="text-[10px] font-black dark:text-white text-zinc-900 mb-4 uppercase tracking-[0.2em]">Focus Domains</p>
+                <div className="flex flex-wrap gap-2.5">
                   {["Software", "Product Design", "AI Strategy"].map(tag => (
-                    <div key={tag} className="px-3 py-1.5 rounded-lg bg-white/5 text-[10px] font-bold text-muted-foreground border border-white/10 uppercase tracking-wider">{tag}</div>
+                    <div key={tag} className="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 text-[11px] font-black dark:text-zinc-400 text-zinc-600 border border-zinc-100 dark:border-white/10 uppercase tracking-widest group cursor-pointer hover:border-brand-primary hover:text-brand-primary transition-all">
+                      {tag}
+                    </div>
                   ))}
                 </div>
              </div>
-             <div className="p-5 rounded-2xl border border-white/5 bg-white/5">
-                <p className="text-xs font-bold text-white mb-3 uppercase tracking-widest">Pace Calibration</p>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full w-2/3 bg-brand-primary rounded-full" />
+             <div className="p-6 rounded-[2rem] border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-white/5">
+                <p className="text-[10px] font-black dark:text-white text-zinc-900 mb-5 uppercase tracking-[0.2em]">Intensity Profile</p>
+                <div className="h-2 w-full bg-zinc-200 dark:bg-white/5 rounded-full overflow-hidden mb-4">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: "66%" }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full" 
+                  />
                 </div>
-                <div className="flex justify-between mt-3">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Casual</span>
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Intensive</span>
+                <div className="flex justify-between">
+                  <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Casual</span>
+                  <span className="text-[9px] font-black text-brand-primary uppercase tracking-widest">Intensive</span>
                 </div>
              </div>
           </div>
-          <Button className="w-full h-14 bg-brand-primary hover:bg-brand-primary/90 rounded-xl font-semibold text-base" onClick={() => setIsPathwaysModalOpen(false)}>
+          <Button className="w-full h-16 bg-brand-primary hover:bg-brand-primary/90 rounded-2xl font-black text-lg text-white shadow-2xl shadow-brand-primary/30 transition-all active:scale-95" onClick={() => setIsPathwaysModalOpen(false)}>
             Update Trajectory
           </Button>
         </div>
@@ -354,33 +399,34 @@ export default function DashboardPage() {
         isOpen={isMilestoneModalOpen}
         onClose={() => setIsMilestoneModalOpen(false)}
         title="Mission Briefing"
-        description="Deep dive into your next learning objective."
+        description="Deep dive into your next high-impact objective."
       >
-        <div className="space-y-6">
-          <div className="p-6 rounded-2xl border border-white/5 bg-white/5">
-            <div className="flex items-center gap-5 mb-6">
-              <div className="h-12 w-12 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center">
-                <BookOpen className="h-6 w-6 text-brand-primary" />
+        <div className="space-y-8">
+          <div className="p-8 rounded-[2.5rem] border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-white/5 relative overflow-hidden">
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-primary/10 blur-[80px] rounded-full" />
+            <div className="flex items-center gap-6 mb-8 relative">
+              <div className="h-16 w-16 rounded-2xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shadow-inner">
+                <BookOpen className="h-8 w-8 text-brand-primary" />
               </div>
               <div>
-                <h4 className="text-white font-bold tracking-tight">Advanced Systems Design</h4>
-                <p className="text-xs text-muted-foreground font-medium">Estimated time: 6 hours</p>
+                <h4 className="text-2xl font-black dark:text-white text-zinc-900 tracking-tight">Advanced Architecture</h4>
+                <p className="text-xs text-brand-primary font-black uppercase tracking-[0.2em]">6 Hour Session</p>
               </div>
             </div>
-            <p className="text-base text-muted-foreground leading-relaxed font-normal mb-8">
-              Master high-level architectural patterns for scalable distributed systems.
+            <p className="text-lg dark:text-zinc-400 text-zinc-600 leading-relaxed font-bold mb-10">
+              Master the architectural patterns used by the world&apos;s most scalable platforms.
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {["Microservices", "CQRS Pattern", "Event Sourcing", "Scalability"].map(item => (
-                <div key={item} className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-white/5 p-2 rounded-lg border border-white/5">
-                  <div className="h-1 w-1 rounded-full bg-brand-primary" />
+                <div key={item} className="flex items-center gap-3 text-[10px] font-black dark:text-zinc-400 text-zinc-500 uppercase tracking-widest bg-white dark:bg-zinc-900 p-3 rounded-xl border border-zinc-100 dark:border-white/10 group hover:border-brand-primary transition-all">
+                  <div className="h-1.5 w-1.5 rounded-full bg-brand-primary group-hover:scale-150 transition-transform" />
                   {item}
                 </div>
               ))}
             </div>
           </div>
-          <Button className="w-full h-14 bg-brand-primary hover:bg-brand-primary/90 rounded-xl font-semibold text-base" onClick={() => setIsMilestoneModalOpen(false)}>
-            Initiate Lesson
+          <Button className="w-full h-16 bg-brand-primary hover:bg-brand-primary/90 rounded-2xl font-black text-lg text-white shadow-2xl shadow-brand-primary/30 transition-all active:scale-95" onClick={() => setIsMilestoneModalOpen(false)}>
+            Initiate Deployment
           </Button>
         </div>
       </PolishedModal>
