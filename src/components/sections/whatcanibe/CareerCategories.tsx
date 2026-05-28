@@ -101,9 +101,9 @@ export default function CareerCategories() {
   };
 
   return (
-    <section className="py-32 px-6 bg-black relative overflow-hidden">
+    <section className="py-32 px-6 bg-background relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-white/[0.02] blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
@@ -113,9 +113,9 @@ export default function CareerCategories() {
           transition={{ duration: 0.8 }}
           className="text-center mb-24"
         >
-          <div className="text-zinc-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Core Dimensions</div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white leading-tight">Infinite Domains.</h2>
-          <p className="text-zinc-500 font-medium max-w-2xl mx-auto leading-relaxed text-lg">
+          <div className="text-primary font-bold text-xs uppercase tracking-[0.4em] mb-4">Core Dimensions</div>
+          <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight text-foreground leading-tight">Infinite Domains.</h2>
+          <p className="text-muted-foreground font-medium max-w-3xl mx-auto leading-relaxed text-xl">
             Cross-pollinate between diverse industries and specializations. Identify your unique intersection of talent and opportunity.
           </p>
         </motion.div>
@@ -125,26 +125,26 @@ export default function CareerCategories() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {categories.map((category) => (
             <motion.div key={category.title} variants={itemVariants}>
               <GlowCard
                 glowColor={category.glow}
-                className="h-full cursor-pointer border-white/5 bg-zinc-950/50 hover:border-brand-primary/20 backdrop-blur-xl transition-all duration-500 group rounded-[2.5rem] p-10"
+                className="h-full cursor-pointer border-border bg-card/50 hover:bg-card hover:border-primary/30 backdrop-blur-sm transition-all duration-500 group rounded-[2rem] p-8"
               >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${category.color} border border-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/20 transition-all duration-500`}>
-                  <category.icon className={`w-7 h-7 ${category.iconColor}`} />
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${category.color} border border-border/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                  <category.icon className={`w-8 h-8 ${category.iconColor}`} />
                 </div>
 
-                <h3 className="text-2xl font-bold text-white mb-3 tracking-tight group-hover:text-brand-primary transition-colors">{category.title}</h3>
-                <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight group-hover:text-primary transition-colors">{category.title}</h3>
+                <p className="text-muted-foreground font-medium leading-relaxed">
                   {category.description}
                 </p>
                 
-                <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="text-[10px] font-bold text-brand-primary uppercase tracking-widest">Explore Dimension</span>
-                  <div className="w-6 h-px bg-brand-primary" />
+                <div className="mt-8 pt-6 border-t border-border/50 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest">Explore Dimension</span>
+                  <div className="w-8 h-px bg-primary" />
                 </div>
               </GlowCard>
             </motion.div>

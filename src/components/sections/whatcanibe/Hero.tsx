@@ -35,63 +35,61 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
+    <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-mesh opacity-20" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1000px] bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.1),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,oklch(0.7_0.15_260_/_0.15),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container mx-auto text-center max-w-5xl relative z-10"
+        className="container mx-auto text-center max-w-6xl relative z-10"
       >
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-primary/20 bg-brand-primary/10 text-brand-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-12 backdrop-blur-md"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold uppercase tracking-[0.2em] mb-8 backdrop-blur-sm"
         >
-          <Sparkles className="h-3 w-3" />
-          Neural Career Intelligence
+          <Sparkles className="h-4 w-4" />
+          The Future of Career Discovery
         </motion.div>
         
         <motion.h1
           variants={itemVariants}
-          className="text-6xl md:text-8xl lg:text-[10rem] font-bold tracking-tighter mb-10 leading-[0.85] text-white"
+          className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tight mb-8 leading-[0.9] text-foreground"
         >
-          Build Your Future <br />
-          <span className="bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent bg-clip-text text-transparent italic font-serif">
-            Trajectories.
+          Navigate Your <br />
+          <span className="bg-gradient-to-r from-primary via-blue-500 to-emerald-400 bg-clip-text text-transparent">
+            Dream Career.
           </span>
         </motion.h1>
         
         <motion.p
           variants={itemVariants}
-          className="text-lg md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
+          className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-medium"
         >
-          The mission-critical platform for the next generation of builders, dreamers, and industry leaders.
+          The mission-critical platform for the next generation of builders, dreamers, and industry leaders. Secure your professional future today.
         </motion.p>
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           {isLoggedIn ? (
             <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-brand-primary hover:bg-brand-primary/90 text-white px-10 h-16 text-lg rounded-2xl transition-all shadow-2xl shadow-brand-primary/20 border-none font-bold">
-                Enter Dashboard
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <Button size="lg" className="group w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground px-12 h-16 text-xl rounded-2xl transition-all shadow-xl shadow-primary/20 border-none font-bold">
+                Launch Dashboard
+                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           ) : (
-            <>
-              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all shadow-2xl shadow-white/10 border-none font-bold">
-                  Initiate Mission
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            
-            </>
+            <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
+              <Button size="lg" className="group w-full sm:w-auto bg-foreground text-background hover:opacity-90 px-12 h-16 text-xl rounded-2xl transition-all shadow-xl shadow-foreground/10 border-none font-bold">
+                Get Started
+                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           )}
         </motion.div>
 
@@ -120,10 +118,10 @@ export default function Hero() {
                     <div className="col-span-8 space-y-8">
                        <div className="h-48 rounded-3xl bg-white/[0.02] border border-white/5 p-8 relative overflow-hidden">
                           <div className="absolute top-0 right-0 p-4">
-                            <Zap className="w-5 h-5 text-brand-primary opacity-30" />
+                            <Zap className="w-5 h-5 text-primary opacity-30" />
                           </div>
                           <div className="flex items-center gap-5 mb-6">
-                            <div className="h-14 w-14 rounded-2xl bg-brand-primary/10 border border-brand-primary/20" />
+                            <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20" />
                             <div className="space-y-2.5">
                               <div className="h-3 w-48 bg-white/10 rounded" />
                               <div className="h-2 w-32 bg-white/5 rounded" />
@@ -144,7 +142,7 @@ export default function Hero() {
                        <div className="space-y-6">
                           {[1,2,3,4,5,6].map(i => (
                             <div key={i} className="flex items-center gap-3">
-                               <div className="h-1.5 w-1.5 rounded-full bg-brand-primary opacity-30" />
+                               <div className="h-1.5 w-1.5 rounded-full bg-primary opacity-30" />
                                <div className="h-1.5 flex-1 bg-white/5 rounded" />
                             </div>
                           ))}
@@ -160,7 +158,7 @@ export default function Hero() {
                     opacity: [0.3, 0.5, 0.3]
                   }}
                   transition={{ duration: 4, repeat: Infinity }}
-                  className="absolute bottom-1/4 left-1/3 w-40 h-40 bg-brand-primary/10 blur-[80px] rounded-full"
+                  className="absolute bottom-1/4 left-1/3 w-40 h-40 bg-primary/10 blur-[80px] rounded-full"
                 />
              </div>
           </div>

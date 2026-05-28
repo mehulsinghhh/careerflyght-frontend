@@ -74,62 +74,62 @@ export default function WhatCanIBeNavbar() {
     <div className="fixed top-0 left-0 right-0 z-[100] px-6 py-6 pointer-events-none">
       <header
         className={cn(
-          "mx-auto max-w-7xl h-16 rounded-2xl border transition-all duration-500 pointer-events-auto",
+          "mx-auto max-w-7xl h-20 rounded-2xl border transition-all duration-500 pointer-events-auto",
           scrolled
-            ? "bg-black/40 backdrop-blur-xl border-white/10 shadow-2xl py-2"
+            ? "bg-card/70 backdrop-blur-xl border-border shadow-2xl py-2"
             : "bg-transparent border-transparent py-4"
         )}
       >
         <div className="container mx-auto h-full flex items-center justify-between px-6 lg:px-8">
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-16">
             <Link
               href={user ? "/whatcanibe/dashboard" : "/whatcanibe"}
-              className="group flex items-center gap-2"
+              className="group flex items-center gap-3"
             >
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-brand-primary to-brand-secondary flex items-center justify-center shadow-lg shadow-brand-primary/20 group-hover:scale-110 transition-transform duration-500">
-                <div className="h-4 w-4 bg-white rounded-sm rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary via-blue-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-all duration-500">
+                <div className="h-5 w-5 bg-primary-foreground rounded-sm rotate-45 group-hover:rotate-0 transition-transform duration-500" />
               </div>
 
-              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
+              <span className="text-2xl font-black tracking-tighter bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
                 WhatCanIBe
               </span>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
+            <nav className="hidden lg:flex items-center gap-2 text-base font-black">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="px-4 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-300 relative group/nav"
+                  className="px-5 py-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-300 relative group/nav uppercase tracking-widest text-[10px]"
                 >
                   {link.name}
-                  <span className="absolute bottom-1 left-4 right-4 h-px bg-gradient-to-r from-transparent via-brand-primary to-transparent opacity-0 group-hover/nav:opacity-100 transition-opacity" />
+                  <span className="absolute bottom-1 left-5 right-5 h-0.5 bg-primary opacity-0 group-hover/nav:opacity-100 transition-opacity" />
                 </Link>
               ))}
             </nav>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             {user ? (
-              <div className="hidden lg:flex items-center gap-4">
+              <div className="hidden lg:flex items-center gap-6">
                 <div className="flex flex-col items-end">
-                  <span className="text-sm font-bold text-white tracking-tight">
+                  <span className="text-base font-black text-foreground tracking-tight">
                     {user.name}
                   </span>
-                  <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+                  <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">
                     Premium Member
                   </span>
                 </div>
 
-                <div className="h-10 w-px bg-white/10" />
+                <div className="h-10 w-px bg-border" />
 
                 <Button
                   onClick={handleLogout}
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10 rounded-xl text-zinc-400 hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                  className="h-12 w-12 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <LogOut className="h-6 w-6" />
                 </Button>
               </div>
             ) : (
@@ -137,14 +137,14 @@ export default function WhatCanIBeNavbar() {
                 <Link href="/whatcanibe/login">
                   <Button
                     variant="ghost"
-                    className="text-sm font-bold text-zinc-400 hover:text-white transition-colors"
+                    className="text-base font-black text-muted-foreground hover:text-foreground transition-colors uppercase tracking-widest text-[10px]"
                   >
                     Log in
                   </Button>
                 </Link>
 
                 <Link href="/whatcanibe/signup">
-                  <Button className="bg-brand-primary hover:bg-brand-primary/90 text-white px-6 py-2 rounded-xl transition-all duration-300">
+                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 h-12 rounded-xl transition-all duration-300 font-black uppercase tracking-widest text-[10px] shadow-lg shadow-primary/20">
                     Get Started
                   </Button>
                 </Link>
@@ -154,10 +154,10 @@ export default function WhatCanIBeNavbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-10 w-10 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5"
+              className="lg:hidden h-12 w-12 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
 
@@ -167,28 +167,28 @@ export default function WhatCanIBeNavbar() {
                 initial={{ opacity: 0, scale: 0.95, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                className="absolute top-20 left-0 right-0 bg-zinc-950 border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden z-[101]"
+                className="absolute top-24 left-0 right-0 bg-card border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-[101]"
               >
-                <div className="p-8 flex flex-col gap-6">
-                  <div className="grid grid-cols-1 gap-2">
+                <div className="p-8 flex flex-col gap-8">
+                  <div className="grid grid-cols-1 gap-3">
                     {navLinks.map((link) => (
                       <Link
                         key={link.name}
                         href={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-brand-primary/20 hover:bg-brand-primary/5 text-lg font-bold text-zinc-400 hover:text-white flex items-center justify-between group transition-all"
+                        className="p-5 rounded-2xl bg-muted/30 border border-border hover:border-primary/30 hover:bg-primary/5 text-xl font-black text-muted-foreground hover:text-foreground flex items-center justify-between group transition-all"
                       >
-                        <div className="flex items-center gap-4">
-                          {link.icon && <link.icon className="w-5 h-5 text-brand-primary" />}
+                        <div className="flex items-center gap-5">
+                          {link.icon && <link.icon className="w-6 h-6 text-primary" />}
                           {link.name}
                         </div>
 
-                        <ChevronRight className="h-5 w-5 text-zinc-600 group-hover:text-brand-primary transition-colors" />
+                        <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
                       </Link>
                     ))}
                   </div>
 
-                  <div className="h-px bg-white/5 my-2" />
+                  <div className="h-px bg-border my-2" />
 
                   {user ? (
                     <Button
@@ -196,23 +196,23 @@ export default function WhatCanIBeNavbar() {
                         handleLogout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full h-14 bg-red-500/10 border border-red-500/20 text-red-500 rounded-2xl font-bold hover:bg-red-500/20 transition-all"
+                      className="w-full h-16 bg-destructive/10 border border-destructive/20 text-destructive rounded-2xl font-black text-lg hover:bg-destructive/20 transition-all"
                     >
                       Log Out
                     </Button>
                   ) : (
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-6">
                       <Link href="/whatcanibe/login" className="w-full">
                         <Button
                           variant="outline"
-                          className="w-full h-14 border-white/10 rounded-2xl font-bold bg-white/5"
+                          className="w-full h-16 border-border rounded-2xl font-black text-lg bg-muted/50"
                         >
                           Log In
                         </Button>
                       </Link>
 
                       <Link href="/whatcanibe/signup" className="w-full">
-                        <Button className="w-full h-14 bg-brand-primary text-white border-none rounded-2xl font-bold shadow-lg shadow-brand-primary/20">
+                        <Button className="w-full h-16 bg-primary text-primary-foreground border-none rounded-2xl font-black text-lg shadow-lg shadow-primary/20">
                           Sign Up
                         </Button>
                       </Link>
