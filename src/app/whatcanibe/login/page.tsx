@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GlowCard } from "@/components/ui/glow-card";
-import { Sparkles, ArrowRight, Mail, Lock } from "lucide-react";
+import { Sparkles, ArrowRight, Mail, Lock, Zap } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -55,44 +55,52 @@ export default function LoginPage() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-6 relative overflow-hidden">
-      {/* Premium Background Elements */}
-      <div className="absolute inset-0 bg-mesh opacity-30" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.05),transparent_70%)]" />
+    <div className="min-h-screen bg-white dark:bg-background flex items-center justify-center px-4 md:px-6 relative overflow-hidden transition-colors duration-500">
+      {/* Background Elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[10%] left-[5%] w-[40%] h-[40%] bg-brand-primary/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[10%] right-[5%] w-[40%] h-[40%] bg-brand-secondary/10 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-noise opacity-[0.02] dark:opacity-[0.05]" />
+      </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
         className="w-full max-w-md relative z-10"
       >
         <div className="text-center mb-10">
-          <Link href="/whatcanibe" className="inline-block mb-4">
-             <h2 className="text-3xl font-bold tracking-tight text-white">
-               WhatCanIBe<span className="text-brand-primary">.</span>
+          <Link href="/whatcanibe" className="inline-block group">
+             <h2 className="text-4xl font-black tracking-tighter dark:text-white text-zinc-900 mb-2">
+               WhatCanIBe<span className="text-brand-primary group-hover:animate-pulse">.</span>
              </h2>
           </Link>
-          <p className="text-muted-foreground font-normal">Welcome back to the future of careers.</p>
+          <p className="dark:text-zinc-500 text-zinc-400 font-bold tracking-tight">The protocol for your professional evolution.</p>
         </div>
 
-        <GlowCard className="p-8 glass-card rounded-[2rem] border-white/10">
-          <div className="mb-8">
-            <h1 className="text-xl font-bold text-white flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-brand-primary" />
-              Sign In
+        <GlowCard className="p-8 md:p-10 glass border-zinc-100 dark:border-white/10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute -top-24 -right-24 h-48 w-48 bg-brand-primary/10 blur-[60px] rounded-full group-hover:bg-brand-primary/20 transition-colors" />
+
+          <div className="mb-10 relative">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+              <Zap className="h-3 w-3" />
+              Auth Portal
+            </div>
+            <h1 className="text-2xl font-black dark:text-white text-zinc-900 tracking-tight flex items-center gap-3">
+              Access Granted
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">Access your personalized roadmap and mentors.</p>
+            <p className="text-sm dark:text-zinc-500 text-zinc-400 mt-2 font-bold leading-relaxed">Enter your credentials to resume your journey.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6 relative">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/60" />
+              <label className="text-[10px] font-black dark:text-zinc-500 text-zinc-400 uppercase tracking-widest ml-1">Identity (Email)</label>
+              <div className="relative group/input">
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within/input:text-brand-primary transition-colors" />
                 <Input
                   type="email"
-                  placeholder="name@example.com"
-                  className="pl-12 h-14 bg-white/5 border-white/5 rounded-xl focus:border-brand-primary/50 transition-all text-white placeholder:text-muted-foreground/30"
+                  placeholder="name@future.com"
+                  className="pl-14 h-16 bg-zinc-50 dark:bg-white/5 border-zinc-100 dark:border-white/10 rounded-2xl focus:border-brand-primary/50 transition-all dark:text-white text-zinc-900 font-bold text-sm shadow-inner placeholder:text-zinc-300 dark:placeholder:text-zinc-700"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -102,15 +110,15 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between ml-1">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Password</label>
-                <Link href="#" className="text-[10px] font-bold text-brand-primary hover:text-brand-primary/80 uppercase tracking-widest">Forgot?</Link>
+                <label className="text-[10px] font-black dark:text-zinc-500 text-zinc-400 uppercase tracking-widest">Passcode</label>
+                <Link href="#" className="text-[10px] font-black text-brand-primary hover:text-brand-vibrant uppercase tracking-widest transition-colors">Forgot Keys?</Link>
               </div>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/60" />
+              <div className="relative group/input">
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within/input:text-brand-primary transition-colors" />
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="pl-12 h-14 bg-white/5 border-white/5 rounded-xl focus:border-brand-primary/50 transition-all text-white placeholder:text-muted-foreground/30"
+                  className="pl-14 h-16 bg-zinc-50 dark:bg-white/5 border-zinc-100 dark:border-white/10 rounded-2xl focus:border-brand-primary/50 transition-all dark:text-white text-zinc-900 font-bold text-sm shadow-inner placeholder:text-zinc-300 dark:placeholder:text-zinc-700"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -121,24 +129,24 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-14 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-xl font-semibold text-base group transition-all shadow-xl shadow-brand-primary/10"
+              className="w-full h-16 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-2xl font-black text-lg group transition-all shadow-xl shadow-brand-primary/20 active:scale-[0.98]"
             >
               {isLoading ? (
-                <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="h-6 w-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
-                <>
-                  Enter Portal
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </>
+                <div className="flex items-center gap-2">
+                  Initiate Sync
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </div>
               )}
             </Button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/5 text-center">
-            <p className="text-sm text-muted-foreground">
-              Don&apos;t have an account?{" "}
-              <Link href="/whatcanibe/signup" className="text-brand-primary font-bold hover:text-brand-primary/80 transition-colors">
-                Create one
+          <div className="mt-10 pt-8 border-t border-zinc-100 dark:border-white/5 text-center relative">
+            <p className="text-sm dark:text-zinc-500 text-zinc-400 font-bold">
+              New to the protocol?{" "}
+              <Link href="/whatcanibe/signup" className="text-brand-primary font-black hover:text-brand-vibrant transition-colors underline decoration-2 underline-offset-4">
+                Register Now
               </Link>
             </p>
           </div>
