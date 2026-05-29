@@ -20,9 +20,9 @@
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-jakarta);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-bricolage);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -59,9 +59,17 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
 }
 
 :root {
+  --brand-primary: oklch(0.65 0.25 280); /* Vibrant Electric Indigo */
+  --brand-secondary: oklch(0.75 0.2 190); /* Cyber Cyan */
+  --brand-accent: oklch(0.7 0.3 340); /* Neon Pink */
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -97,7 +105,11 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --brand-primary: oklch(0.7 0.25 280);
+  --brand-secondary: oklch(0.8 0.2 190);
+  --brand-accent: oklch(0.75 0.3 340);
+
+  --background: oklch(0.08 0 0); /* Slightly deeper black */
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -142,6 +154,22 @@
   }
 }
 body {
-  background: black;
-  color: white;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.bg-mesh {
+  background-image:
+    radial-gradient(at 0% 0%, var(--brand-primary) 0, transparent 50%),
+    radial-gradient(at 50% 0%, var(--brand-secondary) 0, transparent 50%),
+    radial-gradient(at 100% 0%, var(--brand-accent) 0, transparent 50%);
+  filter: blur(80px);
+}
+
+.text-gradient-primary {
+  @apply bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent bg-clip-text text-transparent;
+}
+
+.text-gradient-secondary {
+  @apply bg-gradient-to-r from-brand-secondary to-brand-primary bg-clip-text text-transparent;
 }
