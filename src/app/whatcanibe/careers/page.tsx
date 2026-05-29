@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { MOCK_CAREERS } from "@/constants/careers";
 import CareerCard from "@/components/sections/whatcanibe/CareerCard";
+import EcosystemWheel from "@/components/sections/whatcanibe/EcosystemWheel";
+import ClusterIntelligence from "@/components/sections/whatcanibe/ClusterIntelligence";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, SlidersHorizontal, Sparkles } from "lucide-react";
@@ -71,6 +73,12 @@ export default function CareersPage() {
             </div>
           </motion.div>
         )}
+
+        {/* Ecosystem and Clusters */}
+        <div className="space-y-32 mb-32">
+          <EcosystemWheel />
+          <ClusterIntelligence />
+        </div>
 
         {/* Filters & Search */}
         <div className="sticky top-20 z-30 mb-12 py-4 bg-black/80 backdrop-blur-xl border-y border-white/5 px-4 rounded-3xl">
