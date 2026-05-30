@@ -118,13 +118,14 @@ export default function EcosystemWheel() {
                             key={cluster.id}
                             initial={false}
                             animate={{ x, y }}
+                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
                             className="absolute left-1/2 top-1/2 -ml-8 -mt-8 md:-ml-12 md:-mt-12"
                         >
                             <motion.button
                                 onClick={() => handleClusterClick(cluster)}
-                                whileHover={{ scale: 1.2, zIndex: 50 }}
-                                whileTap={{ scale: 0.9 }}
-                                className={`w-16 h-16 md:w-24 md:h-24 rounded-3xl border flex items-center justify-center transition-all duration-300 relative group/btn overflow-hidden ${
+                                whileHover={{ scale: 1.15, zIndex: 50 }}
+                                whileTap={{ scale: 0.95 }}
+                                className={`w-16 h-16 md:w-24 md:h-24 rounded-3xl border flex items-center justify-center transition-all duration-200 relative group/btn overflow-hidden ${
                                     isSelected
                                     ? "bg-white border-white text-black shadow-[0_0_80px_rgba(255,255,255,0.4)] scale-110"
                                     : "bg-white/[0.03] border-white/10 hover:border-white/40 text-white backdrop-blur-2xl"
@@ -132,17 +133,17 @@ export default function EcosystemWheel() {
                             >
                                 {/* Active Glow Background */}
                                 <div
-                                    className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-500"
+                                    className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
                                     style={{ backgroundColor: clusterColor }}
                                 />
 
                                 <cluster.icon
-                                  className="w-7 h-7 md:w-10 md:h-10 relative z-10 transition-transform duration-500 group-hover/btn:scale-110"
+                                  className="w-7 h-7 md:w-10 md:h-10 relative z-10 transition-transform duration-300 group-hover/btn:scale-110"
                                   style={{ color: isSelected ? 'black' : clusterColor }}
                                 />
 
                                 {/* Floating Label */}
-                                <div className={`absolute bottom-full mb-6 whitespace-nowrap hidden md:block transition-all duration-300 pointer-events-none ${
+                                <div className={`absolute bottom-full mb-6 whitespace-nowrap hidden md:block transition-all duration-200 pointer-events-none ${
                                     isSelected ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 group-hover/btn:opacity-100 group-hover/btn:translate-y-0"
                                 }`}>
                                     <span className="bg-white text-black text-[10px] font-bold px-4 py-2 rounded-xl uppercase tracking-widest shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
@@ -161,6 +162,7 @@ export default function EcosystemWheel() {
                     <motion.line
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.4 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
                         x1="50%"
                         y1="50%"
                         x2={`${50 + (Math.cos((CAREER_CLUSTERS.findIndex(c => c.id === selectedCluster.id) / CAREER_CLUSTERS.length) * 2 * Math.PI - Math.PI / 2) * (radius / 8.5))}%`}
@@ -183,7 +185,7 @@ export default function EcosystemWheel() {
                   initial={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
                   animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
-                  transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 400, mass: 0.6 }}
                   className="bg-white/[0.03] border border-white/10 rounded-[4rem] p-10 md:p-14 backdrop-blur-3xl relative overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.7)]"
                 >
                   {/* Dynamic Corner Glow */}
