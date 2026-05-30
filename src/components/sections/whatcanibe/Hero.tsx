@@ -38,7 +38,8 @@ export default function Hero() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
+    layoutEffect: false
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -77,7 +78,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-20 px-6 overflow-hidden"
+      className="relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center pt-28 pb-16 md:pt-20 md:pb-20 px-6 overflow-hidden"
     >
       {/* Premium Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -148,9 +149,9 @@ export default function Hero() {
         
         <motion.h1
           variants={itemVariants}
-          className="text-6xl md:text-8xl lg:text-[11rem] font-bold tracking-tighter mb-10 leading-[0.8] text-white"
+          className="text-[clamp(3.5rem,12vw,11rem)] font-bold tracking-tighter mb-8 md:mb-10 leading-[0.85] md:leading-[0.8] text-white"
         >
-          Engineered for <br />
+          Engineered for <br className="hidden xs:block" />
           <motion.span
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
@@ -164,7 +165,7 @@ export default function Hero() {
         
         <motion.p
           variants={itemVariants}
-          className="text-lg md:text-2xl text-zinc-400 mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
+          className="text-base md:text-2xl text-zinc-400 mb-12 md:mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
         >
           The traditional career path is broken. We built the engine to fix it. <br className="hidden md:block" />
           Navigate the future with <span className="text-white">mathematical certainty.</span>
@@ -172,20 +173,20 @@ export default function Hero() {
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-32"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 mb-20 md:mb-32"
         >
           {isLoggedIn ? (
             <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-12 h-20 text-xl rounded-2xl transition-all border-none font-bold shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)]">
+              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-8 md:px-12 h-16 md:h-20 text-lg md:text-xl rounded-2xl transition-all border-none font-bold shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_50px_rgba(255,255,255,0.25)]">
                 Go to Dashboard
-                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           ) : (
             <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-12 h-20 text-xl rounded-2xl transition-all border-none font-bold shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)]">
+              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-8 md:px-12 h-16 md:h-20 text-lg md:text-xl rounded-2xl transition-all border-none font-bold shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_50px_rgba(255,255,255,0.25)]">
                 Initiate Mission
-                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           )}
@@ -194,7 +195,7 @@ export default function Hero() {
         {/* Stats Grid */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-4xl mx-auto pt-16 border-t border-white/5 relative"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 max-w-4xl mx-auto pt-12 md:pt-16 border-t border-white/5 relative"
         >
           {/* Subtle Glow under Stats */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
@@ -202,10 +203,10 @@ export default function Hero() {
           {stats.map((stat, idx) => (
             <motion.div
               key={idx}
-              whileHover={{ y: -5 }}
-              className="text-center p-4 rounded-2xl transition-all hover:bg-white/[0.03] group"
+              whileHover={{ y: -2 }}
+              className="text-center p-3 md:p-4 rounded-2xl transition-all hover:bg-white/[0.03] group"
             >
-              <div className="text-3xl md:text-5xl font-bold text-white mb-2 flex items-center justify-center group-hover:text-glow transition-all">
+              <div className="text-2xl md:text-5xl font-bold text-white mb-1 md:mb-2 flex items-center justify-center group-hover:text-glow transition-all">
                 <AnimatedCounter value={stat.value} />
                 <span className="text-indigo-400">{stat.suffix}</span>
               </div>

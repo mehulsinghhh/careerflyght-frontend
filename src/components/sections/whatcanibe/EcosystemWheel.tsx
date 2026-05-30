@@ -18,9 +18,12 @@ import { Button } from "@/components/ui/button";
 export default function EcosystemWheel() {
   const [selectedCluster, setSelectedCluster] = useState<CareerCluster | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [radius, setRadius] = useState(320);
+  const [radius, setRadius] = useState(350);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
     const handleResize = () => {
       setRadius(window.innerWidth < 768 ? 160 : 350);
     };
@@ -37,6 +40,10 @@ export default function EcosystemWheel() {
         setSelectedCluster(cluster);
     }
   };
+
+  if (!mounted) {
+    return <section id="ecosystem" className="py-32 px-6 relative overflow-hidden bg-[#020617] min-h-[1000px]" />;
+  }
 
   return (
     <section id="ecosystem" className="py-32 px-6 relative overflow-hidden bg-[#020617]">
@@ -190,7 +197,7 @@ export default function EcosystemWheel() {
                 >
                   {/* Dynamic Corner Glow */}
                   <div
-                    className={`absolute -top-40 -right-40 w-96 h-96 opacity-40 blur-[140px] pointer-events-none transition-all duration-1000`}
+                    className={`absolute -top-40 -right-40 w-96 h-96 opacity-40 blur-[140px] pointer-events-none transition-all duration-300`}
                     style={{ background: `radial-gradient(circle, ${selectedCluster.color.startsWith('#') ? selectedCluster.color : '#6366f1'}, transparent 70%)` }}
                   />
 

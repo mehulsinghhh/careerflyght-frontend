@@ -74,19 +74,19 @@ export default function ClusterIntelligence() {
                 className="group h-full"
               >
                 <div
-                  className="h-full border border-white/5 bg-white/[0.02] backdrop-blur-3xl hover:border-white/20 transition-all duration-700 rounded-[3rem] p-12 flex flex-col relative overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)]"
+                  className="h-full border border-white/5 bg-white/[0.02] backdrop-blur-3xl hover:border-white/20 transition-all duration-400 rounded-[3rem] p-12 flex flex-col relative overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)]"
                 >
                   {/* Dynamic Gradient Mesh Background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${cluster.bgGradient} opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700`} />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${cluster.bgGradient} opacity-[0.03] group-hover:opacity-10 transition-opacity duration-400`} />
 
                   {/* Accent Glow */}
                   <div
-                    className="absolute -top-32 -right-32 w-64 h-64 opacity-0 group-hover:opacity-40 blur-[80px] transition-all duration-700 pointer-events-none"
+                    className="absolute -top-32 -right-32 w-64 h-64 opacity-0 group-hover:opacity-40 blur-[80px] transition-all duration-400 pointer-events-none"
                     style={{ background: `radial-gradient(circle, ${clusterColor}, transparent 70%)` }}
                   />
 
                   <div
-                    className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-12 group-hover:scale-110 transition-all duration-500 shadow-2xl relative z-10 border border-white/10`}
+                    className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-12 group-hover:scale-110 transition-all duration-300 shadow-2xl relative z-10 border border-white/10`}
                     style={{
                       background: `linear-gradient(135deg, ${clusterColor}40, transparent)`,
                     }}
