@@ -1,7 +1,8 @@
 import Hero from "@/components/sections/whatcanibe/Hero";
 import CareerCategories from "@/components/sections/whatcanibe/CareerCategories";
-import Pathways from "@/components/sections/whatcanibe/Pathways";
+import Workflow from "@/components/sections/whatcanibe/Workflow";
 import Mentorship from "@/components/sections/whatcanibe/Mentorship";
+import Pathways from "@/components/sections/whatcanibe/Pathways";
 import FinalCTA from "@/components/sections/whatcanibe/FinalCTA";
 
 export default function WhatCanIBePage() {
@@ -9,8 +10,9 @@ export default function WhatCanIBePage() {
     <>
       <Hero />
       <CareerCategories />
-      <Pathways />
+      <Workflow />
       <Mentorship />
+      <Pathways />
       <FinalCTA />
     </>
   );
