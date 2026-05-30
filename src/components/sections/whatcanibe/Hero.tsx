@@ -2,27 +2,55 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 import AnimatedCounter from "@/components/ui/animated-counter";
 
 export default function Hero() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [particles, setParticles] = useState<{x: string, y: string, opacity: number, scale: number, duration: number}[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    const user = localStorage.getItem("careerflyghtUser");
-    setIsLoggedIn(!!user);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const user = localStorage.getItem("careerflyghtUser");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoggedIn(!!user);
+
+    // Generate stable particle values on client
+    const newParticles = [...Array(20)].map(() => ({
+      x: Math.random() * 100 + "%",
+      y: Math.random() * 100 + "%",
+      opacity: Math.random() * 0.3 + 0.1,
+      scale: Math.random() * 0.5 + 0.5,
+      duration: 10 + Math.random() * 10
+    }));
+    setParticles(newParticles);
+  }, [mounted]);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.2,
       },
     },
@@ -44,30 +72,67 @@ export default function Hero() {
     { label: "Career Success", value: 98, suffix: "%" },
   ];
 
+  if (!mounted) return null;
+
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
-      {/* Cinematic Background Elements */}
-      <div className="absolute inset-0 z-0">
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-20 px-6 overflow-hidden"
+    >
+      {/* Premium Cinematic Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Animated Gradient Mesh */}
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
+            rotate: [0, 360],
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-indigo-500/20 blur-[120px] rounded-full"
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] opacity-20"
+          style={{
+            background: "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.1) 25%, rgba(236, 72, 153, 0.05) 50%, transparent 70%)"
+          }}
+        />
+
+        {/* Floating Particles/Elements */}
+        {particles.map((particle, i) => (
+          <motion.div
+            key={i}
+            initial={{
+              x: particle.x,
+              y: particle.y,
+              opacity: particle.opacity,
+              scale: particle.scale
+            }}
+            animate={{
+              y: [null, "-20px", "20px", null],
+              x: [null, "10px", "-10px", null],
+            }}
+            transition={{
+              duration: particle.duration,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute w-1 h-1 bg-white rounded-full blur-[1px] pointer-events-none"
+          />
+        ))}
+
+        {/* Floating Geometric Elements */}
+        <motion.div
+          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/4 right-[10%] w-32 h-32 border border-white/5 rounded-3xl rotate-12 backdrop-blur-[2px] pointer-events-none hidden lg:block"
         />
         <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-500/10 blur-[120px] rounded-full"
+          animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-1/4 left-[5%] w-48 h-48 border border-white/5 rounded-full backdrop-blur-[2px] pointer-events-none hidden lg:block"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(2,6,23,0.8)_80%,#020617)]" />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/50 to-[#020617]" />
       </div>
 
       <motion.div
+        style={{ opacity, scale, y }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -75,23 +140,23 @@ export default function Hero() {
       >
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white text-[10px] font-bold uppercase tracking-[0.2em] mb-12 backdrop-blur-md"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white text-[10px] font-bold uppercase tracking-[0.2em] mb-12 backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.05)]"
         >
-          <Sparkles className="h-3 w-3" />
-          Neural Career Intelligence
+          <Sparkles className="h-3 w-3 text-indigo-400" />
+          <span className="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Neural Career Intelligence</span>
         </motion.div>
         
         <motion.h1
           variants={itemVariants}
-          className="text-6xl md:text-8xl lg:text-[10rem] font-bold tracking-tighter mb-10 leading-[0.85] text-white"
+          className="text-6xl md:text-8xl lg:text-[11rem] font-bold tracking-tighter mb-10 leading-[0.8] text-white"
         >
           Engineered for <br />
           <motion.span
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-            className="italic bg-gradient-to-r from-zinc-400 via-white to-zinc-600 bg-clip-text text-transparent bg-[length:200%_auto]"
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="italic bg-gradient-to-r from-indigo-500 via-purple-400 to-pink-400 bg-clip-text text-transparent bg-[length:200%_auto] drop-shadow-[0_0_30px_rgba(99,102,241,0.3)]"
           >
             Greatness.
           </motion.span>
@@ -99,48 +164,50 @@ export default function Hero() {
         
         <motion.p
           variants={itemVariants}
-          className="text-lg md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
+          className="text-lg md:text-2xl text-zinc-400 mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
         >
-          The traditional career path is broken. We built the engine to fix it.
+          The traditional career path is broken. We built the engine to fix it. <br className="hidden md:block" />
+          Navigate the future with <span className="text-white">mathematical certainty.</span>
         </motion.p>
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-24"
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-32"
         >
           {isLoggedIn ? (
             <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all border-none font-bold shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)]">
+              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-12 h-20 text-xl rounded-2xl transition-all border-none font-bold shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)]">
                 Go to Dashboard
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           ) : (
-            <>
-              <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all border-none font-bold shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)]">
-                  Initiate Mission
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </>
+            <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
+              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-12 h-20 text-xl rounded-2xl transition-all border-none font-bold shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)]">
+                Initiate Mission
+                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           )}
         </motion.div>
 
         {/* Stats Grid */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-4xl mx-auto pt-12 border-t border-white/10"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-4xl mx-auto pt-16 border-t border-white/5 relative"
         >
+          {/* Subtle Glow under Stats */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
+
           {stats.map((stat, idx) => (
             <motion.div
               key={idx}
               whileHover={{ y: -5 }}
-              className="text-center p-4 rounded-2xl transition-colors hover:bg-white/5"
+              className="text-center p-4 rounded-2xl transition-all hover:bg-white/[0.03] group"
             >
-              <div className="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center justify-center">
+              <div className="text-3xl md:text-5xl font-bold text-white mb-2 flex items-center justify-center group-hover:text-glow transition-all">
                 <AnimatedCounter value={stat.value} />
-                <span>{stat.suffix}</span>
+                <span className="text-indigo-400">{stat.suffix}</span>
               </div>
               <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 {stat.label}
@@ -153,15 +220,15 @@ export default function Hero() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="mt-20 flex flex-col items-center gap-4 text-zinc-600 font-bold text-[10px] uppercase tracking-[0.3em]"
+          transition={{ delay: 2.5 }}
+          className="mt-32 flex flex-col items-center gap-4 text-zinc-600 font-bold text-[10px] uppercase tracking-[0.4em]"
         >
           <span>Explore Mission</span>
           <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-5 h-5 text-indigo-500" />
           </motion.div>
         </motion.div>
       </motion.div>
