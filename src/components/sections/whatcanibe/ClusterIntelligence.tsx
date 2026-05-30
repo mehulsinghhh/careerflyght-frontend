@@ -25,7 +25,7 @@ export default function ClusterIntelligence() {
   };
 
   return (
-    <section className="py-32 px-6 bg-black relative overflow-hidden border-t border-white/5">
+    <section className="py-32 px-6 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -55,12 +55,19 @@ export default function ClusterIntelligence() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           {CAREER_CLUSTERS.map((cluster) => (
-            <motion.div key={cluster.id} variants={itemVariants}>
+            <motion.div
+              key={cluster.id}
+              variants={itemVariants}
+              whileHover={{ y: -10 }}
+            >
               <div
-                className="h-full border border-white/5 bg-zinc-950 hover:border-white/20 transition-all duration-500 group rounded-3xl p-8 flex flex-col"
+                className="h-full border border-white/5 bg-white/[0.01] backdrop-blur-3xl hover:border-white/20 transition-all duration-500 group rounded-[2.5rem] p-10 flex flex-col relative overflow-hidden shadow-2xl"
               >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cluster.bgGradient} border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                  <cluster.icon className="w-7 h-7 text-white" />
+                {/* Accent Glow */}
+                <div className={`absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br ${cluster.bgGradient} opacity-0 group-hover:opacity-20 blur-[60px] transition-opacity duration-500`} />
+
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${cluster.bgGradient} border border-white/10 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
+                  <cluster.icon className="w-8 h-8 text-white" />
                 </div>
 
                 <div className="mb-4">
@@ -75,17 +82,17 @@ export default function ClusterIntelligence() {
                   </p>
                 </div>
 
-                <div className="mt-auto pt-6">
-                  <div className="flex flex-wrap gap-2 mb-8">
+                <div className="mt-auto pt-8">
+                  <div className="flex flex-wrap gap-2 mb-10">
                     {cluster.skills.slice(0, 3).map((skill) => (
-                      <span key={skill} className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-bold text-zinc-500">
+                      <span key={skill} className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold text-zinc-500 group-hover:text-zinc-300 transition-colors">
                         {skill}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between group/link cursor-pointer pt-6 border-t border-white/5">
-                    <span className="text-[10px] font-bold text-white uppercase tracking-widest">Explore Pathways</span>
+                  <div className="flex items-center justify-between group/link cursor-pointer pt-8 border-t border-white/5">
+                    <span className="text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-glow transition-all">Explore Pathways</span>
                     <ArrowRight className="w-4 h-4 text-white -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
                   </div>
                 </div>

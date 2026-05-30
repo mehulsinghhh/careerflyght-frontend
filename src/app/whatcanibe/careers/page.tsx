@@ -7,7 +7,11 @@ import ClusterIntelligence from "@/components/sections/whatcanibe/ClusterIntelli
 
 export default function CareersPage() {
   return (
-    <div className="min-h-screen bg-black pt-24 pb-20 overflow-hidden">
+    <div className="min-h-screen pt-24 pb-20 overflow-hidden relative">
+      {/* Careers Atmosphere */}
+      <div className="absolute top-0 left-0 w-full h-[1000px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.1),transparent_50%)] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-full h-[1000px] bg-[radial-gradient(circle_at_80%_80%,rgba(236,72,153,0.05),transparent_50%)] pointer-events-none" />
+
       <div className="container mx-auto px-6 relative z-10">
         {/* Careers Hero (Production Style) */}
         <motion.div
@@ -21,7 +25,13 @@ export default function CareersPage() {
           </div>
           <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold text-white mb-10 tracking-tighter leading-[0.85]">
             Explore <br />
-            <span className="italic text-zinc-500">Careers.</span>
+            <motion.span
+              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="italic bg-gradient-to-r from-indigo-500 via-purple-400 to-pink-400 bg-clip-text text-transparent bg-[length:200%_auto]"
+            >
+              Careers.
+            </motion.span>
           </h1>
           <p className="text-zinc-500 text-lg md:text-2xl max-w-2xl leading-relaxed font-medium mb-12">
             Discover the most in-demand roles in tech and beyond. Find your perfect path and start building your future today.

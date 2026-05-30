@@ -9,8 +9,10 @@ import AnimatedCounter from "@/components/ui/animated-counter";
 
 export default function Hero() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const user = localStorage.getItem("careerflyghtUser");
     setIsLoggedIn(!!user);
   }, []);
@@ -44,10 +46,27 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-mesh opacity-20" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1000px] bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent_70%)]" />
-      
+      {/* Cinematic Background Elements */}
+      <div className="absolute inset-0 z-0">
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-indigo-500/20 blur-[120px] rounded-full"
+        />
+        <motion.div
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.15, 0.1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-500/10 blur-[120px] rounded-full"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(2,6,23,0.8)_80%,#020617)]" />
+      </div>
+
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -67,7 +86,15 @@ export default function Hero() {
           className="text-6xl md:text-8xl lg:text-[10rem] font-bold tracking-tighter mb-10 leading-[0.85] text-white"
         >
           Engineered for <br />
-          <span className="italic text-zinc-500">Greatness.</span>
+          <motion.span
+            animate={{
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            className="italic bg-gradient-to-r from-zinc-400 via-white to-zinc-600 bg-clip-text text-transparent bg-[length:200%_auto]"
+          >
+            Greatness.
+          </motion.span>
         </motion.h1>
         
         <motion.p
@@ -83,7 +110,7 @@ export default function Hero() {
         >
           {isLoggedIn ? (
             <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all border-none font-bold">
+              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all border-none font-bold shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)]">
                 Go to Dashboard
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
@@ -91,7 +118,7 @@ export default function Hero() {
           ) : (
             <>
               <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-                <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all border-none font-bold">
+                <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-10 h-16 text-lg rounded-2xl transition-all border-none font-bold shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)]">
                   Initiate Mission
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
@@ -106,7 +133,11 @@ export default function Hero() {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-4xl mx-auto pt-12 border-t border-white/10"
         >
           {stats.map((stat, idx) => (
-            <div key={idx} className="text-center">
+            <motion.div
+              key={idx}
+              whileHover={{ y: -5 }}
+              className="text-center p-4 rounded-2xl transition-colors hover:bg-white/5"
+            >
               <div className="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center justify-center">
                 <AnimatedCounter value={stat.value} />
                 <span>{stat.suffix}</span>
@@ -114,7 +145,7 @@ export default function Hero() {
               <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
 

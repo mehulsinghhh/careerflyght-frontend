@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import GlowCursor from "@/components/ui/glow-cursor";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -34,8 +35,11 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${plusJakarta.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><LayoutWrapper>{children}</LayoutWrapper>
-</body>
+      <body className="min-h-full flex flex-col">
+        <div className="premium-bg" />
+        <GlowCursor />
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </body>
     </html>
   );
 }
