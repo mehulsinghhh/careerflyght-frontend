@@ -22,7 +22,7 @@ export default function Mentorship() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const}}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const}}
             className="order-2 lg:order-1 relative"
           >
              <GlowCard 
@@ -89,7 +89,7 @@ export default function Mentorship() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1]as const }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1]as const }}
             className="order-1 lg:order-2"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">

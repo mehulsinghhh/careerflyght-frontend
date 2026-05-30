@@ -49,7 +49,7 @@ export default function Pathways() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const}}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const}}
             >
               <div className="text-indigo-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
               <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
@@ -68,7 +68,7 @@ export default function Pathways() {
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] as const}}
+                  transition={{ duration: 0.5, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] as const}}
                 >
                   <GlowCard
                     glowColor="rgba(99, 102, 241, 0.15)"
@@ -104,7 +104,7 @@ export default function Pathways() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-12"
             >
               <Button
@@ -123,7 +123,7 @@ export default function Pathways() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1]as const }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1]as const }}
               className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-white/[0.01] backdrop-blur-3xl p-12 flex items-center justify-center overflow-hidden shadow-[0_0_100px_rgba(99,102,241,0.05)]"
             >
                {/* Visual Roadmap Path */}
@@ -160,7 +160,7 @@ export default function Pathways() {
                       initial={{ opacity: 0, y: item.y + 50 }}
                       whileInView={{ opacity: 1, y: item.y }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, delay: item.delay, ease: [0.22, 1, 0.36, 1]as const }}
+                      transition={{ duration: 0.6, delay: item.delay * 0.5, ease: [0.22, 1, 0.36, 1]as const }}
                       whileHover={{ scale: 1.05, y: item.y - 10 }}
                       className="bg-white/[0.03] backdrop-blur-3xl p-8 rounded-3xl border border-white/5 shadow-2xl w-48 group hover:border-white/20 transition-all duration-300"
                     >

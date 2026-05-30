@@ -36,12 +36,12 @@ export default function Workflow() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start center", "end center"]
   });
 
-  const pathLength = useSpring(useTransform(scrollYProgress, [0.1, 0.9], [0, 1]), {
-    stiffness: 300,
-    damping: 60,
+  const pathLength = useSpring(useTransform(scrollYProgress, [0, 1], [0, 1]), {
+    stiffness: 500,
+    damping: 50,
     restDelta: 0.001
   });
 
@@ -83,9 +83,9 @@ export default function Workflow() {
           </motion.p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto min-h-[1500px] py-20">
+        <div className="relative max-w-5xl mx-auto min-h-[1200px] py-20">
           <div className="absolute inset-0 flex justify-center pointer-events-none">
-            <svg width="400" height="100%" viewBox="0 0 400 1500" fill="none" className="h-full w-full opacity-30">
+            <svg width="400" height="100%" viewBox="0 0 400 1200" fill="none" className="h-full w-full opacity-30" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#6366f1" />
@@ -94,14 +94,14 @@ export default function Workflow() {
                 </linearGradient>
               </defs>
               <motion.path
-                d="M200 0C200 0 200 150 200 300C200 450 100 450 100 600C100 750 300 750 300 900C300 1050 200 1050 200 1200C200 1350 200 1500 200 1500"
+                d="M200 0C200 0 200 120 200 240C200 360 100 360 100 480C100 600 300 600 300 720C300 840 200 840 200 960C200 1080 200 1200 200 1200"
                 stroke="url(#lineGradient)"
                 strokeWidth="4"
                 strokeLinecap="round"
                 style={{ pathLength }}
               />
               <motion.path
-                d="M200 0C200 0 200 150 200 300C200 450 100 450 100 600C100 750 300 750 300 900C300 1050 200 1050 200 1200C200 1350 200 1500 200 1500"
+                d="M200 0C200 0 200 120 200 240C200 360 100 360 100 480C100 600 300 600 300 720C300 840 200 840 200 960C200 1080 200 1200 200 1200"
                 stroke="white"
                 strokeWidth="1"
                 strokeDasharray="10 20"
@@ -110,7 +110,7 @@ export default function Workflow() {
             </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col gap-60">
+          <div className="relative z-10 flex flex-col gap-40">
             {METHODOLOGY_PHASES.map((phase, idx) => {
               const Icon = iconMap[phase.id as keyof typeof iconMap] || Activity;
               const meta = phaseMetas[idx] || { label: 'Phase', color: '#fff', glow: 'rgba(255,255,255,0.2)' };
