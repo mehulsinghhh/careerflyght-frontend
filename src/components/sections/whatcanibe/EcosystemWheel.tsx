@@ -40,25 +40,21 @@ export default function EcosystemWheel() {
   }, []);
 
   return (
-    <section id="ecosystem" className="py-32 px-6 bg-black relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-white/[0.01] blur-[120px] rounded-full pointer-events-none" />
-
+    <section id="ecosystem" className="py-32 px-6 bg-black relative overflow-hidden border-t border-white/5">
       <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-left mb-24"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-400 text-[10px] font-bold uppercase tracking-widest mb-6">
-            <Target className="h-4 w-4" />
-            Interactive Universe
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white leading-tight">Explore the Ecosystem.</h2>
-          <p className="text-zinc-500 font-medium max-w-2xl mx-auto leading-relaxed text-lg">
-            A high-fidelity map of the modern industrial landscape.
-            Select a domain to deconstruct its DNA and trajectory.
+          <div className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Interactive Universe</div>
+          <h2 className="text-4xl md:text-8xl font-bold mb-6 tracking-tighter text-white leading-[0.85]">
+            Explore the <br />
+            <span className="italic text-zinc-500">Ecosystem.</span>
+          </h2>
+          <p className="text-zinc-500 font-medium max-w-2xl leading-relaxed text-xl mt-8">
+            A high-fidelity map of the modern industrial landscape. Select a domain to deconstruct its DNA and trajectory.
           </p>
         </motion.div>
 
@@ -71,7 +67,7 @@ export default function EcosystemWheel() {
 
             {/* Core */}
             <div className="absolute z-30 w-32 h-32 md:w-48 md:h-48 rounded-full bg-zinc-950 border border-white/10 flex flex-col items-center justify-center text-center p-6 shadow-2xl backdrop-blur-3xl group">
-                <Sparkles className="w-6 h-6 text-violet-500 mb-3 animate-pulse" />
+                <Sparkles className="w-6 h-6 text-white mb-3" />
                 <span className="text-[10px] font-bold text-white uppercase tracking-widest leading-tight">
                     Career Ready<br/>Practices
                 </span>
@@ -109,13 +105,15 @@ export default function EcosystemWheel() {
                                 whileTap={{ scale: 0.95 }}
                                 className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl border flex items-center justify-center transition-all duration-500 relative group/btn ${
                                     isSelected
-                                    ? "bg-white border-white shadow-[0_0_40px_rgba(255,255,255,0.2)]"
-                                    : "bg-zinc-900 border-white/10 hover:border-white/30 backdrop-blur-xl shadow-xl"
+                                    ? "bg-white border-white text-black shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+                                    : "bg-zinc-900 border-white/10 hover:border-white/30 text-white backdrop-blur-xl"
                                 }`}
+                                style={{
+                                    backgroundColor: isSelected ? 'white' : undefined,
+                                    color: isSelected ? 'black' : (cluster.color.includes('text-') ? undefined : cluster.color)
+                                }}
                             >
-                                <cluster.icon className={`w-6 h-6 md:w-8 md:h-8 transition-colors duration-500 ${
-                                    isSelected ? "text-black" : "text-white group-hover/btn:text-white"
-                                }`} />
+                                <cluster.icon className="w-6 h-6 md:w-8 md:h-8" />
 
                                 {/* Label for desktop on hover/select */}
                                 <div className={`absolute bottom-full mb-4 whitespace-nowrap hidden md:block transition-all duration-300 pointer-events-none ${
@@ -160,7 +158,7 @@ export default function EcosystemWheel() {
                   exit={{ opacity: 0, x: -20 }}
                   className="bg-zinc-950 border border-white/10 rounded-[2.5rem] p-8 md:p-10 backdrop-blur-3xl relative overflow-hidden shadow-2xl"
                 >
-                  <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${selectedCluster.bgGradient} opacity-10 blur-[100px] pointer-events-none`} />
+                  <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${selectedCluster.bgGradient} opacity-20 blur-[100px] pointer-events-none`} />
 
                   <div className="flex items-start justify-between mb-8">
                     <div className="flex items-center gap-4">
@@ -240,8 +238,8 @@ export default function EcosystemWheel() {
                   </Button>
                 </motion.div>
               ) : (
-                <div className="h-[500px] flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-white/5 rounded-[2.5rem] bg-white/[0.01]">
-                  <div className="w-20 h-20 rounded-2xl bg-zinc-950 border border-white/10 flex items-center justify-center mb-8 shadow-xl">
+                <div className="h-[500px] flex flex-col items-center justify-center text-center p-12 border border-white/5 rounded-[2.5rem] bg-zinc-950 shadow-2xl">
+                  <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8">
                       <Target className="w-10 h-10 text-zinc-700" />
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3 uppercase tracking-tight">System Ready</h3>

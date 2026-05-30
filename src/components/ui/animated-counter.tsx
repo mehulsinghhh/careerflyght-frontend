@@ -32,3 +32,5 @@ export function AnimatedCounter({ value }: AnimatedCounterProps) {
 
   return <span ref={ref}>0</span>;
 }
+
+export default AnimatedCounter;
