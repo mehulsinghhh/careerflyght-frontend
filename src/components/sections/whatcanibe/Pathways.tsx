@@ -41,7 +41,7 @@ export default function Pathways() {
   const router = useRouter();
 
   return (
-    <section className="py-32 px-6 bg-black relative overflow-hidden">
+    <section className="py-32 px-6 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-20 lg:gap-32">
           <div className="lg:w-1/2">
@@ -49,12 +49,12 @@ export default function Pathways() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const}}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const}}
             >
-              <div className="text-brand-primary font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
+              <div className="text-indigo-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
               <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
                 Architecting <br />
-                <span className="bg-gradient-to-r from-brand-primary to-violet-400 bg-clip-text text-transparent">Professional Ascent.</span>
+                <span className="bg-gradient-to-r from-indigo-500 to-purple-400 bg-clip-text text-transparent">Professional Ascent.</span>
               </h2>
               <p className="text-zinc-500 text-lg mb-12 leading-relaxed font-medium max-w-xl">
                 We decompose the journey from ambition to achievement into precise, actionable milestones. Remove the fog of uncertainty.
@@ -68,14 +68,14 @@ export default function Pathways() {
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] as const}}
+                  transition={{ duration: 0.5, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] as const}}
                 >
                   <GlowCard
-                    glowColor="rgba(168, 85, 247, 0.1)"
+                    glowColor="rgba(99, 102, 241, 0.15)"
                     className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-500 group ${
                       step.status === 'active'
-                        ? 'border-brand-primary/30 bg-zinc-950/50 shadow-2xl shadow-brand-primary/5'
-                        : 'border-white/5 bg-zinc-900/20 hover:border-white/10'
+                        ? 'border-indigo-500/30 bg-white/[0.03] shadow-2xl shadow-indigo-500/5'
+                        : 'border-white/5 bg-white/[0.01] hover:border-white/10'
                     }`}
                   >
                     <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-500`}>
@@ -90,7 +90,7 @@ export default function Pathways() {
                           </div>
                         )}
                         {step.status === 'active' && (
-                          <div className="px-2 py-1 rounded-md bg-brand-primary/20 text-brand-primary text-[8px] font-black uppercase tracking-widest">In Progress</div>
+                          <div className="px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-400 text-[8px] font-black uppercase tracking-widest">In Progress</div>
                         )}
                       </div>
                       <p className="text-zinc-500 text-sm leading-relaxed font-medium">{step.description}</p>
@@ -104,7 +104,7 @@ export default function Pathways() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-12"
             >
               <Button
@@ -123,8 +123,8 @@ export default function Pathways() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1]as const }}
-              className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-zinc-950 p-12 flex items-center justify-center overflow-hidden shadow-[0_0_100px_rgba(168,85,247,0.1)]"
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1]as const }}
+              className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-white/[0.01] backdrop-blur-3xl p-12 flex items-center justify-center overflow-hidden shadow-[0_0_100px_rgba(99,102,241,0.05)]"
             >
                {/* Visual Roadmap Path */}
                <div className="absolute inset-0 flex items-center justify-center opacity-40">
@@ -151,7 +151,7 @@ export default function Pathways() {
                <div className="grid grid-cols-2 gap-8 relative z-20">
                   {[
                     { year: "Phase 01", title: "Core Synthesis", color: "text-blue-400", bg: "bg-blue-500/20", progress: 100, delay: 0.2, y: 30 },
-                    { year: "Phase 02", title: "Domain Mastery", color: "text-brand-primary", bg: "bg-brand-primary/20", progress: 65, delay: 0.4, y: -30 },
+                    { year: "Phase 02", title: "Domain Mastery", color: "text-indigo-400", bg: "bg-indigo-500/20", progress: 65, delay: 0.4, y: -30 },
                     { year: "Phase 03", title: "Market Entry", color: "text-fuchsia-400", bg: "bg-fuchsia-500/20", progress: 30, delay: 0.6, y: 30 },
                     { year: "Terminal", title: "Apex Placement", color: "text-emerald-400", bg: "bg-emerald-500/20", progress: 0, delay: 0.8, y: -30 },
                   ].map((item, i) => (
@@ -160,8 +160,9 @@ export default function Pathways() {
                       initial={{ opacity: 0, y: item.y + 50 }}
                       whileInView={{ opacity: 1, y: item.y }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, delay: item.delay, ease: [0.22, 1, 0.36, 1]as const }}
-                      className="bg-zinc-900/40 backdrop-blur-3xl p-8 rounded-3xl border border-white/5 shadow-2xl w-48 group hover:border-white/10 transition-colors"
+                      transition={{ duration: 0.6, delay: item.delay * 0.5, ease: [0.22, 1, 0.36, 1]as const }}
+                      whileHover={{ scale: 1.05, y: item.y - 10 }}
+                      className="bg-white/[0.03] backdrop-blur-3xl p-8 rounded-3xl border border-white/5 shadow-2xl w-48 group hover:border-white/20 transition-all duration-300"
                     >
                       <p className={`text-[9px] font-black mb-3 uppercase tracking-[0.25em] ${item.color}`}>{item.year}</p>
                       <p className="font-bold text-white text-base mb-6 tracking-tight leading-tight">{item.title}</p>
@@ -180,7 +181,7 @@ export default function Pathways() {
             </motion.div>
             
             {/* Background decoration */}
-            <div className="absolute -top-20 -right-20 w-[120%] h-[120%] bg-brand-primary/5 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute -top-20 -right-20 w-[120%] h-[120%] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none" />
           </div>
         </div>
       </div>

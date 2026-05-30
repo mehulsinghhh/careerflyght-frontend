@@ -1,9 +1,8 @@
 "use client";
 
 import { Career } from "@/constants/careers";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, TrendingUp, BrainCircuit, Sparkles, Target } from "lucide-react";
+import { ArrowUpRight, TrendingUp, BrainCircuit, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlowCard } from "@/components/ui/glow-card";
 import { useRouter } from "next/navigation";
