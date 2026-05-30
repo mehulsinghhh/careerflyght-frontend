@@ -124,7 +124,7 @@ export default function EcosystemWheel() {
                                 onClick={() => handleClusterClick(cluster)}
                                 whileHover={{ scale: 1.2, zIndex: 50 }}
                                 whileTap={{ scale: 0.9 }}
-                                className={`w-16 h-16 md:w-24 md:h-24 rounded-3xl border flex items-center justify-center transition-all duration-500 relative group/btn overflow-hidden ${
+                                className={`w-16 h-16 md:w-24 md:h-24 rounded-3xl border flex items-center justify-center transition-all duration-300 relative group/btn overflow-hidden ${
                                     isSelected
                                     ? "bg-white border-white text-black shadow-[0_0_80px_rgba(255,255,255,0.4)] scale-110"
                                     : "bg-white/[0.03] border-white/10 hover:border-white/40 text-white backdrop-blur-2xl"
@@ -176,14 +176,14 @@ export default function EcosystemWheel() {
 
           {/* Details Panel */}
           <div className="w-full lg:max-w-xl h-full flex flex-col justify-center" ref={scrollRef}>
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="popLayout">
               {selectedCluster ? (
                 <motion.div
                   key={selectedCluster.id}
-                  initial={{ opacity: 0, x: 50, filter: 'blur(10px)' }}
+                  initial={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
                   animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, x: -50, filter: 'blur(10px)' }}
-                  transition={{ type: "spring", damping: 25, stiffness: 120 }}
+                  exit={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
+                  transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
                   className="bg-white/[0.03] border border-white/10 rounded-[4rem] p-10 md:p-14 backdrop-blur-3xl relative overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.7)]"
                 >
                   {/* Dynamic Corner Glow */}

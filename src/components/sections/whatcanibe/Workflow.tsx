@@ -40,8 +40,8 @@ export default function Workflow() {
   });
 
   const pathLength = useSpring(useTransform(scrollYProgress, [0.1, 0.9], [0, 1]), {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 300,
+    damping: 60,
     restDelta: 0.001
   });
 
@@ -122,7 +122,7 @@ export default function Workflow() {
                     initial={{ opacity: 0, x: isEven ? -100 : 100, filter: 'blur(10px)' }}
                     whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="w-full md:w-[48%] relative group"
                   >
                     <div className={`absolute top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center hidden md:flex ${isEven ? '-right-[calc(8.5%)]' : '-left-[calc(8.5%)]'}`}>

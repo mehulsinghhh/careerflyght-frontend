@@ -65,7 +65,7 @@ export default function WhatCanIBeFooter() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-8">
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-6">
             <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.4em]">
               © {new Date().getFullYear()} WhatCanIBe.
