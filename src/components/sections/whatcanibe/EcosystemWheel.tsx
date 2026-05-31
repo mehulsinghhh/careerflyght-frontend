@@ -53,18 +53,16 @@ export default function EcosystemWheel() {
 
       <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="text-left mb-32"
         >
-          <motion.div
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
+            <div
              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-8 backdrop-blur-md"
           >
             Interactive Universe
-          </motion.div>
+            </div>
           <h2 className="text-5xl md:text-8xl font-bold mb-8 tracking-tighter text-white leading-[0.85]">
             Explore the <br />
             <span className="italic bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(99,102,241,0.3)]">Ecosystem.</span>
@@ -78,38 +76,26 @@ export default function EcosystemWheel() {
           {/* Wheel Visualization */}
           <div className="relative w-[400px] h-[400px] md:w-[850px] md:h-[850px] flex items-center justify-center shrink-0">
 
-            {/* Ambient background rings with rotation */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+            {/* Ambient background rings */}
+            <div
               className="absolute inset-0 border border-white/[0.03] rounded-full"
             />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+            <div
               className="absolute inset-10 border border-white/[0.02] rounded-full border-dashed"
             />
 
             {/* Core Centerpiece */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="absolute z-30 w-40 h-40 md:w-64 md:h-64 rounded-full bg-slate-950 border border-white/10 flex flex-col items-center justify-center text-center p-8 shadow-[0_0_80px_rgba(99,102,241,0.15)] backdrop-blur-3xl group"
+            <div
+              className="absolute z-30 w-40 h-40 md:w-64 md:h-64 rounded-full bg-slate-950 border border-white/10 flex flex-col items-center justify-center text-center p-8 shadow-2xl backdrop-blur-3xl group"
             >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-2 rounded-full border border-dashed border-indigo-500/20"
+                <div
+                  className="absolute inset-2 rounded-full border border-dashed border-indigo-500/10"
                 />
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="absolute inset-0 rounded-full bg-indigo-500/5 blur-2xl"
-                />
-                <Sparkles className="w-8 h-8 text-indigo-400 mb-4 relative z-10 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)]" />
-                <span className="text-[11px] font-bold text-white uppercase tracking-[0.3em] leading-tight relative z-10 group-hover:text-glow transition-all">
+                <Sparkles className="w-8 h-8 text-indigo-400 mb-4 relative z-10" />
+                <span className="text-[11px] font-bold text-white uppercase tracking-[0.3em] leading-tight relative z-10">
                     Career Ready<br/>Practices
                 </span>
-            </motion.div>
+            </div>
 
             {/* Orbiting Clusters */}
             <div className="absolute inset-0 z-40">
@@ -125,16 +111,16 @@ export default function EcosystemWheel() {
                             key={cluster.id}
                             initial={false}
                             animate={{ x, y }}
-                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
                             className="absolute left-1/2 top-1/2 -ml-8 -mt-8 md:-ml-12 md:-mt-12"
                         >
                             <motion.button
                                 onClick={() => handleClusterClick(cluster)}
-                                whileHover={{ scale: 1.15, zIndex: 50 }}
+                                whileHover={{ scale: 1.05, zIndex: 50 }}
                                 whileTap={{ scale: 0.95 }}
                                 className={`w-16 h-16 md:w-24 md:h-24 rounded-3xl border flex items-center justify-center transition-all duration-200 relative group/btn overflow-hidden ${
                                     isSelected
-                                    ? "bg-white border-white text-black shadow-[0_0_80px_rgba(255,255,255,0.4)] scale-110"
+                                    ? "bg-white border-white text-black shadow-2xl scale-105"
                                     : "bg-white/[0.03] border-white/10 hover:border-white/40 text-white backdrop-blur-2xl"
                                 }`}
                             >
@@ -189,11 +175,10 @@ export default function EcosystemWheel() {
               {selectedCluster ? (
                 <motion.div
                   key={selectedCluster.id}
-                  initial={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
-                  animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
-                  transition={{ type: "spring", damping: 25, stiffness: 400, mass: 0.6 }}
-                  className="bg-white/[0.03] border border-white/10 rounded-[4rem] p-10 md:p-14 backdrop-blur-3xl relative overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.7)]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="bg-white/[0.03] border border-white/10 rounded-[4rem] p-10 md:p-14 backdrop-blur-3xl relative overflow-hidden shadow-2xl"
                 >
                   {/* Dynamic Corner Glow */}
                   <div
@@ -276,11 +261,10 @@ export default function EcosystemWheel() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-white text-black hover:bg-zinc-100 h-20 rounded-3xl font-bold text-lg transition-all group/btn uppercase tracking-[0.2em] shadow-[0_20px_50px_rgba(255,255,255,0.15)] relative z-10 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:animate-shimmer" />
+                  <Button className="w-full bg-white text-black hover:bg-zinc-100 h-20 rounded-3xl font-bold text-lg transition-all group/btn uppercase tracking-[0.2em] shadow-xl relative z-10 overflow-hidden">
                     <span className="relative z-10 flex items-center gap-3">
                       Explore Domain Analysis
-                      <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
+                      <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />
                     </span>
                   </Button>
                 </motion.div>

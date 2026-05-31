@@ -45,18 +45,17 @@ export default function AboutUs() {
           {/* Left Side: Text Content */}
           <div className="flex-1">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4"
             >
               Our Philosophy
             </motion.div>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
               className="text-4xl md:text-7xl font-bold mb-8 tracking-tighter text-white leading-[0.85]"
             >
               We don&apos;t just find jobs. <br />
@@ -65,20 +64,18 @@ export default function AboutUs() {
               </span>
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
               className="text-zinc-400 font-medium text-lg md:text-xl leading-relaxed mb-12 max-w-xl"
             >
               CareerFlyght was born from a simple realization: the traditional approach to career planning is obsolete. We combine high-fidelity data with human intuition to create trajectories that don&apos;t just pay the bills—they change the world.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
               className="grid grid-cols-2 gap-8"
             >
               <div>
@@ -97,12 +94,12 @@ export default function AboutUs() {
             {features.map((feature, idx) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="group relative p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all overflow-hidden"
+                transition={{ delay: idx * 0.05 }}
+                whileHover={{ y: -2 }}
+                className="group relative p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all overflow-hidden shadow-sm"
               >
                 {/* Gradient Background */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
