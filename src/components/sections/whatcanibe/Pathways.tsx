@@ -71,14 +71,14 @@ export default function Pathways() {
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
                 >
                   <GlowCard
-                    glowColor="rgba(99, 102, 241, 0.1)"
+                    glowColor="rgba(99, 102, 241, 0.05)"
                     className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-300 group ${
                       step.status === 'active'
-                        ? 'border-indigo-500/20 bg-white/[0.02] shadow-xl'
-                        : 'border-white/5 bg-white/[0.01] hover:border-white/10'
+                        ? 'border-indigo-500/10 bg-white/[0.02]'
+                        : 'border-white/5 bg-white/[0.01]'
                     }`}
                   >
-                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300`}>
                       <step.icon className="w-7 h-7 text-white" />
                     </div>
                     <div className="flex-1">
@@ -146,19 +146,19 @@ export default function Pathways() {
                
                <div className="grid grid-cols-2 gap-8 relative z-20">
                   {[
-                    { year: "Phase 01", title: "Core Synthesis", color: "text-blue-400", bg: "bg-blue-500/20", progress: 100, delay: 0.1, y: 30 },
-                    { year: "Phase 02", title: "Domain Mastery", color: "text-indigo-400", bg: "bg-indigo-500/20", progress: 65, delay: 0.2, y: -30 },
-                    { year: "Phase 03", title: "Market Entry", color: "text-fuchsia-400", bg: "bg-fuchsia-500/20", progress: 30, delay: 0.3, y: 30 },
-                    { year: "Terminal", title: "Apex Placement", color: "text-emerald-400", bg: "bg-emerald-500/20", progress: 0, delay: 0.4, y: -30 },
+                    { year: "Phase 01", title: "Core Synthesis", color: "text-blue-400", bg: "bg-blue-500/20", progress: 100, delay: 0.1, y: 0 },
+                    { year: "Phase 02", title: "Domain Mastery", color: "text-indigo-400", bg: "bg-indigo-500/20", progress: 65, delay: 0.2, y: 0 },
+                    { year: "Phase 03", title: "Market Entry", color: "text-fuchsia-400", bg: "bg-fuchsia-500/20", progress: 30, delay: 0.3, y: 0 },
+                    { year: "Terminal", title: "Apex Placement", color: "text-emerald-400", bg: "bg-emerald-500/20", progress: 0, delay: 0.4, y: 0 },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: item.y }}
-                      whileInView={{ opacity: 1, y: item.y }}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: item.delay }}
-                      whileHover={{ scale: 1.01 }}
-                      className="bg-white/[0.03] p-8 rounded-3xl border border-white/5 shadow-xl w-48 group hover:border-white/20 transition-all duration-300"
+                      whileHover={{ y: -2 }}
+                      className="bg-white/[0.03] p-8 rounded-3xl border border-white/5 shadow-md w-48 group hover:border-white/10 transition-all duration-300"
                     >
                       <p className={`text-[9px] font-black mb-3 uppercase tracking-[0.25em] ${item.color}`}>{item.year}</p>
                       <p className="font-bold text-white text-base mb-6 tracking-tight leading-tight">{item.title}</p>

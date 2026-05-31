@@ -10,8 +10,7 @@ export default function FinalCTA() {
     <section id="final-cta" className="py-40 px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 blur-[150px] rounded-full" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent,rgba(2,6,23,0.9)_80%,#020617)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/5 blur-[100px] rounded-full" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">

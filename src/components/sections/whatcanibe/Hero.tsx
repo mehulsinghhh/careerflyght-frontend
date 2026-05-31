@@ -10,7 +10,6 @@ import AnimatedCounter from "@/components/ui/animated-counter";
 export default function Hero() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [particles, setParticles] = useState<{x: string, y: string, opacity: number, scale: number, duration: number}[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,16 +23,6 @@ export default function Hero() {
     const user = localStorage.getItem("careerflyghtUser");
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoggedIn(!!user);
-
-    // Generate stable particle values on client
-    const newParticles = [...Array(20)].map(() => ({
-      x: Math.random() * 100 + "%",
-      y: Math.random() * 100 + "%",
-      opacity: Math.random() * 0.3 + 0.1,
-      scale: Math.random() * 0.5 + 0.5,
-      duration: 10 + Math.random() * 10
-    }));
-    setParticles(newParticles);
   }, [mounted]);
 
   const containerVariants = {
@@ -73,31 +62,13 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Static Gradient Mesh */}
         <div
-          className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] opacity-10"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-10"
           style={{
-            background: "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.1) 25%, rgba(236, 72, 153, 0.05) 50%, transparent 70%)"
+            background: "radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.3) 0%, transparent 70%)"
           }}
         />
 
-        {/* Static Particles/Elements */}
-        {particles.map((particle, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full blur-[1px] pointer-events-none"
-            style={{
-              left: particle.x,
-              top: particle.y,
-              opacity: particle.opacity * 0.5,
-              transform: `scale(${particle.scale})`
-            }}
-          />
-        ))}
-
-        {/* Static Geometric Elements */}
-        <div className="absolute top-1/4 right-[10%] w-32 h-32 border border-white/5 rounded-3xl rotate-12 backdrop-blur-[2px] pointer-events-none hidden lg:block" />
-        <div className="absolute bottom-1/4 left-[5%] w-48 h-48 border border-white/5 rounded-full backdrop-blur-[2px] pointer-events-none hidden lg:block" />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/50 to-[#020617]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#020617]" />
       </div>
 
       <motion.div

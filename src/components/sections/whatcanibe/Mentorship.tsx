@@ -127,7 +127,7 @@ export default function Mentorship() {
                 →
               </span>
             </Button>
-          </div>
+          </motion.div>
         </div>
       </div>
 

@@ -44,38 +44,26 @@ export default function AboutUs() {
         <div className="flex flex-col lg:flex-row gap-20 items-center">
           {/* Left Side: Text Content */}
           <div className="flex-1">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+            <div
               className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4"
             >
               Our Philosophy
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+            </div>
+            <h2
               className="text-4xl md:text-7xl font-bold mb-8 tracking-tighter text-white leading-[0.85]"
             >
               We don&apos;t just find jobs. <br />
               <span className="italic bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 We engineer legacies.
               </span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+            </h2>
+            <p
               className="text-zinc-400 font-medium text-lg md:text-xl leading-relaxed mb-12 max-w-xl"
             >
               CareerFlyght was born from a simple realization: the traditional approach to career planning is obsolete. We combine high-fidelity data with human intuition to create trajectories that don&apos;t just pay the bills—they change the world.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+            <div
               className="grid grid-cols-2 gap-8"
             >
               <div>
@@ -86,18 +74,14 @@ export default function AboutUs() {
                 <div className="text-3xl font-bold text-white mb-1">24/7</div>
                 <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">AI Support</div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right Side: Feature Grid */}
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            {features.map((feature, idx) => (
+            {features.map((feature) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
                 whileHover={{ y: -2 }}
                 className="group relative p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all overflow-hidden shadow-sm"
               >

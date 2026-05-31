@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { METHODOLOGY_PHASES } from '@/constants/career-clusters';
 import {
   ArrowRight,
@@ -72,27 +72,13 @@ export default function Workflow() {
 
         <div className="relative max-w-5xl mx-auto min-h-[800px] md:min-h-[1200px] py-12 md:py-20">
           <div className="absolute inset-0 flex justify-center pointer-events-none">
-            <svg width="400" height="100%" viewBox="0 0 400 1200" fill="none" className="h-full w-full opacity-30" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#6366f1" />
-                  <stop offset="50%" stopColor="#ec4899" />
-                  <stop offset="100%" stopColor="#10b981" />
-                </linearGradient>
-              </defs>
+            <svg width="400" height="100%" viewBox="0 0 400 1200" fill="none" className="h-full w-full opacity-10" preserveAspectRatio="none">
               <path
                 d="M200 0C200 0 200 120 200 240C200 360 100 360 100 480C100 600 300 600 300 720C300 840 200 840 200 960C200 1080 200 1200 200 1200"
-                stroke="url(#lineGradient)"
-                strokeWidth="4"
-                strokeLinecap="round"
-                style={{ opacity: 0.6 }}
-              />
-              <motion.path
-                d="M200 0C200 0 200 120 200 240C200 360 100 360 100 480C100 600 300 600 300 720C300 840 200 840 200 960C200 1080 200 1200 200 1200"
                 stroke="white"
-                strokeWidth="1"
-                strokeDasharray="10 20"
-                className="opacity-50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="10 10"
               />
             </svg>
           </div>

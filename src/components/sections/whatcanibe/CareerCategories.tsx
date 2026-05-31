@@ -88,7 +88,7 @@ export default function CareerCategories() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.4 },
+      transition: { duration: 0.2 },
     },
   };
 
@@ -96,9 +96,9 @@ export default function CareerCategories() {
     <section id="categories" className="py-32 px-6 relative overflow-hidden bg-[#020617]">
       {/* Static Background Atmosphere */}
       <div
-        className="absolute inset-0 z-0 opacity-10 blur-[120px] pointer-events-none"
+        className="absolute inset-0 z-0 opacity-5 blur-[120px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1), transparent 70%)"
+          background: "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05), transparent 70%)"
         }}
       />
 
@@ -143,7 +143,7 @@ export default function CareerCategories() {
             <motion.div
               key={category.title}
               variants={itemVariants}
-              whileHover={{ y: -4, scale: 1.01 }}
+              whileHover={{ y: -2 }}
               className="relative group"
             >
               <div

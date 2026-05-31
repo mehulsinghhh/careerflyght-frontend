@@ -10,7 +10,7 @@ export default function ClusterIntelligence() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.03,
+        staggerChildren: 0.01,
       },
     },
   };
@@ -19,16 +19,15 @@ export default function ClusterIntelligence() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.4 },
+      transition: { duration: 0.2 },
     },
   };
 
   return (
     <section className="py-32 px-6 relative overflow-hidden bg-[#020617]">
       {/* Background Atmosphere */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
-        <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-indigo-600/10 blur-[150px] rounded-full" />
-        <div className="absolute bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-purple-600/10 blur-[150px] rounded-full" />
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
+        <div className="absolute top-1/4 -right-1/4 w-[400px] h-[400px] bg-indigo-600/5 blur-[120px] rounded-full" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">
@@ -67,7 +66,7 @@ export default function ClusterIntelligence() {
               <motion.div
                 key={cluster.id}
                 variants={itemVariants}
-                whileHover={{ y: -4, scale: 1.01 }}
+                whileHover={{ y: -2 }}
                 className="group h-full"
               >
                 <div
