@@ -36,9 +36,9 @@ const features = [
 
 export default function AboutUs() {
   return (
-    <section id="about" className="py-32 px-6 relative overflow-hidden">
+    <section id="about" className="py-32 px-6 relative overflow-hidden bg-background">
       {/* Background Atmosphere */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-100/20 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row gap-20 items-center">
@@ -50,15 +50,15 @@ export default function AboutUs() {
               Our Philosophy
             </div>
             <h2
-              className="text-4xl md:text-7xl font-bold mb-8 tracking-tighter text-white leading-[0.85]"
+              className="text-4xl md:text-7xl font-bold mb-8 tracking-tighter text-zinc-950 leading-[0.85]"
             >
               We don&apos;t just find jobs. <br />
-              <span className="italic bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="italic bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 We engineer legacies.
               </span>
             </h2>
             <p
-              className="text-zinc-400 font-medium text-lg md:text-xl leading-relaxed mb-12 max-w-xl"
+              className="text-zinc-600 font-medium text-lg md:text-xl leading-relaxed mb-12 max-w-xl"
             >
               CareerFlyght was born from a simple realization: the traditional approach to career planning is obsolete. We combine high-fidelity data with human intuition to create trajectories that don&apos;t just pay the bills—they change the world.
             </p>
@@ -67,11 +67,11 @@ export default function AboutUs() {
               className="grid grid-cols-2 gap-8"
             >
               <div>
-                <div className="text-3xl font-bold text-white mb-1">100%</div>
+                <div className="text-3xl font-bold text-zinc-950 mb-1">100%</div>
                 <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Digital Native</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white mb-1">24/7</div>
+                <div className="text-3xl font-bold text-zinc-950 mb-1">24/7</div>
                 <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">AI Support</div>
               </div>
             </div>
@@ -82,18 +82,18 @@ export default function AboutUs() {
             {features.map((feature) => (
               <motion.div
                 key={feature.title}
-                whileHover={{ y: -2 }}
-                className="group relative p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all overflow-hidden shadow-sm"
+                whileHover={{ y: -4 }}
+                className="group relative p-8 rounded-3xl bg-white border border-zinc-200 hover:border-zinc-300 transition-all duration-500 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)]"
               >
                 {/* Gradient Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
-                <div className={`w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 relative z-10 ${feature.iconColor}`}>
+                <div className={`w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-6 relative z-10 transition-colors duration-500 group-hover:bg-zinc-950 group-hover:text-white ${feature.iconColor}`}>
                   <feature.icon className="w-6 h-6" />
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-3 relative z-10">{feature.title}</h3>
-                <p className="text-sm text-zinc-500 font-medium leading-relaxed relative z-10 group-hover:text-zinc-300 transition-colors">
+                <h3 className="text-xl font-bold text-zinc-950 mb-3 relative z-10">{feature.title}</h3>
+                <p className="text-sm text-zinc-600 font-medium leading-relaxed relative z-10 group-hover:text-zinc-900 transition-colors duration-500">
                   {feature.description}
                 </p>
               </motion.div>
