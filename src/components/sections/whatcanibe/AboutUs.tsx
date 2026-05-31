@@ -105,7 +105,7 @@ export default function AboutUs() {
                 className="group relative p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all overflow-hidden"
               >
                 {/* Gradient Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
 
                 <div className={`w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 relative z-10 ${feature.iconColor}`}>
                   <feature.icon className="w-6 h-6" />

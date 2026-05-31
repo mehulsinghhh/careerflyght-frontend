@@ -22,12 +22,12 @@ export default function CareerCard({ career }: CareerCardProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <GlowCard className="h-full flex flex-col p-0 border-white/5 bg-zinc-950/40 backdrop-blur-xl overflow-hidden group hover:border-brand-primary/20 transition-all duration-500 rounded-[2.5rem]">
+      <GlowCard className="h-full flex flex-col p-0 border-white/5 bg-zinc-950/40 backdrop-blur-xl overflow-hidden group hover:border-brand-primary/20 transition-all duration-300 rounded-[2.5rem]">
         <div className="p-8 flex-1">
           <div className="flex justify-between items-start mb-8">
             <div className="relative">
               <div className="absolute -inset-2 bg-brand-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className={`relative h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-brand-primary/30 group-hover:scale-110 transition-all duration-500`}>
+              <div className={`relative h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-brand-primary/30 group-hover:scale-110 transition-all duration-300`}>
                 <BrainCircuit className="h-7 w-7 text-brand-primary" />
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function CareerCard({ career }: CareerCardProps) {
         <div className="p-6 pt-0 mt-auto">
           <Button
             onClick={() => router.push(`/whatcanibe/dashboard`)}
-            className="w-full h-14 bg-white/5 hover:bg-white text-white hover:text-black border border-white/10 hover:border-white rounded-2xl group/btn transition-all duration-500 font-bold"
+            className="w-full h-14 bg-white/5 hover:bg-white text-white hover:text-black border border-white/10 hover:border-white rounded-2xl group/btn transition-all duration-300 font-bold"
           >
             Explore Roadmap
             <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />

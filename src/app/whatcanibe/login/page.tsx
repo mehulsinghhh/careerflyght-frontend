@@ -96,16 +96,17 @@ export default function LoginPage() {
           <p className="text-gray-500 font-medium">Welcome back to the future of careers.</p>
         </div>
 
-        <GlowCard className="p-8 border-white/10 bg-white/5 backdrop-blur-xl rounded-[2.5rem]">
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-violet-400" />
+        <GlowCard className="p-8 border-white/20 bg-white/5 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-violet-500/10">
+          <div className="mb-8 relative">
+            <div className="absolute -top-10 -right-4 w-24 h-24 bg-violet-500/20 blur-3xl rounded-full" />
+            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
+              <Sparkles className="h-6 w-6 text-violet-400" />
               Sign In
             </h1>
-            <p className="text-sm text-gray-500 mt-1">Access your personalized roadmap and mentors.</p>
+            <p className="text-sm text-gray-400 mt-2 font-medium">Access your personalized roadmap and mentors.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6 relative z-10">
             <div className="space-y-2">
               <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
               <div className="relative">

@@ -36,7 +36,7 @@ export default function Workflow() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end center"]
+    offset: ["start center", "end center"],
   });
 
   const pathLength = useSpring(useTransform(scrollYProgress, [0, 1], [0, 1]), {
@@ -46,14 +46,14 @@ export default function Workflow() {
   });
 
   return (
-    <section id="workflow" ref={containerRef} className="py-32 px-6 relative overflow-hidden bg-[#020617]">
+    <section id="workflow" ref={containerRef} className="py-20 md:py-32 px-6 relative overflow-hidden bg-[#020617]">
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-indigo-500/5 blur-[120px] rounded-full" />
         <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-500/5 blur-[120px] rounded-full" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        <div className="flex flex-col items-center text-center mb-40">
+        <div className="flex flex-col items-center text-center mb-20 md:mb-40">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -67,7 +67,7 @@ export default function Workflow() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-8xl font-bold mb-8 tracking-tighter text-white leading-[0.85]"
+            className="text-4xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tighter text-white leading-[0.9] md:leading-[0.85]"
           >
             Architecting Your <br />
             <span className="italic bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Professional Ascent.</span>
@@ -77,13 +77,13 @@ export default function Workflow() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-zinc-500 font-medium text-lg md:text-2xl leading-relaxed max-w-3xl mt-8 mx-auto"
+            className="text-zinc-500 font-medium text-base md:text-2xl leading-relaxed max-w-3xl mt-4 md:mt-8 mx-auto"
           >
             A high-fidelity framework designed to decompose the journey from ambition to mastery into precise, actionable protocols.
           </motion.p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto min-h-[1200px] py-20">
+        <div className="relative max-w-5xl mx-auto min-h-[800px] md:min-h-[1200px] py-12 md:py-20">
           <div className="absolute inset-0 flex justify-center pointer-events-none">
             <svg width="400" height="100%" viewBox="0 0 400 1200" fill="none" className="h-full w-full opacity-30" preserveAspectRatio="none">
               <defs>
@@ -110,7 +110,7 @@ export default function Workflow() {
             </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col gap-40">
+          <div className="relative z-10 flex flex-col gap-20 md:gap-40">
             {METHODOLOGY_PHASES.map((phase, idx) => {
               const Icon = iconMap[phase.id as keyof typeof iconMap] || Activity;
               const meta = phaseMetas[idx] || { label: 'Phase', color: '#fff', glow: 'rgba(255,255,255,0.2)' };
@@ -131,9 +131,9 @@ export default function Workflow() {
                       </div>
                     </div>
 
-                    <div className="p-10 bg-white/[0.02] backdrop-blur-2xl border border-white/5 hover:border-white/20 transition-all duration-500 rounded-[3rem] relative overflow-hidden shadow-2xl">
+                    <div className="p-8 md:p-10 bg-white/[0.02] backdrop-blur-2xl border border-white/5 hover:border-white/20 transition-all duration-300 rounded-[2rem] md:rounded-[3rem] relative overflow-hidden shadow-2xl">
                       <div
-                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[60px] opacity-10 transition-all duration-700 group-hover:opacity-40 group-hover:scale-110"
+                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[60px] opacity-10 transition-all duration-400 group-hover:opacity-40 group-hover:scale-110"
                         style={{ backgroundColor: meta.color }}
                       />
 
@@ -143,21 +143,21 @@ export default function Workflow() {
                         </div>
                         <motion.div
                           whileHover={{ rotate: 15, scale: 1.1 }}
-                          className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-xl"
+                          className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300 shadow-xl"
                           style={{ boxShadow: `0 0 30px ${meta.glow}` }}
                         >
                           <Icon className="w-8 h-8" />
                         </motion.div>
                       </div>
 
-                      <h3 className="text-3xl font-bold text-white mb-6 tracking-tight group-hover:translate-x-2 transition-transform duration-500">{phase.title}</h3>
+                      <h3 className="text-3xl font-bold text-white mb-6 tracking-tight group-hover:translate-x-2 transition-transform duration-300">{phase.title}</h3>
                       <p className="text-base text-zinc-500 font-medium leading-relaxed mb-10 group-hover:text-zinc-300 transition-colors">
                         {phase.description}
                       </p>
 
                       <div className="pt-8 border-t border-white/5 flex items-center justify-between">
                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">{meta.label}</span>
-                        <div className="flex items-center gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-4 group-hover:translate-x-0 transition-transform">
+                        <div className="flex items-center gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0 transition-transform">
                           <span className="text-[10px] font-bold uppercase tracking-widest">Execute</span>
                           <ChevronRight className="w-4 h-4" />
                         </div>
@@ -174,7 +174,7 @@ export default function Workflow() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-40 p-16 md:p-32 bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[5rem] text-center overflow-hidden relative shadow-[0_0_150px_rgba(0,0,0,0.6)] group"
+            className="mt-20 md:mt-40 p-10 md:p-32 bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[3rem] md:rounded-[5rem] text-center overflow-hidden relative shadow-[0_0_150px_rgba(0,0,0,0.6)] group"
         >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.1),transparent_70%)] group-hover:opacity-100 transition-opacity" />
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
@@ -183,15 +183,15 @@ export default function Workflow() {
             <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full animate-pulse" />
 
             <div className="relative z-10 max-w-3xl mx-auto">
-              <h3 className="text-4xl md:text-7xl font-bold text-white tracking-tighter mb-10 leading-tight">
+              <h3 className="text-3xl md:text-7xl font-bold text-white tracking-tighter mb-8 md:mb-10 leading-tight">
                 Initiate Your <br /> <span className="italic bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Terminal Assessment.</span>
               </h3>
 
               <div className="flex flex-col items-center gap-8">
                   <Link href="/whatcanibe/signup">
-                    <Button size="lg" className="flex items-center gap-6 px-16 h-24 rounded-3xl bg-white text-black hover:bg-zinc-200 transition-all font-bold text-2xl border-none shadow-[0_0_60px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(255,255,255,0.3)] hover:-translate-y-1">
+                    <Button size="lg" className="flex items-center gap-4 md:gap-6 px-10 md:px-16 h-20 md:h-24 rounded-2xl md:rounded-3xl bg-white text-black hover:bg-zinc-200 transition-all font-bold text-xl md:text-2xl border-none shadow-[0_0_60px_rgba(255,255,255,0.15)] hover:shadow-[0_0_80px_rgba(255,255,255,0.25)] hover:-translate-y-1">
                         Begin Roadmap
-                        <ArrowRight className="w-8 h-8" />
+                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
                     </Button>
                   </Link>
                   <p className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em]">Zero Friction Setup • Instant Access</p>

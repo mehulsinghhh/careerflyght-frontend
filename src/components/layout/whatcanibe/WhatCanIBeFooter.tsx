@@ -15,7 +15,7 @@ export default function WhatCanIBeFooter() {
               href="/whatcanibe"
               className="group flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center group-hover:rotate-12 transition-transform duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                 <Sparkles className="w-6 h-6 text-black" />
               </div>
               <span className="text-2xl font-bold tracking-tighter text-white">

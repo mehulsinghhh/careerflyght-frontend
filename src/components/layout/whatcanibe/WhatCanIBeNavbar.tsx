@@ -81,7 +81,7 @@ export default function WhatCanIBeNavbar() {
     <div className="fixed top-0 left-0 right-0 z-[100] px-6 py-8 pointer-events-none">
       <header
         className={cn(
-          "mx-auto max-w-7xl h-20 rounded-[2rem] border transition-all duration-700 pointer-events-auto overflow-hidden",
+          "mx-auto max-w-7xl h-20 rounded-[2rem] border transition-all duration-400 pointer-events-auto overflow-hidden",
           scrolled
             ? "bg-black/60 backdrop-blur-2xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] scale-[0.98]"
             : "bg-transparent border-transparent"
@@ -103,7 +103,7 @@ export default function WhatCanIBeNavbar() {
               href={user ? "/whatcanibe/dashboard" : "/whatcanibe"}
               className="group flex items-center gap-2"
             >
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center group-hover:rotate-12 transition-transform duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                 <Sparkles className="w-6 h-6 text-black" />
               </div>
               <span className="text-2xl font-bold tracking-tighter text-white">
@@ -168,7 +168,7 @@ export default function WhatCanIBeNavbar() {
                 </Link>
 
                 <Link href="/whatcanibe/signup">
-                  <Button className="bg-white text-black hover:bg-zinc-200 px-8 h-12 rounded-xl transition-all duration-500 font-black uppercase tracking-widest text-[11px] shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)]">
+                  <Button className="bg-white text-black hover:bg-zinc-200 px-8 h-12 rounded-xl transition-all duration-300 font-black uppercase tracking-widest text-[11px] shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)]">
                     Initiate
                   </Button>
                 </Link>

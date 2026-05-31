@@ -99,7 +99,7 @@ export default function CareerCategories() {
     <section className="py-32 px-6 relative overflow-hidden bg-[#020617]">
       {/* Dynamic Background Atmosphere */}
       <div
-        className="absolute inset-0 z-0 opacity-30 transition-all duration-500 blur-[120px] pointer-events-none"
+        className="absolute inset-0 z-0 opacity-30 transition-all duration-300 blur-[120px] pointer-events-none"
         style={{
           background: hoveredColor
             ? `radial-gradient(circle at 50% 50%, ${hoveredColor}, transparent 70%)`

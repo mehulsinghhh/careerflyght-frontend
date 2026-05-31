@@ -72,13 +72,13 @@ export default function Pathways() {
                 >
                   <GlowCard
                     glowColor="rgba(99, 102, 241, 0.15)"
-                    className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-500 group ${
+                    className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-300 group ${
                       step.status === 'active'
                         ? 'border-indigo-500/30 bg-white/[0.03] shadow-2xl shadow-indigo-500/5'
                         : 'border-white/5 bg-white/[0.01] hover:border-white/10'
                     }`}
                   >
-                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-500`}>
+                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
                       <step.icon className="w-7 h-7 text-white" />
                     </div>
                     <div className="flex-1">
