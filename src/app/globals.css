@@ -159,21 +159,19 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(30, 58, 138, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 100% 100%, rgba(88, 28, 135, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, #020617 100%);
+  background: #020617;
   pointer-events: none;
 }
 
-.premium-bg::after {
+.premium-bg::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05) 0%, transparent 70%),
+    url("https://grainy-gradients.vercel.app/noise.svg");
+  filter: contrast(150%) brightness(100%);
+  opacity: 0.15;
 }
 
 /* Glassmorphism Utilities */
@@ -190,23 +188,21 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Glow Effects */
+/* Glow Effects - Simplified */
 .glow-primary {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
 }
 
 .text-glow {
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
-/* Scroll Animations */
+/* Scroll Animations - Minimal */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.4s ease-out;
 }
 
 .reveal-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
 }

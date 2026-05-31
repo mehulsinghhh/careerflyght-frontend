@@ -11,23 +11,23 @@ export default function Mentorship() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section className="py-32 px-6 relative overflow-hidden">
+    <section id="mentorship" className="py-32 px-6 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/[0.02] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const}}
+            transition={{ duration: 0.6 }}
             className="order-2 lg:order-1 relative"
           >
              <GlowCard 
-               glowColor="rgba(99, 102, 241, 0.2)"
-               className="p-10 md:p-14 border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[3rem] shadow-[0_0_50px_rgba(0,0,0,0.3)] relative z-10"
+               glowColor="rgba(99, 102, 241, 0.15)"
+               className="p-10 md:p-14 border-white/5 bg-white/[0.02] backdrop-blur-3xl rounded-[3rem] shadow-xl relative z-10"
              >
                 <Quote className="w-12 h-12 text-indigo-500 mb-10 opacity-40" />
                 <p className="text-2xl md:text-3xl font-medium text-white leading-tight mb-12 tracking-tight italic">
@@ -52,27 +52,23 @@ export default function Mentorship() {
                 </div>
              </GlowCard>
 
-             {/* Floating UI Elements */}
-             <motion.div
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-10 -right-10 bg-slate-900/80 border border-white/10 p-6 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-2xl hidden md:block z-20"
+             {/* Static UI Elements */}
+             <div
+                className="absolute -top-10 -right-10 bg-slate-900/80 border border-white/10 p-6 rounded-3xl shadow-xl backdrop-blur-2xl hidden md:block z-20"
              >
                 <div className="flex items-center gap-4">
                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                      <div className="w-3 h-3 rounded-full bg-emerald-500" />
                    </div>
                    <div>
                       <p className="text-sm font-bold text-white tracking-tight">42 Mentors</p>
                       <p className="text-[11px] text-zinc-500 font-bold uppercase tracking-widest">Active Now</p>
                    </div>
                 </div>
-             </motion.div>
+             </div>
 
-             <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-8 -left-8 bg-slate-900/80 border border-white/10 p-5 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-2xl hidden md:block z-20"
+             <div
+                className="absolute -bottom-8 -left-8 bg-slate-900/80 border border-white/10 p-5 rounded-3xl shadow-xl backdrop-blur-2xl hidden md:block z-20"
              >
                 <div className="flex items-center gap-4">
                    <div className="flex -space-x-3">
@@ -82,14 +78,14 @@ export default function Mentorship() {
                    </div>
                    <p className="text-sm font-bold text-white tracking-tight">1.2k+ Sessions</p>
                 </div>
-             </motion.div>
+             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1]as const }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="order-1 lg:order-2"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
@@ -124,16 +120,12 @@ export default function Mentorship() {
             <Button
               onClick={() => setIsModalOpen(true)}
               size="lg"
-              className="bg-indigo-600 text-white hover:bg-indigo-500 px-12 h-16 text-lg font-bold rounded-2xl transition-all shadow-[0_0_30px_rgba(79,70,229,0.3)] active:scale-95 group"
+              className="bg-indigo-600 text-white hover:bg-indigo-500 px-12 h-16 text-lg font-bold rounded-2xl transition-all active:scale-95 group"
             >
               Connect with Mentor
-              <motion.span 
-                className="ml-2 inline-block"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
+              <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
                 →
-              </motion.span>
+              </span>
             </Button>
           </motion.div>
         </div>

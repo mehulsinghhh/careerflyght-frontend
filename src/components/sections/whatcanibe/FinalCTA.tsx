@@ -7,17 +7,16 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function FinalCTA() {
   return (
-    <section className="py-40 px-6 relative overflow-hidden">
+    <section id="final-cta" className="py-40 px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 blur-[150px] rounded-full" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent,rgba(2,6,23,0.9)_80%,#020617)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/5 blur-[100px] rounded-full" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="relative text-center max-w-5xl mx-auto"
         >
@@ -36,13 +35,13 @@ export default function FinalCTA() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-12 h-20 text-xl font-bold rounded-2xl transition-all border-none shadow-[0_0_50px_rgba(255,255,255,0.15)]">
+              <Button size="lg" className="group w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-12 h-20 text-xl font-bold rounded-2xl transition-all border-none shadow-xl">
                 Begin Optimization
-                <ArrowRight className="ml-3 h-6 w-6" />
+                <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
             <Link href="/whatcanibe/login" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/10 hover:text-white px-12 h-20 text-xl font-bold rounded-2xl transition-all text-white backdrop-blur-xl">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 hover:text-white px-12 h-20 text-xl font-bold rounded-2xl transition-all text-white backdrop-blur-md">
                 Access Portal
               </Button>
             </Link>

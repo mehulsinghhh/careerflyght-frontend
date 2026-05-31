@@ -41,15 +41,15 @@ export default function Pathways() {
   const router = useRouter();
 
   return (
-    <section className="py-32 px-6 relative overflow-hidden">
+    <section id="pathways" className="py-32 px-6 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-20 lg:gap-32">
           <div className="lg:w-1/2">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const}}
+              transition={{ duration: 0.4 }}
             >
               <div className="text-indigo-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
               <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
@@ -65,20 +65,20 @@ export default function Pathways() {
               {steps.map((step, idx) => (
                 <motion.div
                   key={step.title}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] as const}}
+                  transition={{ duration: 0.4, delay: idx * 0.05 }}
                 >
                   <GlowCard
-                    glowColor="rgba(99, 102, 241, 0.15)"
+                    glowColor="rgba(99, 102, 241, 0.05)"
                     className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-300 group ${
                       step.status === 'active'
-                        ? 'border-indigo-500/30 bg-white/[0.03] shadow-2xl shadow-indigo-500/5'
-                        : 'border-white/5 bg-white/[0.01] hover:border-white/10'
+                        ? 'border-indigo-500/10 bg-white/[0.02]'
+                        : 'border-white/5 bg-white/[0.01]'
                     }`}
                   >
-                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300`}>
                       <step.icon className="w-7 h-7 text-white" />
                     </div>
                     <div className="flex-1">
@@ -101,10 +101,10 @@ export default function Pathways() {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
               className="mt-12"
             >
               <Button
@@ -120,20 +120,16 @@ export default function Pathways() {
 
           <div className="lg:w-1/2 relative">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1]as const }}
-              className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-white/[0.01] backdrop-blur-3xl p-12 flex items-center justify-center overflow-hidden shadow-[0_0_100px_rgba(99,102,241,0.05)]"
+              transition={{ duration: 0.6 }}
+              className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-white/[0.01] p-12 flex items-center justify-center overflow-hidden shadow-xl"
             >
                {/* Visual Roadmap Path */}
-               <div className="absolute inset-0 flex items-center justify-center opacity-40">
+               <div className="absolute inset-0 flex items-center justify-center opacity-20">
                   <svg className="w-full h-full p-20" viewBox="0 0 400 400" fill="none">
-                    <motion.path
-                      initial={{ pathLength: 0 }}
-                      whileInView={{ pathLength: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 3, ease: "easeInOut" }}
+                    <path
                       d="M50 350 C 50 200, 350 200, 350 50"
                       stroke="url(#pathGradient)"
                       strokeWidth="2"
@@ -150,19 +146,19 @@ export default function Pathways() {
                
                <div className="grid grid-cols-2 gap-8 relative z-20">
                   {[
-                    { year: "Phase 01", title: "Core Synthesis", color: "text-blue-400", bg: "bg-blue-500/20", progress: 100, delay: 0.2, y: 30 },
-                    { year: "Phase 02", title: "Domain Mastery", color: "text-indigo-400", bg: "bg-indigo-500/20", progress: 65, delay: 0.4, y: -30 },
-                    { year: "Phase 03", title: "Market Entry", color: "text-fuchsia-400", bg: "bg-fuchsia-500/20", progress: 30, delay: 0.6, y: 30 },
-                    { year: "Terminal", title: "Apex Placement", color: "text-emerald-400", bg: "bg-emerald-500/20", progress: 0, delay: 0.8, y: -30 },
+                    { year: "Phase 01", title: "Core Synthesis", color: "text-blue-400", bg: "bg-blue-500/20", progress: 100, delay: 0.1, y: 0 },
+                    { year: "Phase 02", title: "Domain Mastery", color: "text-indigo-400", bg: "bg-indigo-500/20", progress: 65, delay: 0.2, y: 0 },
+                    { year: "Phase 03", title: "Market Entry", color: "text-fuchsia-400", bg: "bg-fuchsia-500/20", progress: 30, delay: 0.3, y: 0 },
+                    { year: "Terminal", title: "Apex Placement", color: "text-emerald-400", bg: "bg-emerald-500/20", progress: 0, delay: 0.4, y: 0 },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: item.y + 50 }}
-                      whileInView={{ opacity: 1, y: item.y }}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.6, delay: item.delay * 0.5, ease: [0.22, 1, 0.36, 1]as const }}
-                      whileHover={{ scale: 1.05, y: item.y - 10 }}
-                      className="bg-white/[0.03] backdrop-blur-3xl p-8 rounded-3xl border border-white/5 shadow-2xl w-48 group hover:border-white/20 transition-all duration-300"
+                      transition={{ duration: 0.4, delay: item.delay }}
+                      whileHover={{ y: -2 }}
+                      className="bg-white/[0.03] p-8 rounded-3xl border border-white/5 shadow-md w-48 group hover:border-white/10 transition-all duration-300"
                     >
                       <p className={`text-[9px] font-black mb-3 uppercase tracking-[0.25em] ${item.color}`}>{item.year}</p>
                       <p className="font-bold text-white text-base mb-6 tracking-tight leading-tight">{item.title}</p>
@@ -171,7 +167,7 @@ export default function Pathways() {
                           initial={{ width: 0 }}
                           whileInView={{ width: `${item.progress}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 2, delay: item.delay + 0.5, ease: "easeOut" }}
+                          transition={{ duration: 1.5, delay: item.delay + 0.3, ease: "easeOut" }}
                           className={`h-full bg-gradient-to-r from-transparent to-current ${item.color}`}
                         />
                       </div>
