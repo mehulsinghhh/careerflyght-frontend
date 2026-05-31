@@ -37,7 +37,6 @@ export default function Workflow() {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"],
-    layoutEffect: false
   });
 
   const pathLength = useSpring(useTransform(scrollYProgress, [0, 1], [0, 1]), {

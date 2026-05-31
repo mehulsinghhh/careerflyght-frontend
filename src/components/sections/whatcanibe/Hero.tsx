@@ -39,7 +39,6 @@ export default function Hero() {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
-    layoutEffect: false
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
