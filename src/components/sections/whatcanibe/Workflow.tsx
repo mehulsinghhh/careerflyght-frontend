@@ -25,29 +25,41 @@ const iconMap = {
 };
 
 const phaseMetas = [
-  { label: 'Neural Mapping', color: '#6366f1', glow: 'rgba(99, 102, 241, 0.5)' },
-  { label: 'Trajectory Analysis', color: '#a855f7', glow: 'rgba(168, 85, 247, 0.5)' },
-  { label: 'Network Synthesis', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },
-  { label: 'Active Deployment', color: '#10b981', glow: 'rgba(16, 185, 129, 0.5)' },
-  { label: 'Feedback Intelligence', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.5)' }
+  { label: 'Neural Mapping', color: 'from-indigo-500 to-blue-500', glow: 'rgba(99, 102, 241, 0.3)' },
+  { label: 'Trajectory Analysis', color: 'from-purple-500 to-indigo-500', glow: 'rgba(168, 85, 247, 0.3)' },
+  { label: 'Strategic Alignment', color: 'from-pink-500 to-purple-500', glow: 'rgba(236, 72, 153, 0.3)' },
+  { label: 'Active Deployment', color: 'from-emerald-500 to-teal-500', glow: 'rgba(16, 185, 129, 0.3)' },
+  { label: 'Feedback Intelligence', color: 'from-amber-500 to-orange-500', glow: 'rgba(245, 158, 11, 0.3)' }
 ];
 
 export default function Workflow() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Logical flow in 2-column grid: 1 (L), 2 (R), 3 (L), 4 (R), 5 (L), CTA (R)
+  const gridClasses = [
+    "md:col-start-1 md:row-start-1", // P1
+    "md:col-start-2 md:row-start-1", // P2
+    "md:col-start-1 md:row-start-2", // P3
+    "md:col-start-2 md:row-start-2", // P4
+    "md:col-start-1 md:row-start-3", // P5
+  ];
+
   return (
-    <section id="workflow" ref={containerRef} className="py-20 md:py-32 px-6 relative overflow-hidden bg-[#020617]">
+    <section id="workflow" ref={containerRef} className="py-12 md:py-20 px-6 relative overflow-hidden bg-[#020617]">
+      {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-indigo-500/5 blur-[120px] rounded-full" />
         <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-500/5 blur-[120px] rounded-full" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        <div className="flex flex-col items-center text-center mb-20 md:mb-40">
+        {/* Header Section - Compact */}
+        <div className="flex flex-col items-center text-center mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-8 backdrop-blur-md"
+            className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-6 backdrop-blur-md"
           >
             The Methodology
           </motion.div>
@@ -55,7 +67,7 @@ export default function Workflow() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tighter text-white leading-[0.9] md:leading-[0.85]"
+            className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter text-white leading-[0.9] md:leading-[0.85]"
           >
             Architecting Your <br />
             <span className="italic bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Professional Ascent.</span>
@@ -64,100 +76,122 @@ export default function Workflow() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-zinc-500 font-medium text-base md:text-2xl leading-relaxed max-w-3xl mt-4 md:mt-8 mx-auto"
+            className="text-zinc-500 font-medium text-sm md:text-lg leading-relaxed max-w-2xl mx-auto"
           >
             A high-fidelity framework designed to decompose the journey from ambition to mastery into precise, actionable protocols.
           </motion.p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto min-h-[800px] md:min-h-[1200px] py-12 md:py-20">
-          <div className="absolute inset-0 flex justify-center pointer-events-none">
-            <svg width="400" height="100%" viewBox="0 0 400 1200" fill="none" className="h-full w-full opacity-10" preserveAspectRatio="none">
+        {/* Roadmap Grid */}
+        <div className="relative max-w-5xl mx-auto">
+          {/* Connector Path (Desktop) - Continuous Zig-Zag */}
+          <div className="absolute inset-0 pointer-events-none hidden md:block" style={{ zIndex: 0 }}>
+            <svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" preserveAspectRatio="none" className="opacity-20">
               <path
-                d="M200 0C200 0 200 120 200 240C200 360 100 360 100 480C100 600 300 600 300 720C300 840 200 840 200 960C200 1080 200 1200 200 1200"
+                d="M 200 100 H 600 V 200 H 200 V 400 H 600 V 500"
                 stroke="white"
-                strokeWidth="2"
+                strokeWidth="1.5"
+                strokeDasharray="8 8"
                 strokeLinecap="round"
-                strokeDasharray="10 10"
               />
             </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col gap-20 md:gap-40">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-x-12 md:gap-y-8 relative z-10">
             {METHODOLOGY_PHASES.map((phase, idx) => {
               const Icon = iconMap[phase.id as keyof typeof iconMap] || Activity;
-              const meta = phaseMetas[idx] || { label: 'Phase', color: '#fff', glow: 'rgba(255,255,255,0.2)' };
-              const isEven = idx % 2 === 0;
+              const meta = phaseMetas[idx];
 
               return (
-                <div key={phase.id} className={`flex w-full items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.4 }}
-                    className="w-full md:w-[48%] relative group"
-                  >
-                    <div className={`absolute top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center hidden md:flex ${isEven ? '-right-[calc(8.5%)]' : '-left-[calc(8.5%)]'}`}>
-                      <div className="w-4 h-4 rounded-full bg-white relative z-10 shadow-[0_0_10px_white]" />
-                    </div>
+                <motion.div
+                  key={phase.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className={`${gridClasses[idx]} group`}
+                >
+                  <div className="h-full p-6 md:p-8 bg-white/[0.03] border border-white/10 hover:border-indigo-500/40 transition-all duration-500 rounded-3xl relative overflow-hidden backdrop-blur-sm flex flex-col justify-between shadow-xl">
+                    <div className={`absolute -right-16 -top-16 w-32 h-32 bg-gradient-to-br ${meta.color} opacity-0 group-hover:opacity-10 blur-[60px] transition-opacity duration-500`} />
 
-                    <div className="p-8 md:p-10 bg-white/[0.02] border border-white/5 hover:border-white/20 transition-all duration-300 rounded-[2rem] md:rounded-[3rem] relative overflow-hidden shadow-xl">
-                      <div className="flex items-start justify-between mb-10">
-                        <div className="px-4 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-                          Protocol 0{idx + 1}
+                    <div>
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="flex flex-col gap-1">
+                          <div className={`text-[10px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r ${meta.color} bg-clip-text text-transparent`}>
+                            {meta.label}
+                          </div>
+                          <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
+                            Protocol 0{idx + 1}
+                          </div>
                         </div>
-                        <div
-                          className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300"
-                        >
-                          <Icon className="w-8 h-8" />
-                        </div>
-                      </div>
-
-                      <h3 className="text-3xl font-bold text-white mb-6 tracking-tight transition-transform duration-300">{phase.title}</h3>
-                      <p className="text-base text-zinc-500 font-medium leading-relaxed mb-10 group-hover:text-zinc-300 transition-colors">
-                        {phase.description}
-                      </p>
-
-                      <div className="pt-8 border-t border-white/5 flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">{meta.label}</span>
-                        <div className="flex items-center gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <span className="text-[10px] font-bold uppercase tracking-widest">Execute</span>
-                          <ChevronRight className="w-4 h-4" />
+                        <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-inner">
+                          <Icon className="w-6 h-6" />
                         </div>
                       </div>
+
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight group-hover:text-indigo-300 transition-colors">{phase.title}</h3>
+
+                      <div className="space-y-4">
+                        <p className="text-sm md:text-base text-zinc-400 font-medium leading-relaxed">
+                          {phase.description}
+                        </p>
+
+                        <div className="p-4 bg-white/5 rounded-2xl border border-white/5 group-hover:border-indigo-500/20 transition-all">
+                          <p className="text-[11px] md:text-xs text-zinc-500 leading-relaxed italic">
+                            {phase.details}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </motion.div>
-                </div>
+
+                    <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${meta.color} shadow-[0_0_8px_currentColor]`} />
+                        <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Protocol Sync: Active</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-white/40 group-hover:text-white transition-colors duration-300">
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Execute</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               );
             })}
+
+            {/* Final Launch Roadmap CTA integrated into the grid */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="md:col-start-2 md:row-start-3"
+            >
+               <Link href="/whatcanibe/signup" className="block h-full">
+                <Button className="w-full h-full min-h-[180px] rounded-3xl bg-white text-black hover:bg-zinc-200 border-none shadow-2xl group/btn transition-all flex flex-col items-center justify-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center group-hover/btn:scale-110 transition-transform">
+                    <Zap className="w-7 h-7 fill-black" />
+                  </div>
+                  <div className="text-center">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-500 block mb-1">Final Authorization</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold tracking-tighter">Launch Roadmap</span>
+                      <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Button>
+              </Link>
+            </motion.div>
           </div>
         </div>
 
+        {/* Subtle Bottom Trust Bar */}
         <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mt-20 md:mt-40 p-10 md:p-32 bg-white/[0.02] border border-white/5 rounded-[3rem] md:rounded-[5rem] text-center overflow-hidden relative shadow-xl group"
+            className="mt-12 text-center"
         >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_70%)] transition-opacity" />
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <h3 className="text-3xl md:text-7xl font-bold text-white tracking-tighter mb-8 md:mb-10 leading-tight">
-                Initiate Your <br /> <span className="italic bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Terminal Assessment.</span>
-              </h3>
-
-              <div className="flex flex-col items-center gap-8">
-                  <Link href="/whatcanibe/signup">
-                    <Button size="lg" className="flex items-center gap-4 md:gap-6 px-10 md:px-16 h-20 md:h-24 rounded-2xl md:rounded-3xl bg-white text-black hover:bg-zinc-200 transition-all font-bold text-xl md:text-2xl border-none shadow-xl hover:-translate-y-0.5">
-                        Begin Roadmap
-                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
-                    </Button>
-                  </Link>
-                  <p className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em]">Zero Friction Setup • Instant Access</p>
-              </div>
-            </div>
+            <p className="text-zinc-600 font-bold text-[9px] uppercase tracking-[0.5em]">High-Fidelity Career Architecture • Proprietary Methodology</p>
         </motion.div>
       </div>
     </section>
