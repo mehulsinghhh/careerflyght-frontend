@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 const categories = [
   {
@@ -93,19 +92,19 @@ export default function CareerCategories() {
   };
 
   return (
-    <section id="categories" className="py-32 px-6 relative overflow-hidden bg-[#020617]">
+    <section id="categories" className="py-32 px-6 relative overflow-hidden bg-white">
       {/* Static Background Atmosphere */}
       <div
-        className="absolute inset-0 z-0 opacity-5 blur-[120px] pointer-events-none"
+        className="absolute inset-0 z-0 opacity-[0.03] blur-[120px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05), transparent 70%)"
+          background: "radial-gradient(circle at 50% 50%, #4f46e5, transparent 70%)"
         }}
       />
 
       {/* Static Grid Background */}
-      <div className="absolute inset-0 z-0 opacity-5 pointer-events-none"
+      <div className="absolute inset-0 z-0 opacity-[0.02] pointer-events-none"
            style={{
-             backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)",
+             backgroundImage: "linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px)",
              backgroundSize: "60px 60px"
            }}
       />
@@ -119,13 +118,13 @@ export default function CareerCategories() {
           className="mb-24 text-center"
         >
           <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-8 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/10 bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-8 backdrop-blur-md"
           >
             Core Dimensions
           </div>
-          <h2 className="text-5xl md:text-8xl font-bold mb-8 tracking-tighter text-white leading-[0.85]">
+          <h2 className="text-5xl md:text-8xl font-bold mb-8 tracking-tighter text-zinc-900 leading-[0.85]">
             Choose Your <br />
-            <span className="italic text-zinc-600">Dominion.</span>
+            <span className="italic text-zinc-300">Dominion.</span>
           </h2>
           <p className="text-zinc-500 font-medium max-w-2xl mx-auto leading-relaxed text-lg md:text-xl">
             Don&apos;t limit yourself to one box. Identify your unique intersection of talent and market opportunity.
@@ -147,27 +146,30 @@ export default function CareerCategories() {
               className="relative group"
             >
               <div
-                className="h-full p-10 bg-white/[0.02] border border-white/5 group-hover:border-white/20 transition-all duration-300 rounded-[2.5rem] overflow-hidden relative"
+                className="h-full p-10 bg-white border border-zinc-100 group-hover:border-indigo-500/20 transition-all duration-500 rounded-[2.5rem] overflow-hidden relative shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5"
               >
                 {/* Subtle Gradient Mesh Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-[0.03] group-hover:opacity-[0.15] transition-opacity duration-500`}
+                />
 
                 <div
-                  className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-12 relative z-10 transition-all duration-300 group-hover:bg-white group-hover:text-black"
+                  className="w-16 h-16 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-12 relative z-10 transition-all duration-300 group-hover:bg-indigo-600 group-hover:text-white"
+                  style={{ color: category.color }}
                 >
                   <category.icon className="w-8 h-8" />
                 </div>
 
-                <h3 className="text-3xl font-bold text-white mb-4 tracking-tight relative z-10">
+                <h3 className="text-3xl font-bold text-zinc-900 mb-4 tracking-tight relative z-10">
                   {category.title}
                 </h3>
-                <p className="text-base text-zinc-500 font-medium leading-relaxed mb-12 relative z-10 group-hover:text-zinc-300 transition-colors">
+                <p className="text-base text-zinc-500 font-medium leading-relaxed mb-12 relative z-10 group-hover:text-zinc-600 transition-colors line-clamp-2">
                   {category.description}
                 </p>
                 
                 <Button
                   variant="outline"
-                  className="w-full relative z-10 border-white/10 transition-all py-8 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] bg-white/5 hover:bg-white hover:text-black shadow-sm"
+                  className="w-full relative z-10 border-zinc-200 transition-all py-8 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] bg-white hover:bg-indigo-600 hover:text-white hover:border-indigo-600 shadow-sm"
                 >
                   Explore Dominion
                 </Button>

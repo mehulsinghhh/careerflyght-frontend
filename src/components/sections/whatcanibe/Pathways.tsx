@@ -41,7 +41,7 @@ export default function Pathways() {
   const router = useRouter();
 
   return (
-    <section id="pathways" className="py-32 px-6 relative overflow-hidden">
+    <section id="pathways" className="py-32 px-6 relative overflow-hidden bg-white">
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-20 lg:gap-32">
           <div className="lg:w-1/2">
@@ -51,10 +51,10 @@ export default function Pathways() {
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
             >
-              <div className="text-indigo-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
+              <div className="text-indigo-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-4">Strategic Framework</div>
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-zinc-900 leading-tight">
                 Architecting <br />
-                <span className="bg-gradient-to-r from-indigo-500 to-purple-400 bg-clip-text text-transparent">Professional Ascent.</span>
+                <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Professional Ascent.</span>
               </h2>
               <p className="text-zinc-500 text-lg mb-12 leading-relaxed font-medium max-w-xl">
                 We decompose the journey from ambition to achievement into precise, actionable milestones. Remove the fog of uncertainty.
@@ -71,11 +71,11 @@ export default function Pathways() {
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
                 >
                   <GlowCard
-                    glowColor="rgba(99, 102, 241, 0.05)"
+                    glowColor="rgba(79, 70, 229, 0.05)"
                     className={`flex gap-8 p-8 rounded-[2rem] border transition-all duration-300 group ${
                       step.status === 'active'
-                        ? 'border-indigo-500/10 bg-white/[0.02]'
-                        : 'border-white/5 bg-white/[0.01]'
+                        ? 'border-indigo-500/20 bg-indigo-50/30'
+                        : 'border-zinc-100 bg-zinc-50/30'
                     }`}
                   >
                     <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300`}>
@@ -83,14 +83,14 @@ export default function Pathways() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xl font-bold text-white tracking-tight">{step.title}</h3>
+                        <h3 className="text-xl font-bold text-zinc-900 tracking-tight">{step.title}</h3>
                         {step.status === 'done' && (
-                          <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                          <div className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100">
                             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                           </div>
                         )}
                         {step.status === 'active' && (
-                          <div className="px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-400 text-[8px] font-black uppercase tracking-widest">In Progress</div>
+                          <div className="px-2 py-1 rounded-md bg-indigo-100 text-indigo-600 text-[8px] font-black uppercase tracking-widest border border-indigo-200">In Progress</div>
                         )}
                       </div>
                       <p className="text-zinc-500 text-sm leading-relaxed font-medium">{step.description}</p>
@@ -110,7 +110,7 @@ export default function Pathways() {
               <Button
                 onClick={() => router.push('/whatcanibe/signup')}
                 size="lg"
-                className="bg-white text-black hover:bg-zinc-200 rounded-2xl px-10 h-16 text-lg font-bold group shadow-2xl transition-all"
+                className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-2xl px-10 h-16 text-lg font-bold group shadow-xl shadow-indigo-600/20 transition-all"
               >
                 Initiate Roadmap
                 <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -124,7 +124,7 @@ export default function Pathways() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative z-10 aspect-square rounded-[3rem] border border-white/5 bg-white/[0.01] p-12 flex items-center justify-center overflow-hidden shadow-xl"
+              className="relative z-10 aspect-square rounded-[3rem] border border-zinc-100 bg-zinc-50/50 p-12 flex items-center justify-center overflow-hidden shadow-sm"
             >
                {/* Visual Roadmap Path */}
                <div className="absolute inset-0 flex items-center justify-center opacity-20">
@@ -157,12 +157,12 @@ export default function Pathways() {
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: item.delay }}
-                      whileHover={{ y: -2 }}
-                      className="bg-white/[0.03] p-8 rounded-3xl border border-white/5 shadow-md w-48 group hover:border-white/10 transition-all duration-300"
+                      whileHover={{ y: -4, scale: 1.05 }}
+                      className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm w-48 group hover:border-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300"
                     >
                       <p className={`text-[9px] font-black mb-3 uppercase tracking-[0.25em] ${item.color}`}>{item.year}</p>
-                      <p className="font-bold text-white text-base mb-6 tracking-tight leading-tight">{item.title}</p>
-                      <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                      <p className="font-bold text-zinc-900 text-base mb-6 tracking-tight leading-tight">{item.title}</p>
+                      <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${item.progress}%` }}

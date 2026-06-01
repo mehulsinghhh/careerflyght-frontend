@@ -1,0 +1,13 @@
+
+> careerflyght-frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 569ms
+
+○ Compiling /whatcanibe ...
+ GET /whatcanibe 200 in 10.2s (next.js: 9.0s, application-code: 1148ms)
+ GET /whatcanibe/careers 200 in 1276ms (next.js: 1109ms, application-code: 166ms)
+ GET /whatcanibe/login 200 in 1069ms (next.js: 927ms, application-code: 142ms)
