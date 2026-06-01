@@ -11,7 +11,7 @@ export default function Mentorship() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section id="mentorship" className="py-32 px-6 relative overflow-hidden bg-zinc-50/50">
+    <section id="mentorship" className="py-32 px-6 relative overflow-hidden bg-white">
       {/* Background decoration */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none opacity-[0.05]" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/[0.02] blur-[100px] rounded-full pointer-events-none opacity-[0.05]" />

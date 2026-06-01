@@ -36,7 +36,7 @@ const features = [
 
 export default function AboutUs() {
   return (
-    <section id="about" className="py-32 px-6 relative overflow-hidden bg-zinc-50/50">
+    <section id="about" className="py-32 px-6 relative overflow-hidden bg-white">
       {/* Background Atmosphere */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none opacity-[0.05]" />
 

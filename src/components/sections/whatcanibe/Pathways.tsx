@@ -41,7 +41,7 @@ export default function Pathways() {
   const router = useRouter();
 
   return (
-    <section id="pathways" className="py-32 px-6 relative overflow-hidden bg-white">
+    <section id="pathways" className="py-32 px-6 relative overflow-hidden bg-zinc-50/40">
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-20 lg:gap-32">
           <div className="lg:w-1/2">
