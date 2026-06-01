@@ -63,60 +63,41 @@
 }
 
 :root {
-  --background: oklch(0.98 0.005 240);
-  --foreground: oklch(0.15 0 0);
+  /* Premium Light-to-Mid Background System */
+  --background: oklch(0.97 0.002 240); /* Zinc-50 equivalent but more refined */
+  --foreground: oklch(0.15 0.01 240);
+
+  /* Section Rhythm Tokens */
+  --bg-warm: oklch(0.98 0.005 45);   /* Subtle stone tint */
+  --bg-cool: oklch(0.97 0.008 240);  /* Subtle slate tint */
+  --bg-neutral: oklch(0.96 0.002 240); /* Zinc-100 equivalent */
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0 0);
+  --card-foreground: oklch(0.15 0.01 240);
+
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
-  --primary: oklch(0.45 0.2 264);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.01 240);
-  --secondary-foreground: oklch(0.2 0 0);
+  --popover-foreground: oklch(0.15 0.01 240);
+
+  /* Primary Branding - Confident & Energetic */
+  --primary: oklch(0.45 0.22 264);   /* Electric Indigo */
+  --primary-foreground: oklch(0.98 0.01 240);
+
+  --secondary: oklch(0.92 0.01 240);
+  --secondary-foreground: oklch(0.2 0.01 240);
+
   --muted: oklch(0.92 0.01 240);
-  --muted-foreground: oklch(0.4 0 0);
-  --accent: oklch(0.9 0.02 264 / 10%);
-  --accent-foreground: oklch(0.45 0.2 264);
-  --destructive: oklch(0.577 0.245 27.325);
+  --muted-foreground: oklch(0.4 0.01 240);
+
+  --accent: oklch(0.45 0.22 264 / 10%);
+  --accent-foreground: oklch(0.45 0.22 264);
+
+  --destructive: oklch(0.55 0.2 25);
+
   --border: oklch(0.9 0.01 240);
   --input: oklch(0.9 0.01 240);
-  --ring: oklch(0.45 0.2 264);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --brand-primary: #6366f1;
-}
+  --ring: oklch(0.45 0.22 264);
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --radius: 1rem;
 }
 
 @layer base {
@@ -124,88 +105,54 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground selection:bg-primary/10 selection:text-primary;
   }
   html {
-    @apply font-sans;
+    @apply font-sans antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
   }
 }
 
-body {
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
+/* Premium Surface Utils */
+@layer utilities {
+  .bg-surface-warm { background-color: var(--bg-warm); }
+  .bg-surface-cool { background-color: var(--bg-cool); }
+  .bg-surface-neutral { background-color: var(--bg-neutral); }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Architectural Borders */
+  .border-strong {
+    border-color: oklch(0.15 0.01 240 / 10%);
+    border-width: 1px;
+  }
+
+  /* Premium Layered Shadows */
+  .shadow-premium {
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 0.02),
+      0 4px 12px oklch(0 0 0 / 0.04),
+      0 12px 32px -4px oklch(0 0 0 / 0.08);
+  }
+
+  .shadow-hero {
+    box-shadow:
+      0 20px 80px -20px oklch(0.45 0.22 264 / 0.15),
+      0 10px 40px -10px oklch(0 0 0 / 0.05);
+  }
 }
 
-/* Premium Atmospheric Background */
-.premium-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: var(--background);
-  pointer-events: none;
-}
-
+/* Static Noise Grain for Texture */
 .premium-bg::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 50% 0%, oklch(0.45 0.2 264 / 0.05) 0%, transparent 70%),
-    url("https://grainy-gradients.vercel.app/noise.svg");
-  filter: contrast(120%) brightness(100%);
-  opacity: 0.4;
-}
-
-/* Surface Hierarchy Utilities */
-.surface-card {
-  background: white;
-  border: 1px solid oklch(0.9 0.01 240);
-  box-shadow:
-    0 1px 3px rgba(0,0,0,0.02),
-    0 10px 20px -5px rgba(0,0,0,0.04);
-}
-
-.surface-elevated {
-  background: white;
-  border: 1px solid oklch(0.85 0.02 240);
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* Glassmorphism Utilities - Refined for Light Mode */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05);
-}
-
-.glass-panel-strong {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Glow Effects - Simplified */
-.glow-primary {
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
-}
-
-.text-glow {
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-}
-
-/* Scroll Animations - Minimal */
-.reveal-on-scroll {
-  opacity: 0;
-  transition: opacity 0.4s ease-out;
-}
-
-.reveal-on-scroll.is-visible {
-  opacity: 1;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
 }

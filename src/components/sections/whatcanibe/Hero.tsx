@@ -30,16 +30,16 @@ export default function Hero() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.1,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.4 },
+      y: 0,
     },
   };
 
@@ -56,88 +56,109 @@ export default function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center pt-28 pb-16 md:pt-20 md:pb-20 px-6 overflow-hidden"
+      className="relative min-h-[95vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden bg-surface-cool"
     >
-      {/* Premium Static Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Light Mode Gradient Mesh */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-30"
-          style={{
-            background: "radial-gradient(circle at 50% 0%, oklch(0.45 0.2 264 / 0.15) 0%, transparent 70%)"
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/50" />
+      {/* Editorial Grid Overlay */}
+      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
+           style={{
+             backgroundImage: "linear-gradient(var(--foreground) 1px, transparent 1px), linear-gradient(90deg, var(--foreground) 1px, transparent 1px)",
+             backgroundSize: "10vw 10vh"
+           }}
+      />
+
+      {/* Decorative Branding Elements */}
+      <div className="absolute top-40 left-10 hidden xl:block opacity-10 rotate-90 origin-left">
+        <span className="text-[120px] font-black uppercase tracking-[0.2em] select-none">FLYGH T</span>
       </div>
 
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container mx-auto text-center max-w-5xl relative z-10"
+        className="container mx-auto text-center max-w-7xl relative z-10"
       >
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200 bg-white text-zinc-900 text-[10px] font-bold uppercase tracking-[0.2em] mb-12 shadow-sm"
+          className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full border-strong bg-white text-zinc-950 text-[11px] font-black uppercase tracking-[0.3em] mb-16 shadow-premium"
         >
-          <Sparkles className="h-3 w-3 text-indigo-600" />
-          <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Neural Career Intelligence</span>
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent">Neural Career Intelligence Platform v2.0</span>
         </motion.div>
         
-        <motion.h1
-          variants={itemVariants}
-          className="text-[clamp(3.5rem,12vw,11rem)] font-bold tracking-tighter mb-8 md:mb-10 leading-[0.85] md:leading-[0.8] text-zinc-950"
-        >
-          Engineered for <br className="hidden xs:block" />
-          <span className="italic bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+        <div className="relative mb-12">
+          <motion.h1
+            variants={itemVariants}
+            className="text-[clamp(3rem,14vw,14rem)] font-bold tracking-[-0.04em] leading-[0.8] text-zinc-950 uppercase"
+          >
+            Engineered <br />
+            <span className="italic font-normal text-primary">
+              for
+            </span>{" "}
             Greatness.
-          </span>
-        </motion.h1>
+          </motion.h1>
+
+          {/* Subtle floating architectural tag */}
+          <motion.div
+            variants={itemVariants}
+            className="absolute -top-10 right-[15%] hidden md:flex items-center gap-4 bg-zinc-950 text-white px-6 py-4 rounded-2xl rotate-6 shadow-hero"
+          >
+            <Sparkles className="w-5 h-5 text-indigo-400" />
+            <span className="text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">Apex Trajectory Enabled</span>
+          </motion.div>
+        </div>
         
-        <motion.p
-          variants={itemVariants}
-          className="text-base md:text-2xl text-zinc-600 mb-12 md:mb-16 max-w-2xl mx-auto leading-relaxed font-medium"
-        >
-          The traditional career path is broken. We built the engine to fix it. <br className="hidden md:block" />
-          Navigate the future with <span className="text-zinc-950 font-bold">mathematical certainty.</span>
-        </motion.p>
+        <motion.div variants={itemVariants} className="max-w-3xl mx-auto mb-20">
+          <p className="text-xl md:text-3xl text-zinc-600 leading-[1.3] font-medium text-balance">
+            The traditional career path is an artifact. We built the engine for the future.
+            Navigate your professional ascent with <span className="text-zinc-950 font-black border-b-4 border-primary/20">mathematical certainty.</span>
+          </p>
+        </motion.div>
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 mb-20 md:mb-32"
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-32"
         >
           {isLoggedIn ? (
             <Link href="/whatcanibe/dashboard" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-zinc-950 text-white hover:bg-zinc-800 px-8 md:px-12 h-16 md:h-20 text-lg md:text-xl rounded-2xl transition-all border-none font-bold shadow-2xl">
-                Go to Dashboard
-                <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-0.5" />
+              <Button size="lg" className="group w-full sm:w-auto bg-zinc-950 text-white hover:bg-primary px-16 h-24 text-xl rounded-[2rem] transition-all border-none font-black uppercase tracking-widest shadow-hero">
+                Access Dashboard
+                <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           ) : (
             <Link href="/whatcanibe/signup" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto bg-zinc-950 text-white hover:bg-zinc-800 px-8 md:px-12 h-16 md:h-20 text-lg md:text-xl rounded-2xl transition-all border-none font-bold shadow-2xl">
+              <Button size="lg" className="group w-full sm:w-auto bg-zinc-950 text-white hover:bg-primary px-16 h-24 text-xl rounded-[2rem] transition-all border-none font-black uppercase tracking-widest shadow-hero">
                 Initiate Mission
-                <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           )}
+
+          <Button variant="outline" size="lg" className="h-24 px-12 rounded-[2rem] border-2 border-zinc-200 font-black uppercase tracking-widest text-zinc-950 hover:bg-white hover:border-zinc-950 transition-all">
+            See the Engine
+          </Button>
         </motion.div>
 
-        {/* Stats Grid */}
+        {/* Stats Grid - Reimagined as Editorial Block */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 max-w-4xl mx-auto pt-12 md:pt-16 border-t border-zinc-200 relative"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-0 max-w-6xl mx-auto border-strong bg-white rounded-[3rem] overflow-hidden shadow-premium"
         >
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="text-center p-3 md:p-4 rounded-2xl transition-all hover:bg-zinc-100 group"
+              className={`p-10 md:p-14 text-left group transition-colors hover:bg-zinc-50 ${
+                idx !== stats.length - 1 ? "md:border-r border-strong" : ""
+              }`}
             >
-              <div className="text-2xl md:text-5xl font-bold text-zinc-950 mb-1 md:mb-2 flex items-center justify-center transition-all">
-                <AnimatedCounter value={stat.value} />
-                <span className="text-indigo-600">{stat.suffix}</span>
+              <div className="text-zinc-400 text-[10px] font-black uppercase tracking-[0.3em] mb-6">
+                Metric.0{idx + 1}
               </div>
-              <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+              <div className="text-4xl md:text-6xl font-bold text-zinc-950 mb-2 flex items-baseline gap-1">
+                <AnimatedCounter value={stat.value} />
+                <span className="text-primary text-2xl md:text-3xl">{stat.suffix}</span>
+              </div>
+              <div className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest group-hover:text-zinc-950 transition-colors">
                 {stat.label}
               </div>
             </div>
@@ -146,10 +167,12 @@ export default function Hero() {
 
         {/* Scroll Indicator */}
         <div
-          className="mt-32 flex flex-col items-center gap-4 text-zinc-400 font-bold text-[10px] uppercase tracking-[0.4em]"
+          className="mt-24 flex flex-col items-center gap-4 text-zinc-400 font-bold text-[10px] uppercase tracking-[0.4em]"
         >
-          <span>Explore Mission</span>
-          <ChevronDown className="w-5 h-5 text-indigo-600 animate-bounce" />
+          <span>Deconstruct the Methodology</span>
+          <div className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center">
+            <ChevronDown className="w-5 h-5 text-primary animate-bounce" />
+          </div>
         </div>
       </motion.div>
     </section>

@@ -8,7 +8,8 @@ import {
   Leaf, 
   Briefcase, 
   Megaphone, 
-  Rocket 
+  Rocket,
+  ArrowUpRight
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -16,67 +17,83 @@ import { Button } from "@/components/ui/button";
 const categories = [
   {
     title: "Technology",
-    description: "Build the infrastructure of the digital world.",
+    description: "Architect the digital infrastructure of the global economy.",
     icon: Laptop,
     color: "text-indigo-600",
-    gradient: "from-indigo-50 to-blue-50",
-    borderColor: "border-indigo-100"
+    bg: "bg-indigo-50/50",
+    hoverBg: "bg-indigo-100/50",
+    borderColor: "border-indigo-100",
+    accentColor: "indigo"
   },
   {
     title: "AI & Data",
-    description: "Shape the future with intelligence.",
+    description: "Engineer intelligence systems that redefine possibility.",
     icon: BrainCircuit,
     color: "text-violet-600",
-    gradient: "from-violet-50 to-purple-50",
-    borderColor: "border-violet-100"
+    bg: "bg-violet-50/50",
+    hoverBg: "bg-violet-100/50",
+    borderColor: "border-violet-100",
+    accentColor: "violet"
   },
   {
     title: "Design",
-    description: "Create experiences that inspire.",
+    description: "Craft experiences that merge human emotion with precision.",
     icon: Palette,
     color: "text-pink-600",
-    gradient: "from-pink-50 to-rose-50",
-    borderColor: "border-pink-100"
+    bg: "bg-pink-50/50",
+    hoverBg: "bg-pink-100/50",
+    borderColor: "border-pink-100",
+    accentColor: "pink"
   },
   {
     title: "Healthcare",
-    description: "Innovate for human wellness.",
+    description: "Pioneer advancements in human longevity and wellness.",
     icon: Stethoscope,
     color: "text-emerald-600",
-    gradient: "from-emerald-50 to-teal-50",
-    borderColor: "border-emerald-100"
+    bg: "bg-emerald-50/50",
+    hoverBg: "bg-emerald-100/50",
+    borderColor: "border-emerald-100",
+    accentColor: "emerald"
   },
   {
     title: "Sustainability",
-    description: "Solve the planet's greatest challenges.",
+    description: "Solve the planetary crisis through strategic innovation.",
     icon: Leaf,
     color: "text-green-600",
-    gradient: "from-green-50 to-emerald-50",
-    borderColor: "border-green-100"
+    bg: "bg-green-50/50",
+    hoverBg: "bg-green-100/50",
+    borderColor: "border-green-100",
+    accentColor: "green"
   },
   {
     title: "Business",
-    description: "Drive the engine of the global economy.",
+    description: "Navigate complex markets with high-fidelity strategy.",
     icon: Briefcase,
     color: "text-amber-600",
-    gradient: "from-amber-50 to-yellow-50",
-    borderColor: "border-amber-100"
+    bg: "bg-amber-50/50",
+    hoverBg: "bg-amber-100/50",
+    borderColor: "border-amber-100",
+    accentColor: "amber"
   },
   {
     title: "Marketing",
-    description: "Tell stories that move people and markets.",
+    description: "Tell the stories that capture global attention and value.",
     icon: Megaphone,
     color: "text-fuchsia-600",
-    gradient: "from-fuchsia-50 to-pink-50",
-    borderColor: "border-fuchsia-100"
+    bg: "bg-fuchsia-50/50",
+    hoverBg: "bg-fuchsia-100/50",
+    borderColor: "border-fuchsia-100",
+    accentColor: "fuchsia"
   },
   {
     title: "Entrepreneur",
-    description: "Start something that changes everything.",
+    description: "Build the next generation of category-defining companies.",
     icon: Rocket,
     color: "text-orange-600",
-    gradient: "from-orange-50 to-amber-50",
-    borderColor: "border-orange-100"
+    bg: "bg-orange-50/50",
+    hoverBg: "bg-orange-100/50",
+    borderColor: "border-orange-100",
+    accentColor: "orange"
   },
 ];
 
@@ -86,98 +103,99 @@ export default function CareerCategories() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.08,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, scale: 0.95 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.2 },
+      scale: 1,
     },
   };
 
   return (
-    <section id="categories" className="py-32 px-6 relative overflow-hidden bg-background">
-      {/* Static Background Atmosphere */}
-      <div
-        className="absolute inset-0 z-0 opacity-40 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle at 50% 50%, oklch(0.45 0.2 264 / 0.05), transparent 70%)"
-        }}
-      />
-
-      {/* Static Grid Background */}
-      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
-           style={{
-             backgroundImage: "linear-gradient(oklch(0.15 0 0) 1px, transparent 1px), linear-gradient(90deg, oklch(0.15 0 0) 1px, transparent 1px)",
-             backgroundSize: "60px 60px"
-           }}
-      />
+    <section id="categories" className="py-32 px-6 relative overflow-hidden bg-white">
+      {/* Editorial Decorative Lines */}
+      <div className="absolute top-0 right-0 w-1/3 h-full border-l border-strong pointer-events-none opacity-20" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-24 text-center"
-        >
-          <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200 bg-zinc-50 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-8 shadow-sm"
+        <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:max-w-3xl"
           >
-            Core Dimensions
-          </div>
-          <h2 className="text-5xl md:text-8xl font-bold mb-8 tracking-tighter text-zinc-950 leading-[0.85]">
-            Choose Your <br />
-            <span className="italic text-zinc-400">Dominion.</span>
-          </h2>
-          <p className="text-zinc-600 font-medium max-w-2xl mx-auto leading-relaxed text-lg md:text-xl">
-            Don&apos;t limit yourself to one box. Identify your unique intersection of talent and market opportunity.
-          </p>
-        </motion.div>
+            <div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border-strong bg-zinc-50 text-zinc-500 text-[10px] font-black uppercase tracking-[0.4em] mb-12 shadow-sm"
+            >
+              Industry Dominions
+            </div>
+            <h2 className="text-6xl md:text-9xl font-bold tracking-[-0.04em] text-zinc-950 leading-[0.8] uppercase">
+              Identify <br />
+              <span className="italic font-normal text-primary">Your</span> Dominion.
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:max-w-md pb-4"
+          >
+            <p className="text-xl text-zinc-500 font-medium leading-relaxed border-l-4 border-primary/20 pl-8">
+              Don&apos;t limit yourself to predefined boxes. Identify the intersection of your unique talent and global market opportunity.
+            </p>
+          </motion.div>
+        </div>
 
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
         >
           {categories.map((category) => (
             <motion.div
               key={category.title}
               variants={itemVariants}
-              whileHover={{ y: -4 }}
               className="relative group"
             >
               <div
-                className={`h-full p-10 bg-white border ${category.borderColor} group-hover:border-zinc-300 transition-all duration-500 rounded-[2.5rem] overflow-hidden relative shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] group-hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)]`}
+                className={`h-full p-8 md:p-12 ${category.bg} border-2 ${category.borderColor} hover:bg-white hover:border-zinc-950 transition-all duration-500 rounded-[3rem] overflow-hidden relative shadow-premium group-hover:shadow-hero flex flex-col justify-between`}
               >
-                {/* Subtle Gradient Mesh Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-40 group-hover:opacity-60 transition-opacity duration-500`} />
+                <div>
+                  <div className="flex items-start justify-between mb-16">
+                    <div
+                      className={`w-16 h-16 rounded-2xl bg-white border-2 ${category.borderColor} flex items-center justify-center relative z-10 transition-all duration-500 group-hover:bg-zinc-950 group-hover:text-white shadow-sm ${category.color}`}
+                    >
+                      <category.icon className="w-8 h-8" />
+                    </div>
+                    <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest pt-2">
+                      CODE.{category.accentColor.slice(0, 3)}
+                    </div>
+                  </div>
 
-                <div
-                  className={`w-16 h-16 rounded-2xl bg-white border ${category.borderColor} flex items-center justify-center mb-12 relative z-10 transition-all duration-500 group-hover:bg-zinc-950 group-hover:text-white shadow-sm ${category.color}`}
-                >
-                  <category.icon className="w-8 h-8" />
+                  <h3 className="text-3xl font-bold text-zinc-950 mb-6 tracking-tighter uppercase leading-none">
+                    {category.title}
+                  </h3>
+                  <p className="text-base text-zinc-600 font-medium leading-relaxed mb-12">
+                    {category.description}
+                  </p>
                 </div>
-
-                <h3 className="text-3xl font-bold text-zinc-950 mb-4 tracking-tight relative z-10">
-                  {category.title}
-                </h3>
-                <p className="text-base text-zinc-600 font-medium leading-relaxed mb-12 relative z-10 group-hover:text-zinc-900 transition-colors">
-                  {category.description}
-                </p>
                 
-                <Button
-                  variant="outline"
-                  className="w-full relative z-10 border-zinc-200 transition-all py-8 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] bg-white/50 hover:bg-zinc-950 hover:text-white shadow-sm"
-                >
-                  Explore Dominion
-                </Button>
+                <div className="pt-8 border-t border-strong flex items-center justify-between group/link cursor-pointer">
+                   <span className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-950">Deconstruct Domain</span>
+                   <div className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center group-hover:bg-zinc-950 group-hover:text-white transition-all">
+                    <ArrowUpRight className="w-5 h-5" />
+                   </div>
+                </div>
               </div>
             </motion.div>
           ))}

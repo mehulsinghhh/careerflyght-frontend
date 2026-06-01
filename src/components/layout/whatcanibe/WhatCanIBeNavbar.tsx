@@ -81,41 +81,41 @@ export default function WhatCanIBeNavbar() {
     <div className="fixed top-0 left-0 right-0 z-[100] px-6 py-8 pointer-events-none">
       <header
         className={cn(
-          "mx-auto max-w-7xl h-20 rounded-[2rem] border transition-all duration-400 pointer-events-auto overflow-hidden shadow-sm",
+          "mx-auto max-w-7xl h-24 rounded-[2.5rem] border-strong transition-all duration-500 pointer-events-auto overflow-hidden",
           scrolled
-            ? "bg-white/80 backdrop-blur-2xl border-zinc-200 shadow-[0_20px_50px_rgba(0,0,0,0.05)] scale-[0.98]"
-            : "bg-transparent border-transparent"
+            ? "bg-white border-zinc-950 shadow-hero scale-[0.98]"
+            : "bg-white/50 backdrop-blur-xl border-strong"
         )}
       >
-        <div className="container mx-auto h-full flex items-center justify-between px-10">
+        <div className="container mx-auto h-full flex items-center justify-between px-12">
           <div className="flex items-center gap-16">
             <Link
               href={user ? "/whatcanibe/dashboard" : "/whatcanibe"}
-              className="group flex items-center gap-2"
+              className="group flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                <Sparkles className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-2xl bg-zinc-950 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500 shadow-premium">
+                <Sparkles className="w-7 h-7 text-primary" />
               </div>
-              <span className="text-2xl font-bold tracking-tighter text-zinc-950">
-                WhatCanIBe<span className="text-indigo-600">.</span>
+              <span className="text-3xl font-black tracking-tighter text-zinc-950 uppercase">
+                WhatCanIBe<span className="text-primary italic">.</span>
               </span>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-2 text-sm font-bold uppercase tracking-widest">
+            <nav className="hidden lg:flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.2em]">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "px-5 py-2 rounded-xl transition-all duration-300 relative group/nav",
-                    pathname === link.href ? "text-zinc-950" : "text-zinc-500 hover:text-zinc-950"
+                    "px-6 py-3 rounded-2xl transition-all duration-300 relative group/nav",
+                    pathname === link.href ? "text-zinc-950 bg-zinc-100" : "text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50"
                   )}
                 >
                   {link.name}
                   {pathname === link.href && (
                     <motion.div
-                      layoutId="nav-underline"
-                      className="absolute bottom-0 left-5 right-5 h-0.5 bg-indigo-600 rounded-full"
+                      layoutId="nav-pill"
+                      className="absolute inset-0 border-2 border-zinc-950 rounded-2xl pointer-events-none"
                     />
                   )}
                 </Link>
@@ -123,42 +123,42 @@ export default function WhatCanIBeNavbar() {
             </nav>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             {user ? (
-              <div className="hidden lg:flex items-center gap-6">
+              <div className="hidden lg:flex items-center gap-8">
                 <div className="flex flex-col items-end">
-                  <span className="text-sm font-bold text-zinc-950 tracking-tight">
+                  <span className="text-sm font-black text-zinc-950 tracking-tight uppercase">
                     {user.name}
                   </span>
-                  <span className="text-[9px] text-indigo-600 font-bold uppercase tracking-[0.2em]">
-                    Active Session
+                  <span className="text-[9px] text-primary font-black uppercase tracking-[0.3em]">
+                    Active Neural Link
                   </span>
                 </div>
 
-                <div className="h-8 w-px bg-zinc-200" />
+                <div className="h-10 w-px bg-zinc-200" />
 
                 <Button
                   onClick={handleLogout}
                   variant="ghost"
                   size="icon"
-                  className="h-12 w-12 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100 transition-all"
+                  className="h-14 w-14 rounded-2xl bg-zinc-50 border-strong text-zinc-500 hover:text-white hover:bg-zinc-950 transition-all"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <LogOut className="h-6 w-6" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-6">
                 <Link href="/whatcanibe/login">
                   <Button
                     variant="ghost"
-                    className="text-sm font-black text-zinc-500 hover:text-zinc-950 transition-colors uppercase tracking-widest px-6"
+                    className="text-[11px] font-black text-zinc-500 hover:text-zinc-950 transition-colors uppercase tracking-[0.3em] px-8"
                   >
                     Login
                   </Button>
                 </Link>
 
                 <Link href="/whatcanibe/signup">
-                  <Button className="bg-zinc-950 text-white hover:bg-zinc-900 px-8 h-12 rounded-xl transition-all duration-300 font-black uppercase tracking-widest text-[11px] shadow-lg">
+                  <Button className="bg-zinc-950 text-white hover:bg-primary px-10 h-14 rounded-2xl transition-all duration-500 font-black uppercase tracking-[0.3em] text-[11px] shadow-hero border-none">
                     Initiate
                   </Button>
                 </Link>
@@ -168,10 +168,10 @@ export default function WhatCanIBeNavbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-12 w-12 rounded-2xl bg-zinc-50 border border-zinc-200 text-zinc-500 hover:text-zinc-950"
+              className="lg:hidden h-14 w-14 rounded-2xl bg-zinc-50 border-strong text-zinc-950 hover:bg-white"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? <X className="h-7 h-7" /> : <Menu className="h-7 h-7" />}
             </Button>
           </div>
 
@@ -181,31 +181,31 @@ export default function WhatCanIBeNavbar() {
                 initial={{ opacity: 0, scale: 0.95, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                className="absolute top-24 left-6 right-6 bg-white border border-zinc-200 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] overflow-hidden z-[101] backdrop-blur-3xl"
+                className="absolute top-32 left-6 right-6 bg-white border-2 border-zinc-950 rounded-[3rem] shadow-hero overflow-hidden z-[101]"
               >
-                <div className="p-10 flex flex-col gap-8">
-                  <div className="grid grid-cols-1 gap-3">
+                <div className="p-12 flex flex-col gap-10">
+                  <div className="grid grid-cols-1 gap-4">
                     {navLinks.map((link) => (
                       <Link
                         key={link.name}
                         href={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={cn(
-                          "p-6 rounded-[2rem] border transition-all flex items-center justify-between group",
+                          "p-8 rounded-[2.5rem] border-2 transition-all flex items-center justify-between group",
                           pathname === link.href
-                            ? "bg-zinc-50 border-zinc-200 text-zinc-950"
-                            : "bg-white border-zinc-100 text-zinc-500 hover:text-zinc-950 hover:border-zinc-200"
+                            ? "bg-zinc-950 border-zinc-950 text-white"
+                            : "bg-white border-zinc-100 text-zinc-400 hover:text-zinc-950 hover:border-zinc-950"
                         )}
                       >
-                        <span className="text-xl font-bold uppercase tracking-widest">
+                        <span className="text-2xl font-black uppercase tracking-[0.2em]">
                           {link.name}
                         </span>
-                        <ChevronRight className="h-6 w-6 text-zinc-300 group-hover:text-indigo-600 transition-colors" />
+                        <ChevronRight className="h-8 w-8 transition-transform group-hover:translate-x-2" />
                       </Link>
                     ))}
                   </div>
 
-                  <div className="h-px bg-zinc-100 my-2" />
+                  <div className="h-px bg-strong" />
 
                   {user ? (
                     <Button
@@ -213,23 +213,23 @@ export default function WhatCanIBeNavbar() {
                         handleLogout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full h-20 bg-red-50 text-red-600 border border-red-100 rounded-[2rem] text-lg font-black uppercase tracking-widest transition-all hover:bg-red-600 hover:text-white"
+                      className="w-full h-24 bg-red-50 text-red-600 border-2 border-red-100 rounded-[2.5rem] text-xl font-black uppercase tracking-[0.3em] transition-all hover:bg-red-600 hover:text-white"
                     >
-                      Log Out
+                      Terminate Link
                     </Button>
                   ) : (
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 gap-6">
                       <Link href="/whatcanibe/login" className="w-full">
                         <Button
                           variant="outline"
-                          className="w-full h-20 border-zinc-200 rounded-[2rem] text-lg font-black uppercase tracking-widest bg-zinc-50"
+                          className="w-full h-24 border-2 border-zinc-950 rounded-[2.5rem] text-xl font-black uppercase tracking-[0.3em] bg-white"
                         >
-                          Log In
+                          Login
                         </Button>
                       </Link>
 
                       <Link href="/whatcanibe/signup" className="w-full">
-                        <Button className="w-full h-20 bg-zinc-950 text-white border-none rounded-[2rem] text-lg font-black uppercase tracking-widest shadow-xl">
+                        <Button className="w-full h-24 bg-zinc-950 text-white border-none rounded-[2.5rem] text-xl font-black uppercase tracking-[0.3em] shadow-hero">
                           Join Mission
                         </Button>
                       </Link>
