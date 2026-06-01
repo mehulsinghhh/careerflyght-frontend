@@ -70,13 +70,13 @@ export default function ClusterIntelligence() {
                 className="group h-full"
               >
                 <div
-                  className={`h-full border border-zinc-100 ${cluster.tint} ${cluster.border} transition-all duration-400 rounded-[3rem] p-12 flex flex-col relative overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5 group-hover:border-indigo-500/20`}
+                  className={`h-full border border-zinc-100 ${cluster.tint} ${cluster.border} transition-all duration-400 rounded-[3rem] p-12 flex flex-col relative overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 group-hover:border-indigo-500/20`}
                 >
                   {/* Subtle Gradient Mesh Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${cluster.bgGradient} opacity-[0.08] group-hover:opacity-[0.2] transition-opacity duration-400`} />
 
                   <div
-                    className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-12 transition-all duration-300 relative z-10 border border-zinc-100 bg-white group-hover:bg-indigo-600 group-hover:text-white`}
+                    className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-12 transition-all duration-300 relative z-10 border ${cluster.border.split(" ")[0]} bg-white group-hover:bg-indigo-600 group-hover:text-white`}
                     style={{
                       color: clusterColor,
                     }}
@@ -91,10 +91,10 @@ export default function ClusterIntelligence() {
                     >
                       {cluster.ring}
                     </span>
-                    <h3 className="text-3xl font-bold text-zinc-900 mt-3 mb-5 tracking-tight transition-all">
+                    <h3 className="text-3xl font-black text-zinc-900 mt-3 mb-5 tracking-tight transition-all">
                       {cluster.title}
                     </h3>
-                    <p className="text-base text-zinc-600 font-medium leading-relaxed group-hover:text-zinc-900 transition-colors line-clamp-3">
+                    <p className="text-base text-zinc-700 font-bold leading-relaxed group-hover:text-zinc-900 transition-colors line-clamp-3">
                       {cluster.description}
                     </p>
                   </div>
@@ -102,7 +102,7 @@ export default function ClusterIntelligence() {
                   <div className="mt-auto pt-10 relative z-10">
                     <div className="flex flex-wrap gap-2.5 mb-12">
                       {cluster.skills.slice(0, 3).map((skill) => (
-                        <span key={skill} className="px-4 py-1.5 rounded-xl bg-white/60 border border-zinc-200/50 text-[11px] font-bold text-zinc-500 group-hover:text-zinc-900 group-hover:border-indigo-500/20 transition-all">
+                        <span key={skill} className="px-4 py-1.5 rounded-xl bg-white/60 border border-zinc-200/50 text-[11px] font-black text-zinc-700 group-hover:text-zinc-900 group-hover:border-indigo-500/40 transition-all">
                           {skill}
                         </span>
                       ))}

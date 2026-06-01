@@ -76,7 +76,7 @@ export default function Workflow() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-zinc-500 font-medium text-sm md:text-lg leading-relaxed max-w-2xl mx-auto"
+            className="text-zinc-500 font-bold text-sm md:text-lg leading-relaxed max-w-2xl mx-auto"
           >
             A high-fidelity framework designed to decompose the journey from ambition to mastery into precise, actionable protocols.
           </motion.p>
@@ -112,7 +112,7 @@ export default function Workflow() {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className={`${gridClasses[idx]} group`}
                 >
-                  <div className={`h-full p-6 md:p-8 ${phase.tint} border border-zinc-100 ${phase.border} group-hover:border-indigo-500/20 transition-all duration-500 rounded-3xl relative overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5`}>
+                  <div className={`h-full p-6 md:p-8 ${phase.tint} border border-zinc-100 ${phase.border} group-hover:border-indigo-500/40 transition-all duration-500 rounded-3xl relative overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10`}>
                     <div className={`absolute -right-16 -top-16 w-32 h-32 bg-gradient-to-br ${phase.color} opacity-[0.08] group-hover:opacity-[0.15] blur-[60px] transition-opacity duration-500`} />
 
                     <div>
@@ -125,20 +125,20 @@ export default function Workflow() {
                             Protocol 0{idx + 1}
                           </div>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-white border border-zinc-100 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm">
+                        <div className={`w-12 h-12 rounded-2xl bg-white border ${phase.border.split(" ")[0]} flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm`}>
                           <Icon className="w-6 h-6" />
                         </div>
                       </div>
 
-                      <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 mb-4 tracking-tight group-hover:text-indigo-600 transition-colors">{phase.title}</h3>
+                      <h3 className="text-2xl md:text-3xl font-black text-zinc-900 mb-4 tracking-tight group-hover:text-indigo-600 transition-colors">{phase.title}</h3>
 
                       <div className="space-y-4">
-                        <p className="text-sm md:text-base text-zinc-600 font-medium leading-relaxed">
+                        <p className="text-sm md:text-base text-zinc-700 font-bold leading-relaxed">
                           {phase.description}
                         </p>
 
                         <div className="p-4 bg-white/40 rounded-2xl border border-zinc-200/50 group-hover:border-indigo-500/10 transition-all">
-                          <p className="text-[11px] md:text-xs text-zinc-500 leading-relaxed italic font-medium">
+                          <p className="text-[11px] md:text-xs text-zinc-500 leading-relaxed italic font-bold">
                             {phase.details}
                           </p>
                         </div>
@@ -150,7 +150,7 @@ export default function Workflow() {
                         <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${phase.color} shadow-[0_0_8px_rgba(79,70,229,0.3)]`} />
                         <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Protocol Sync: Active</span>
                       </div>
-                      <div className="flex items-center gap-2 text-zinc-400 group-hover:text-indigo-600 transition-colors duration-300">
+                      <div className={`flex items-center gap-2 bg-gradient-to-r ${phase.color} bg-clip-text text-transparent group-hover:opacity-100 transition-opacity transition-colors duration-300`}>
                         <span className="text-[10px] font-bold uppercase tracking-widest">Execute</span>
                         <ChevronRight className="w-4 h-4" />
                       </div>
