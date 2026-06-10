@@ -22,7 +22,7 @@ export default function SignupPage() {
 
     // Simulate auth
  try {
-  const response = await fetch("https://careerflyght-backend.onrender.com/api/auth/register", {
+  const response = await fetch("https://careerflyht-backend-v2-production.up.railway.app/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
