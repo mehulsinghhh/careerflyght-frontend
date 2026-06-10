@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     // Simulate auth
     try {
-  const response = await fetch("https://careerflyht-backend-v2-production.up.railway.app/api/auth/login", {
+  const response = await fetch("https://careerflyght-backend-v2-production.up.railway.app/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
