@@ -45,11 +45,11 @@ export default function Workflow() {
   ];
 
   return (
-    <section id="workflow" ref={containerRef} className="py-12 md:py-20 px-6 relative overflow-hidden bg-[#020617]">
+    <section id="workflow" ref={containerRef} className="py-12 md:py-20 px-6 relative overflow-hidden bg-white">
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-indigo-500/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-500/5 blur-[120px] rounded-full" />
+        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-indigo-500/5 blur-[120px] rounded-full opacity-[0.05]" />
+        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-500/5 blur-[120px] rounded-full opacity-[0.05]" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">
@@ -59,7 +59,7 @@ export default function Workflow() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-6 backdrop-blur-md"
+            className="px-4 py-1.5 rounded-full border border-indigo-500/10 bg-indigo-50 text-indigo-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-6 backdrop-blur-md"
           >
             The Methodology
           </motion.div>
@@ -67,16 +67,16 @@ export default function Workflow() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter text-white leading-[0.9] md:leading-[0.85]"
+            className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter text-zinc-900 leading-[0.9] md:leading-[0.85]"
           >
             Architecting Your <br />
-            <span className="italic bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Professional Ascent.</span>
+            <span className="italic bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Professional Ascent.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-zinc-500 font-medium text-sm md:text-lg leading-relaxed max-w-2xl mx-auto"
+            className="text-zinc-500 font-bold text-sm md:text-lg leading-relaxed max-w-2xl mx-auto"
           >
             A high-fidelity framework designed to decompose the journey from ambition to mastery into precise, actionable protocols.
           </motion.p>
@@ -86,10 +86,11 @@ export default function Workflow() {
         <div className="relative max-w-5xl mx-auto">
           {/* Connector Path (Desktop) - Continuous Zig-Zag */}
           <div className="absolute inset-0 pointer-events-none hidden md:block" style={{ zIndex: 0 }}>
-            <svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" preserveAspectRatio="none" className="opacity-20">
+            <svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" preserveAspectRatio="none" className="opacity-10">
               <path
                 d="M 200 100 H 600 V 200 H 200 V 400 H 600 V 500"
-                stroke="white"
+                stroke="currentColor"
+                className="text-indigo-600"
                 strokeWidth="1.5"
                 strokeDasharray="8 8"
                 strokeLinecap="round"
@@ -111,45 +112,45 @@ export default function Workflow() {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className={`${gridClasses[idx]} group`}
                 >
-                  <div className="h-full p-6 md:p-8 bg-white/[0.03] border border-white/10 hover:border-indigo-500/40 transition-all duration-500 rounded-3xl relative overflow-hidden backdrop-blur-sm flex flex-col justify-between shadow-xl">
-                    <div className={`absolute -right-16 -top-16 w-32 h-32 bg-gradient-to-br ${meta.color} opacity-0 group-hover:opacity-10 blur-[60px] transition-opacity duration-500`} />
+                  <div className={`h-full p-6 md:p-8 ${phase.tint} border border-zinc-100 ${phase.border} group-hover:border-indigo-500/40 transition-all duration-500 rounded-3xl relative overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10`}>
+                    <div className={`absolute -right-16 -top-16 w-32 h-32 bg-gradient-to-br ${phase.color} opacity-[0.08] group-hover:opacity-[0.15] blur-[60px] transition-opacity duration-500`} />
 
                     <div>
                       <div className="flex items-start justify-between mb-6">
                         <div className="flex flex-col gap-1">
-                          <div className={`text-[10px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r ${meta.color} bg-clip-text text-transparent`}>
+                          <div className={`text-[10px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r ${phase.color} bg-clip-text text-transparent`}>
                             {meta.label}
                           </div>
-                          <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
+                          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                             Protocol 0{idx + 1}
                           </div>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-inner">
+                        <div className={`w-12 h-12 rounded-2xl bg-white border ${phase.border.split(" ")[0]} flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm`}>
                           <Icon className="w-6 h-6" />
                         </div>
                       </div>
 
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight group-hover:text-indigo-300 transition-colors">{phase.title}</h3>
+                      <h3 className="text-2xl md:text-3xl font-black text-zinc-900 mb-4 tracking-tight group-hover:text-indigo-600 transition-colors">{phase.title}</h3>
 
                       <div className="space-y-4">
-                        <p className="text-sm md:text-base text-zinc-400 font-medium leading-relaxed">
+                        <p className="text-sm md:text-base text-zinc-700 font-bold leading-relaxed">
                           {phase.description}
                         </p>
 
-                        <div className="p-4 bg-white/5 rounded-2xl border border-white/5 group-hover:border-indigo-500/20 transition-all">
-                          <p className="text-[11px] md:text-xs text-zinc-500 leading-relaxed italic">
+                        <div className="p-4 bg-white/40 rounded-2xl border border-zinc-200/50 group-hover:border-indigo-500/10 transition-all">
+                          <p className="text-[11px] md:text-xs text-zinc-500 leading-relaxed italic font-bold">
                             {phase.details}
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between">
+                    <div className="mt-6 pt-6 border-t border-zinc-200/50 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${meta.color} shadow-[0_0_8px_currentColor]`} />
-                        <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Protocol Sync: Active</span>
+                        <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${phase.color} shadow-[0_0_8px_rgba(79,70,229,0.3)]`} />
+                        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Protocol Sync: Active</span>
                       </div>
-                      <div className="flex items-center gap-2 text-white/40 group-hover:text-white transition-colors duration-300">
+                      <div className={`flex items-center gap-2 bg-gradient-to-r ${phase.color} bg-clip-text text-transparent group-hover:opacity-100 transition-opacity transition-colors duration-300`}>
                         <span className="text-[10px] font-bold uppercase tracking-widest">Execute</span>
                         <ChevronRight className="w-4 h-4" />
                       </div>
@@ -167,12 +168,12 @@ export default function Workflow() {
               className="md:col-start-2 md:row-start-3"
             >
                <Link href="/whatcanibe/signup" className="block h-full">
-                <Button className="w-full h-full min-h-[180px] rounded-3xl bg-white text-black hover:bg-zinc-200 border-none shadow-2xl group/btn transition-all flex flex-col items-center justify-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-black/5 flex items-center justify-center group-hover/btn:scale-110 transition-transform">
-                    <Zap className="w-7 h-7 fill-black" />
+                <Button className="w-full h-full min-h-[180px] rounded-3xl bg-indigo-600 text-white hover:bg-indigo-700 border-none shadow-xl shadow-indigo-600/20 group/btn transition-all flex flex-col items-center justify-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center group-hover/btn:scale-110 transition-transform">
+                    <Zap className="w-7 h-7 fill-white" />
                   </div>
                   <div className="text-center">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-500 block mb-1">Final Authorization</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-200 block mb-1">Final Authorization</span>
                     <div className="flex items-center gap-3">
                       <span className="text-2xl font-bold tracking-tighter">Launch Roadmap</span>
                       <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />

@@ -23,27 +23,27 @@ export function PolishedModal({ isOpen, onClose, title, description, children }:
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 bg-zinc-900/40 backdrop-blur-md"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-zinc-950 p-8 shadow-2xl"
+            className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-zinc-100 bg-white p-8 shadow-2xl shadow-zinc-900/10"
           >
             {/* Gradient background effect */}
-            <div className="absolute -right-24 -top-24 h-48 w-48 bg-violet-600/20 blur-[80px]" />
+            <div className="absolute -right-24 -top-24 h-48 w-48 bg-indigo-500/10 blur-[80px]" />
 
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-white">{title}</h2>
-                {description && <p className="text-gray-400 mt-1">{description}</p>}
+                <h2 className="text-2xl font-bold text-zinc-900">{title}</h2>
+                {description && <p className="text-zinc-500 mt-1">{description}</p>}
               </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="rounded-full hover:bg-white/10"
+                className="rounded-full hover:bg-zinc-100"
               >
                 <X className="h-5 w-5" />
               </Button>
