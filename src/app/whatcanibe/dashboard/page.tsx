@@ -56,6 +56,8 @@ function DashboardContent() {
 
       if (!storedUser) {
         setUser(null);
+        // Even if no user, we should mark as mounted to allow ProtectedRoute to handle redirect
+        setMounted(true);
         return;
       }
 
@@ -64,6 +66,7 @@ function DashboardContent() {
         setMounted(true);
       } catch (error) {
         console.error(error);
+        setMounted(true);
       }
     };
 

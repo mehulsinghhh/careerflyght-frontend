@@ -37,9 +37,14 @@ export default function SignupPage() {
       localStorage.setItem("careerflyghtToken", data.data.token);
       localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
 
+      // Use a small delay or ensure state is flushed before navigation
       window.dispatchEvent(new Event("auth-change"));
-      setIsLoading(false);
-      router.push("/whatcanibe/dashboard");
+
+      // Force a slight delay to ensure localStorage is settled
+      setTimeout(() => {
+        setIsLoading(false);
+        router.push("/whatcanibe/dashboard");
+      }, 100);
     } catch (error) {
       const err = error as Error;
       console.error(err);

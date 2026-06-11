@@ -35,8 +35,11 @@ export default function LoginPage() {
       localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
 
       window.dispatchEvent(new Event("auth-change"));
-      setIsLoading(false);
-      router.push("/whatcanibe/dashboard");
+
+      setTimeout(() => {
+        setIsLoading(false);
+        router.push("/whatcanibe/dashboard");
+      }, 100);
     } catch (error) {
       const err = error as Error;
       console.error(err);
