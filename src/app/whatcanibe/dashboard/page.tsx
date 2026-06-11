@@ -1,6 +1,7 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,8 @@ import {
   Clock,
   Users,
   Bookmark,
-  LucideIcon
+  LucideIcon,
+  ShieldCheck
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -38,8 +40,12 @@ const iconMap: Record<string, LucideIcon> = {
   Bookmark
 };
 
+interface UserWithRole extends User {
+  role: string;
+}
+
 function DashboardContent() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserWithRole | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
@@ -144,6 +150,32 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-8">
+            {/* Mentor Access Card (Only for Mentors) */}
+            {user.role === 'mentor' && (
+              <motion.div variants={itemVariants}>
+                <GlowCard className="p-8 border-indigo-500/20 bg-indigo-50/30 rounded-[2.5rem] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="flex items-center gap-6">
+                      <div className="h-16 w-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
+                        <ShieldCheck className="h-8 w-8 text-white" />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Mentor Access Enabled</h2>
+                        <p className="text-zinc-500 font-medium">Manage your professional presence and student interactions.</p>
+                      </div>
+                    </div>
+                    <Link href="/whatcanibe/dashboard/mentor-profile">
+                      <Button className="h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/10">
+                        Configure Profile
+                        <ChevronRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </div>
+                </GlowCard>
+              </motion.div>
+            )}
+
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {MOCK_DASHBOARD_DATA.stats.map((stat, i) => {
