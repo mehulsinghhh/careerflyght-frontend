@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Users,
@@ -48,7 +48,7 @@ export default function MentorDiscoveryPage() {
   const [minExperience, setMinExperience] = useState("");
   const [maxRate, setMaxRate] = useState("");
 
-  const fetchMentors = async () => {
+  const fetchMentors = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -68,12 +68,12 @@ export default function MentorDiscoveryPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [company, minExperience, maxRate]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchMentors();
-  }, []);
+  }, [fetchMentors]);
 
   const handleFilterSubmit = (e: React.FormEvent) => {
     e.preventDefault();

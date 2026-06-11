@@ -12,6 +12,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  role?: string;
 }
 
 export default function WhatCanIBeNavbar() {
@@ -69,7 +70,12 @@ export default function WhatCanIBeNavbar() {
 
   const navLinks = [
     ...(user
-      ? [{ name: "Dashboard", href: "/whatcanibe/dashboard", icon: LayoutDashboard }]
+      ? [
+          { name: "Dashboard", href: "/whatcanibe/dashboard", icon: LayoutDashboard },
+          ...(user.role === "mentor"
+            ? [{ name: "Mentor Dashboard", href: "/whatcanibe/dashboard/mentor" }]
+            : [])
+        ]
       : []),
     { name: "Careers", href: "/whatcanibe/careers" },
     { name: "Pathways", href: "/whatcanibe/pathways" },

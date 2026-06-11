@@ -1,0 +1,64 @@
+
+> careerflyght-frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 495ms
+
+○ Compiling /whatcanibe/dashboard ...
+ GET /whatcanibe/dashboard 200 in 6.8s (next.js: 5.9s, application-code: 925ms)
+ GET /whatcanibe/login 200 in 1110ms (next.js: 1041ms, application-code: 69ms)
+ GET /whatcanibe/dashboard/bookings 200 in 1257ms (next.js: 1142ms, application-code: 115ms)
+ GET /whatcanibe/login 200 in 34ms (next.js: 3ms, application-code: 31ms)
+ GET /whatcanibe/dashboard/mentor 200 in 1945ms (next.js: 1800ms, application-code: 145ms)
+ GET /whatcanibe/login 200 in 36ms (next.js: 5ms, application-code: 31ms)
+ GET /whatcanibe/mentors/1 200 in 2.3s (next.js: 2.2s, application-code: 168ms)
+ GET /whatcanibe 200 in 1088ms (next.js: 825ms, application-code: 263ms)
+ GET /whatcanibe/dashboard 200 in 101ms (next.js: 6ms, application-code: 96ms)
+ GET /whatcanibe/dashboard/bookings 200 in 245ms (next.js: 6ms, application-code: 239ms)
+[browser] Failed to fetch bookings: Error: Unauthorized
+    at apiClient (src/lib/api-client.ts:32:11)
+    at async StudentBookingsContent.useEffect.fetchBookings (src/app/whatcanibe/dashboard/bookings/page.tsx:47:26)
+  30 |
+  31 |   if (!response.ok) {
+> 32 |     throw new Error(data.message || "Request failed");
+     |           ^
+  33 |   }
+  34 |
+  35 |   return data; (src/app/whatcanibe/dashboard/bookings/page.tsx:52:17)
+[browser] Failed to fetch bookings: Error: Unauthorized
+    at apiClient (src/lib/api-client.ts:32:11)
+    at async StudentBookingsContent.useEffect.fetchBookings (src/app/whatcanibe/dashboard/bookings/page.tsx:47:26)
+  30 |
+  31 |   if (!response.ok) {
+> 32 |     throw new Error(data.message || "Request failed");
+     |           ^
+  33 |   }
+  34 |
+  35 |   return data; (src/app/whatcanibe/dashboard/bookings/page.tsx:52:17)
+ GET /whatcanibe/dashboard/mentor 200 in 91ms (next.js: 5ms, application-code: 86ms)
+[browser] Failed to fetch mentor dashboard data: Error: Unauthorized
+    at apiClient (src/lib/api-client.ts:32:11)
+    at async MentorDashboardContent.useEffect.fetchData (src/app/whatcanibe/dashboard/mentor/page.tsx:54:43)
+  30 |
+  31 |   if (!response.ok) {
+> 32 |     throw new Error(data.message || "Request failed");
+     |           ^
+  33 |   }
+  34 |
+  35 |   return data; (src/app/whatcanibe/dashboard/mentor/page.tsx:66:17)
+[browser] Failed to fetch mentor dashboard data: Error: Unauthorized
+    at apiClient (src/lib/api-client.ts:32:11)
+    at async MentorDashboardContent.useEffect.fetchData (src/app/whatcanibe/dashboard/mentor/page.tsx:54:43)
+  30 |
+  31 |   if (!response.ok) {
+> 32 |     throw new Error(data.message || "Request failed");
+     |           ^
+  33 |   }
+  34 |
+  35 |   return data; (src/app/whatcanibe/dashboard/mentor/page.tsx:66:17)
+ GET /whatcanibe/mentors/1 200 in 129ms (next.js: 36ms, application-code: 92ms)
+ GET /whatcanibe 200 in 132ms (next.js: 3ms, application-code: 129ms)
+ GET /whatcanibe/mentors/1 200 in 156ms (next.js: 48ms, application-code: 108ms)

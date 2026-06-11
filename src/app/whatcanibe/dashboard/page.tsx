@@ -18,7 +18,8 @@ import {
   Users,
   Bookmark,
   LucideIcon,
-  ShieldCheck
+  ShieldCheck,
+  CalendarDays
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -164,16 +165,23 @@ function DashboardContent() {
                         <ShieldCheck className="h-8 w-8 text-white" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Mentor Access Enabled</h2>
+                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Mentor Dashboard</h2>
                         <p className="text-zinc-500 font-medium">Manage your professional presence and student interactions.</p>
                       </div>
                     </div>
-                    <Link href="/whatcanibe/dashboard/mentor-profile">
-                      <Button className="h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/10">
-                        Configure Profile
-                        <ChevronRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link href="/whatcanibe/dashboard/mentor">
+                        <Button className="h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/10">
+                          Workspace
+                          <ChevronRight className="ml-2 h-5 w-5" />
+                        </Button>
+                      </Link>
+                      <Link href="/whatcanibe/dashboard/mentor-profile">
+                        <Button variant="outline" className="h-14 px-8 border-indigo-200 text-indigo-600 rounded-xl font-bold transition-all bg-white hover:bg-indigo-50">
+                          Edit Profile
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 </GlowCard>
               </motion.div>
@@ -204,6 +212,30 @@ function DashboardContent() {
                 </GlowCard>
               </motion.div>
             )}
+
+            {/* Bookings Access Card */}
+            <motion.div variants={itemVariants}>
+              <GlowCard className="p-8 border-emerald-500/20 bg-emerald-50/30 rounded-[2.5rem] relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                  <div className="flex items-center gap-6">
+                    <div className="h-16 w-16 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/20">
+                      <CalendarDays className="h-8 w-8 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">My Bookings</h2>
+                      <p className="text-zinc-500 font-medium">Track your scheduled sessions and connect with mentors.</p>
+                    </div>
+                  </div>
+                  <Link href="/whatcanibe/dashboard/bookings">
+                    <Button className="h-14 px-8 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-emerald-600/10">
+                      View Sessions
+                      <ChevronRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </div>
+              </GlowCard>
+            </motion.div>
 
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
