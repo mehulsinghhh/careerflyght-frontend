@@ -176,6 +176,32 @@ function DashboardContent() {
               </motion.div>
             )}
 
+            {/* Become a Mentor CTA (For non-mentors) */}
+            {user.role !== 'mentor' && (
+              <motion.div variants={itemVariants}>
+                <GlowCard className="p-8 border-purple-500/20 bg-purple-50/30 rounded-[2.5rem] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="flex items-center gap-6">
+                      <div className="h-16 w-16 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/20">
+                        <Users className="h-8 w-8 text-white" />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Become a Mentor</h2>
+                        <p className="text-zinc-500 font-medium">Share your expertise and guide the next generation of professionals.</p>
+                      </div>
+                    </div>
+                    <Link href="/whatcanibe/dashboard/mentor-profile">
+                      <Button className="h-14 px-8 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-purple-600/10">
+                        Get Started
+                        <ChevronRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </div>
+                </GlowCard>
+              </motion.div>
+            )}
+
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {MOCK_DASHBOARD_DATA.stats.map((stat, i) => {
