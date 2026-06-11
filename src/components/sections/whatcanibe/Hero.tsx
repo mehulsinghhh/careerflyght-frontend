@@ -20,9 +20,19 @@ export default function Hero() {
   useEffect(() => {
     if (!mounted) return;
 
-    const user = localStorage.getItem("careerflyghtUser");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoggedIn(!!user);
+    const syncUser = () => {
+      const token = localStorage.getItem("careerflyghtToken");
+      const user = localStorage.getItem("careerflyghtUser");
+      setIsLoggedIn(!!token && !!user);
+    };
+
+    syncUser();
+
+    window.addEventListener("auth-change", syncUser);
+
+    return () => {
+      window.removeEventListener("auth-change", syncUser);
+    };
   }, [mounted]);
 
   const containerVariants = {
