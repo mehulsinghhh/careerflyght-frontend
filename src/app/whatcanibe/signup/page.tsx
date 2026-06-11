@@ -22,7 +22,7 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      const data = await apiClient("/auth/register", {
+      await apiClient("/auth/register", {
         method: "POST",
         body: {
           name,
@@ -32,19 +32,27 @@ export default function SignupPage() {
         },
       });
 
-      // Backend auth response format:
+      // After registration, we must log in to get the token
+      const loginData = await apiClient("/auth/login", {
+        method: "POST",
+        body: {
+          email,
+          password,
+        },
+      });
+
+      // Backend login response format:
       // { "success": true, "data": { "token": "...", "user": { ... } } }
-      localStorage.setItem("careerflyghtToken", data.data.token);
-      localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
+      if (loginData.data.token && loginData.data.user) {
+        localStorage.setItem("careerflyghtToken", loginData.data.token);
+        localStorage.setItem("careerflyghtUser", JSON.stringify(loginData.data.user));
 
-      // Use a small delay or ensure state is flushed before navigation
-      window.dispatchEvent(new Event("auth-change"));
-
-      // Force a slight delay to ensure localStorage is settled
-      setTimeout(() => {
+        window.dispatchEvent(new Event("auth-change"));
         setIsLoading(false);
         router.push("/whatcanibe/dashboard");
-      }, 100);
+      } else {
+        throw new Error("Login failed after registration");
+      }
     } catch (error) {
       const err = error as Error;
       console.error(err);

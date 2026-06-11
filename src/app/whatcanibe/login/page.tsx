@@ -31,15 +31,16 @@ export default function LoginPage() {
 
       // Backend auth response format:
       // { "success": true, "data": { "token": "...", "user": { ... } } }
-      localStorage.setItem("careerflyghtToken", data.data.token);
-      localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
+      if (data.data.token && data.data.user) {
+        localStorage.setItem("careerflyghtToken", data.data.token);
+        localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
 
-      window.dispatchEvent(new Event("auth-change"));
-
-      setTimeout(() => {
+        window.dispatchEvent(new Event("auth-change"));
         setIsLoading(false);
         router.push("/whatcanibe/dashboard");
-      }, 100);
+      } else {
+        throw new Error("Invalid response from server");
+      }
     } catch (error) {
       const err = error as Error;
       console.error(err);
