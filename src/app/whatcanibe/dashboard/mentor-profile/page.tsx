@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
-import { motion } from "framer-motion";
 import {
-  User,
   Briefcase,
   Share2 as Linkedin,
   DollarSign,
@@ -20,12 +18,15 @@ import { Input } from "@/components/ui/input";
 import { GlowCard } from "@/components/ui/glow-card";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function MentorProfileContent() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [isNewMentor, setIsNewMentor] = useState(false);
 
   const [profile, setProfile] = useState({
     company: "",
@@ -51,11 +52,16 @@ function MentorProfileContent() {
             linkedinUrl: response.data.linkedinUrl || "",
             hourlyRate: response.data.hourlyRate?.toString() || "",
           });
+          setIsNewMentor(false);
         }
       } catch (err) {
-        console.error(err);
-        // If 404, it might mean the profile doesn't exist yet, which is fine for first-time setup
-        if (!(err instanceof Error && err.message.includes("404"))) {
+        const errorMessage = err instanceof Error ? err.message : "";
+        console.error("Profile fetch error:", errorMessage);
+
+        // Check if no profile exists
+        if (errorMessage.toLowerCase().includes("not found") || errorMessage.includes("404")) {
+          setIsNewMentor(true);
+        } else {
           setError("Failed to load mentor profile.");
         }
       } finally {
@@ -66,6 +72,22 @@ function MentorProfileContent() {
     fetchProfile();
   }, []);
 
+  const updateMentorRoleLocally = () => {
+    const storedUser = localStorage.getItem("careerflyghtUser");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        if (user.role !== "mentor") {
+          user.role = "mentor";
+          localStorage.setItem("careerflyghtUser", JSON.stringify(user));
+          window.dispatchEvent(new Event("auth-change"));
+        }
+      } catch (err) {
+        console.error("Failed to parse user for role update", err);
+      }
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -73,31 +95,53 @@ function MentorProfileContent() {
     setSuccess(false);
 
     try {
-      // Try PUT first (update), if it fails with specific error we might need POST (create)
-      // Based on audit, POST creates and PUT updates.
-      let method = "PUT";
-
       const payload = {
         ...profile,
         experienceYears: profile.experienceYears ? parseInt(profile.experienceYears) : null,
         hourlyRate: profile.hourlyRate ? parseInt(profile.hourlyRate) : null,
       };
 
-      try {
-        await apiClient("/mentors/profile", {
-          method: "PUT",
-          body: payload,
-        });
-      } catch (putErr) {
-        // If PUT fails, try POST
+      // If we know it's a new mentor, use POST. Otherwise try PUT and fallback to POST if needed.
+      if (isNewMentor) {
         await apiClient("/mentors/profile", {
           method: "POST",
           body: payload,
         });
-      }
 
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+        updateMentorRoleLocally();
+
+        setSuccess(true);
+        setTimeout(() => {
+          router.push("/whatcanibe/dashboard");
+        }, 1500);
+      } else {
+        try {
+          await apiClient("/mentors/profile", {
+            method: "PUT",
+            body: payload,
+          });
+          setSuccess(true);
+          setTimeout(() => setSuccess(false), 3000);
+        } catch (putErr) {
+          const putMessage = putErr instanceof Error ? putErr.message : "";
+          if (putMessage.toLowerCase().includes("not found") || putMessage.includes("404")) {
+            // Fallback to POST if PUT fails because profile doesn't exist
+            await apiClient("/mentors/profile", {
+              method: "POST",
+              body: payload,
+            });
+
+            updateMentorRoleLocally();
+
+            setSuccess(true);
+            setTimeout(() => {
+              router.push("/whatcanibe/dashboard");
+            }, 1500);
+          } else {
+            throw putErr;
+          }
+        }
+      }
     } catch (err) {
       console.error(err);
       setError("Failed to save profile. Please check your inputs and try again.");
@@ -128,12 +172,16 @@ function MentorProfileContent() {
         <div className="mb-12">
           <div className="flex items-center gap-2 text-indigo-600 text-sm font-bold mb-3 uppercase tracking-widest">
             <div className="h-1 w-8 bg-indigo-600 rounded-full" />
-            Mentor Administration
+            {isNewMentor ? "Mentor Onboarding" : "Mentor Administration"}
           </div>
           <h1 className="text-4xl font-bold text-zinc-900 tracking-tight">
-            Manage <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Professional Identity.</span>
+            {isNewMentor ? "Build Your" : "Manage"} <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Professional Identity.</span>
           </h1>
-          <p className="text-zinc-500 mt-2 font-medium">Your profile information is visible to students looking for guidance.</p>
+          <p className="text-zinc-500 mt-2 font-medium">
+            {isNewMentor
+              ? "Join our expert network and help shape the next generation of talent."
+              : "Your profile information is visible to students looking for guidance."}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -241,12 +289,12 @@ function MentorProfileContent() {
               ) : success ? (
                 <>
                   <CheckCircle2 className="h-6 w-6" />
-                  Saved Successfully
+                  {isNewMentor ? "Profile Created" : "Saved Successfully"}
                 </>
               ) : (
                 <>
                   <Save className="h-6 w-6" />
-                  Update Profile
+                  {isNewMentor ? "Create Mentor Profile" : "Update Profile"}
                 </>
               )}
             </Button>
