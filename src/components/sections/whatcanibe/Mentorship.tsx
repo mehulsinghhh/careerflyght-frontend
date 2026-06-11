@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Quote, CheckCircle2, Star, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlowCard } from "@/components/ui/glow-card";
-import { useState } from "react";
-import { PolishedModal } from "@/components/ui/polished-modal";
+import { useRouter } from "next/navigation";
 
 export default function Mentorship() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <section id="mentorship" className="py-32 px-6 relative overflow-hidden bg-white">
@@ -118,7 +117,7 @@ export default function Mentorship() {
             </ul>
 
             <Button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => router.push("/whatcanibe/mentors")}
               size="lg"
               className="bg-indigo-600 text-white hover:bg-indigo-500 px-12 h-16 text-lg font-bold rounded-2xl transition-all active:scale-95 group"
             >
@@ -130,30 +129,6 @@ export default function Mentorship() {
           </motion.div>
         </div>
       </div>
-
-      <PolishedModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Network Access"
-        description="Our engine is identifying relevant industry connections for your profile."
-      >
-        <div className="space-y-8 py-4">
-          <div className="p-10 rounded-[2rem] border border-zinc-100 bg-zinc-50/50 flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-indigo-500/5 animate-pulse" />
-            <div className="flex flex-col items-center gap-6 relative z-10">
-              <div className="w-20 h-20 border-t-2 border-l-2 border-indigo-600 rounded-full animate-spin" />
-              <p className="text-zinc-400 font-bold text-xs uppercase tracking-widest">Optimizing Mentor Match...</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="h-24 bg-zinc-50 rounded-2xl border border-zinc-100" />
-            <div className="h-24 bg-zinc-50 rounded-2xl border border-zinc-100" />
-          </div>
-          <Button disabled className="w-full h-16 bg-zinc-100 text-zinc-400 rounded-2xl font-bold text-lg cursor-not-allowed border border-zinc-200">
-            View Connection Roadmap
-          </Button>
-        </div>
-      </PolishedModal>
     </section>
   );
 }
