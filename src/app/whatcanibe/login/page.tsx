@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GlowCard } from "@/components/ui/glow-card";
 import { Sparkles, ArrowRight, Mail, Lock } from "lucide-react";
+import { apiClient } from "@/lib/api-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,45 +20,30 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate auth
     try {
-  const response = await fetch("https://careerflyght-backend.onrender.com/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+      const data = await apiClient("/auth/login", {
+        method: "POST",
+        body: {
+          email,
+          password,
+        },
+      });
 
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
+      // Backend auth response format:
+      // { "success": true, "data": { "token": "...", "user": { ... } } }
+      localStorage.setItem("careerflyghtToken", data.data.token);
+      localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    setIsLoading(false);
-    alert(data.message || "Login failed");
-    return;
-  }
-
-  localStorage.setItem(
-    "careerflyghtUser",
-    JSON.stringify(data.user)
-  );
-
-  window.dispatchEvent(new Event("auth-change"));
-  setIsLoading(false);
-  router.push("/whatcanibe/dashboard");
-  
-
-} catch (error) {
-  console.error(error);
-  alert("Something went wrong");
-}
-
+      window.dispatchEvent(new Event("auth-change"));
+      setIsLoading(false);
+      router.push("/whatcanibe/dashboard");
+    } catch (error) {
+      const err = error as Error;
+      console.error(err);
+      setIsLoading(false);
+      alert(err.message || "Something went wrong");
+    }
   };
-  
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6 relative overflow-hidden">
@@ -84,7 +70,7 @@ export default function LoginPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1]as const }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
@@ -168,4 +154,4 @@ export default function LoginPage() {
       </motion.div>
     </div>
   );
-  }
+}

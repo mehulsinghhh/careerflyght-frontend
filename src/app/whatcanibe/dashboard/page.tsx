@@ -1,7 +1,6 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +23,7 @@ import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
 import { GlowCard } from "@/components/ui/glow-card";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { PolishedModal } from "@/components/ui/polished-modal";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 interface User {
   id: string;
@@ -38,73 +38,67 @@ const iconMap: Record<string, LucideIcon> = {
   Bookmark
 };
 
-export default function DashboardPage() {
-  const router = useRouter();
+function DashboardContent() {
   const [user, setUser] = useState<User | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
   useEffect(() => {
-  const syncUser = () => {
-    const storedUser = localStorage.getItem("careerflyghtUser");
+    const syncUser = () => {
+      const storedUser = localStorage.getItem("careerflyghtUser");
 
-    if (!storedUser) {
-      setUser(null);
-      router.push("/whatcanibe/login");
-      return;
-    }
+      if (!storedUser) {
+        setUser(null);
+        return;
+      }
 
-    try {
-      setUser(JSON.parse(storedUser));
-      setMounted(true);
-    } catch (error) {
-      console.error(error);
-      router.push("/whatcanibe/login");
-    }
-  };
+      try {
+        setUser(JSON.parse(storedUser));
+        setMounted(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  syncUser();
+    syncUser();
 
-  window.addEventListener("auth-change", syncUser);
+    window.addEventListener("auth-change", syncUser);
 
-  return () => {
-    window.removeEventListener("auth-change", syncUser);
-  };
-}, [router]);
-  
-
-if (!user) return null;
+    return () => {
+      window.removeEventListener("auth-change", syncUser);
+    };
+  }, []);
 
   if (!mounted || !user) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="h-12 w-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
- const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-  },
-};
+  };
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
     },
-  },
-};
+  };
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-20 px-6">
@@ -405,5 +399,13 @@ const itemVariants: Variants = {
         </div>
       </PolishedModal>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <ProtectedRoute>
+      <DashboardContent />
+    </ProtectedRoute>
   );
 }
