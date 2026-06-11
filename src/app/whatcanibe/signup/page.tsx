@@ -32,6 +32,7 @@ export default function SignupPage() {
       name,
       email,
       password,
+      role: "student",
     }),
   });
 
