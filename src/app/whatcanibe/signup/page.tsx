@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GlowCard } from "@/components/ui/glow-card";
 import { Sparkles, ArrowRight, Mail, Lock, User } from "lucide-react";
+import { apiClient } from "@/lib/api-client";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -20,44 +21,33 @@ export default function SignupPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate auth
- try {
-  const response = await fetch("https://careerflyght-backend-v2-production.up.railway.app/api/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    try {
+      const data = await apiClient("/auth/register", {
+        method: "POST",
+        body: {
+          name,
+          email,
+          password,
+          role: "student",
+        },
+      });
 
-    body: JSON.stringify({
-      name,
-      email,
-      password,
-      role: "student",
-    }),
-  });
+      // Backend auth response format:
+      // { "success": true, "data": { "token": "...", "user": { ... } } }
+      localStorage.setItem("careerflyghtToken", data.data.token);
+      localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    setIsLoading(false);
-    alert(data.message || "Login failed");
-    return;
-  }
-
-  localStorage.setItem(
-    "careerflyghtUser",
-    JSON.stringify(data.user)
-  );
-
-  window.dispatchEvent(new Event("auth-change"));
-
-  router.push("/whatcanibe/dashboard");
-
-} catch (error) {
-  console.error(error);
-  alert("Something went wrong");
-}
+      window.dispatchEvent(new Event("auth-change"));
+      setIsLoading(false);
+      router.push("/whatcanibe/dashboard");
+    } catch (error) {
+      const err = error as Error;
+      console.error(err);
+      setIsLoading(false);
+      alert(err.message || "Something went wrong");
+    }
   };
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6 relative overflow-hidden">
       {/* Background Glows */}
@@ -180,4 +170,3 @@ export default function SignupPage() {
     </div>
   );
 }
-

@@ -61,6 +61,7 @@ export default function WhatCanIBeNavbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("careerflyghtUser");
+    localStorage.removeItem("careerflyghtToken");
     window.dispatchEvent(new Event("auth-change"));
     setUser(null);
     router.push("/whatcanibe/login");
