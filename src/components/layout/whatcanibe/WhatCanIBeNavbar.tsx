@@ -4,22 +4,16 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useUser } from "@/hooks/useUser";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight, LayoutDashboard, LogOut, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role?: string;
-}
-
 export default function WhatCanIBeNavbar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { user } = useUser();
 
-  const [user, setUser] = useState<User | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -30,33 +24,14 @@ export default function WhatCanIBeNavbar() {
   }, []);
 
   useEffect(() => {
-    const syncUser = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
-
-      if (storedUser) {
-        try {
-          setUser(JSON.parse(storedUser));
-        } catch (error) {
-          console.error("Error parsing user:", error);
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
-    };
-
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
 
-    syncUser();
-
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("auth-change", syncUser);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("auth-change", syncUser);
     };
   }, [pathname]);
 
@@ -64,19 +39,17 @@ export default function WhatCanIBeNavbar() {
     localStorage.removeItem("careerflyghtUser");
     localStorage.removeItem("careerflyghtToken");
     window.dispatchEvent(new Event("auth-change"));
-    setUser(null);
     router.push("/whatcanibe/login");
   };
 
   const navLinks = [
     ...(user
-      ? [
-          { name: "Dashboard", href: "/whatcanibe/dashboard", icon: LayoutDashboard },
-          { name: "My Bookings", href: "/whatcanibe/dashboard/bookings" },
-          ...(user.role === "mentor"
-            ? [{ name: "Mentor Dashboard", href: "/whatcanibe/dashboard/mentor" }]
-            : [])
-        ]
+      ? user.role === "mentor"
+        ? [{ name: "Mentor Workspace", href: "/whatcanibe/dashboard/mentor", icon: LayoutDashboard }]
+        : [
+            { name: "Dashboard", href: "/whatcanibe/dashboard", icon: LayoutDashboard },
+            { name: "My Bookings", href: "/whatcanibe/dashboard/bookings" },
+          ]
       : []),
     { name: "Careers", href: "/whatcanibe/careers" },
     { name: "Pathways", href: "/whatcanibe/pathways" },
@@ -108,7 +81,7 @@ export default function WhatCanIBeNavbar() {
         <div className="container mx-auto h-full flex items-center justify-between px-10">
           <div className="flex items-center gap-16">
             <Link
-              href={user ? "/whatcanibe/dashboard" : "/whatcanibe"}
+              href={user ? (user.role === 'mentor' ? "/whatcanibe/dashboard/mentor" : "/whatcanibe/dashboard") : "/whatcanibe"}
               className="group flex items-center gap-2"
             >
               <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-[0_8px_16px_rgba(79,70,229,0.2)]">

@@ -18,6 +18,7 @@ import { apiClient } from "@/lib/api-client";
 import { GlowCard } from "@/components/ui/glow-card";
 import { Button } from "@/components/ui/button";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -45,37 +46,23 @@ interface MentorProfile {
 
 function MentorDashboardContent() {
   const router = useRouter();
+  const { isMentor, isLoading: isUserLoading } = useUser();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [mentorProfile, setMentorProfile] = useState<MentorProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
-    const checkRole = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
-      if (storedUser) {
-        try {
-          const user = JSON.parse(storedUser);
-          if (user.role === "mentor") {
-            setIsAuthorized(true);
-            return true;
-          }
-        } catch (e) {
-          console.error("Failed to parse user", e);
-        }
-      }
-      setIsAuthorized(false);
+    if (!isUserLoading && !isMentor) {
       router.replace("/whatcanibe/dashboard");
-      return false;
-    };
+    }
+  }, [isMentor, isUserLoading, router]);
 
+  useEffect(() => {
     const fetchData = async () => {
-      if (!checkRole()) {
-        return;
-      }
+      if (isUserLoading || !isMentor) return;
 
-      setIsLoading(true);
+      setIsDataLoading(true);
       try {
         const [bookingsRes, profileRes] = await Promise.all([
           apiClient("/bookings/mentor-bookings"),
@@ -91,12 +78,12 @@ function MentorDashboardContent() {
       } catch (err) {
         console.error("Failed to fetch mentor dashboard data:", err);
       } finally {
-        setIsLoading(false);
+        setIsDataLoading(false);
       }
     };
 
     fetchData();
-  }, [router]);
+  }, [isMentor, isUserLoading]);
 
   const updateBookingStatus = async (bookingId: string, status: Booking["status"]) => {
     setActionLoading(bookingId);
@@ -134,7 +121,7 @@ function MentorDashboardContent() {
     }
   };
 
-  if (isLoading) {
+  if (isUserLoading || isDataLoading) {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center">
         <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
@@ -142,7 +129,7 @@ function MentorDashboardContent() {
     );
   }
 
-  if (isAuthorized === false) {
+  if (!isMentor) {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center px-6">
         <GlowCard className="p-12 border-red-100 bg-white rounded-[2.5rem] flex flex-col items-center text-center max-w-md">
@@ -156,7 +143,7 @@ function MentorDashboardContent() {
           <div className="flex flex-col w-full gap-3">
             <Link href="/whatcanibe/dashboard/mentor-profile">
               <Button className="w-full h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold">
-                Become a Mentor
+                Complete Onboarding
               </Button>
             </Link>
             <Button

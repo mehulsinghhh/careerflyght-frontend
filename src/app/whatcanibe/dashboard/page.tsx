@@ -1,7 +1,10 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useUser } from "@/hooks/useUser";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,12 +30,6 @@ import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { PolishedModal } from "@/components/ui/polished-modal";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,
   Award,
@@ -40,46 +37,19 @@ const iconMap: Record<string, LucideIcon> = {
   Bookmark
 };
 
-interface UserWithRole extends User {
-  role: string;
-}
-
 function DashboardContent() {
-  const [user, setUser] = useState<UserWithRole | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const { user, isLoading, isMentor } = useUser();
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
   useEffect(() => {
-    const syncUser = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
+    if (!isLoading && user && isMentor) {
+      router.replace("/whatcanibe/dashboard/mentor");
+    }
+  }, [user, isMentor, isLoading, router]);
 
-      if (!storedUser) {
-        setUser(null);
-        // Even if no user, we should mark as mounted to allow ProtectedRoute to handle redirect
-        setMounted(true);
-        return;
-      }
-
-      try {
-        setUser(JSON.parse(storedUser));
-        setMounted(true);
-      } catch (error) {
-        console.error(error);
-        setMounted(true);
-      }
-    };
-
-    syncUser();
-
-    window.addEventListener("auth-change", syncUser);
-
-    return () => {
-      window.removeEventListener("auth-change", syncUser);
-    };
-  }, []);
-
-  if (!mounted || !user) {
+  if (isLoading || !user || isMentor) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />

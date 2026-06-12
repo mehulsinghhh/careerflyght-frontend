@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useUser } from "@/hooks/useUser";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -17,6 +18,7 @@ import { GlowCard } from "@/components/ui/glow-card";
 import { Button } from "@/components/ui/button";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Booking {
   id: string;
@@ -36,13 +38,22 @@ interface Booking {
 }
 
 function StudentBookingsContent() {
+  const router = useRouter();
+  const { user, isMentor, isLoading: isUserLoading } = useUser();
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isUserLoading && user && isMentor) {
+      router.replace("/whatcanibe/dashboard/mentor");
+    }
+  }, [user, isMentor, isUserLoading, router]);
+
+  useEffect(() => {
     const fetchBookings = async () => {
-      setIsLoading(true);
+      if (isUserLoading) return;
+      setIsDataLoading(true);
       try {
         const response = await apiClient("/bookings/my-bookings");
         if (response.success) {
@@ -52,12 +63,12 @@ function StudentBookingsContent() {
         console.error("Failed to fetch bookings:", err);
         setError("Failed to load your bookings. Please try again later.");
       } finally {
-        setIsLoading(false);
+        setIsDataLoading(false);
       }
     };
 
     fetchBookings();
-  }, []);
+  }, [isMentor, isUserLoading]);
 
   const getStatusColor = (status: Booking["status"]) => {
     switch (status) {
@@ -68,6 +79,14 @@ function StudentBookingsContent() {
       default: return "bg-zinc-50 text-zinc-600 border-zinc-100";
     }
   };
+
+  if (isUserLoading || !user || isMentor) {
+    return (
+      <div className="min-h-screen pt-24 flex items-center justify-center">
+        <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-24 pb-20 px-6">
@@ -93,7 +112,7 @@ function StudentBookingsContent() {
           </p>
         </div>
 
-        {isLoading ? (
+        {isUserLoading || isDataLoading ? (
           <div className="flex justify-center py-20">
             <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
           </div>
