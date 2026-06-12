@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronRight, Calendar, Clock, Video, MapPin, MessageSquare, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { apiClient } from "@/lib/api-client";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ interface MentorBookingProps {
 }
 
 export function MentorBooking({ mentorId, mentorName, hourlyRate }: MentorBookingProps) {
+  const router = useRouter();
   const [isBookingInProgress, setIsBookingInProgress] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +68,7 @@ export function MentorBooking({ mentorId, mentorName, hourlyRate }: MentorBookin
           Your request has been sent to {mentorName.split(' ')[0]}. You can track the status in your dashboard.
         </p>
         <Button
-          onClick={() => window.location.href = "/whatcanibe/dashboard/bookings"}
+          onClick={() => router.push("/whatcanibe/dashboard/bookings")}
           className="h-14 px-8 bg-white text-emerald-600 hover:bg-emerald-50 rounded-2xl font-bold"
         >
           View My Bookings

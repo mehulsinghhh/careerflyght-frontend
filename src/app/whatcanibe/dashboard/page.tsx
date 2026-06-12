@@ -18,7 +18,6 @@ import {
   Users,
   Bookmark,
   LucideIcon,
-  ShieldCheck,
   CalendarDays
 } from "lucide-react";
 
@@ -154,39 +153,6 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Mentor Access Card (Only for Mentors) */}
-            {user.role === 'mentor' && (
-              <motion.div variants={itemVariants}>
-                <GlowCard className="p-8 border-indigo-500/20 bg-indigo-50/30 rounded-[2.5rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-6">
-                      <div className="h-16 w-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                        <ShieldCheck className="h-8 w-8 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Mentor Dashboard</h2>
-                        <p className="text-zinc-500 font-medium">Manage your professional presence and student interactions.</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <Link href="/whatcanibe/dashboard/mentor">
-                        <Button className="h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/10">
-                          Workspace
-                          <ChevronRight className="ml-2 h-5 w-5" />
-                        </Button>
-                      </Link>
-                      <Link href="/whatcanibe/dashboard/mentor-profile">
-                        <Button variant="outline" className="h-14 px-8 border-indigo-200 text-indigo-600 rounded-xl font-bold transition-all bg-white hover:bg-indigo-50">
-                          Edit Profile
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            )}
-
             {/* Become a Mentor CTA (For non-mentors) */}
             {user.role !== 'mentor' && (
               <motion.div variants={itemVariants}>

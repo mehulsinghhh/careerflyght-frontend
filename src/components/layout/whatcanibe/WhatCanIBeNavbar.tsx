@@ -72,6 +72,7 @@ export default function WhatCanIBeNavbar() {
     ...(user
       ? [
           { name: "Dashboard", href: "/whatcanibe/dashboard", icon: LayoutDashboard },
+          { name: "My Bookings", href: "/whatcanibe/dashboard/bookings" },
           ...(user.role === "mentor"
             ? [{ name: "Mentor Dashboard", href: "/whatcanibe/dashboard/mentor" }]
             : [])
