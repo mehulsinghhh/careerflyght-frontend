@@ -71,9 +71,14 @@ function MentorDashboardContent() {
 
         if (bookingsRes.status === "fulfilled" && bookingsRes.value.success) {
           setBookings(bookingsRes.value.data);
+        } else if (bookingsRes.status === "rejected") {
+          console.error("Bookings fetch failed:", bookingsRes.reason);
         }
+
         if (profileRes.status === "fulfilled" && profileRes.value.success) {
           setMentorProfile(profileRes.value.data);
+        } else if (profileRes.status === "rejected") {
+          console.error("Profile fetch failed:", profileRes.reason);
         }
       } catch (err) {
         console.error("Failed to fetch mentor dashboard data:", err);
@@ -85,8 +90,11 @@ function MentorDashboardContent() {
     fetchData();
   }, [isMentor, isUserLoading]);
 
+  const [actionError, setActionError] = useState<string | null>(null);
+
   const updateBookingStatus = async (bookingId: string, status: Booking["status"]) => {
     setActionLoading(bookingId);
+    setActionError(null);
     try {
       const response = await apiClient(`/bookings/${bookingId}/status`, {
         method: "PUT",
@@ -95,10 +103,12 @@ function MentorDashboardContent() {
 
       if (response.success) {
         setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status } : b));
+      } else {
+        setActionError(response.message || "Failed to update booking status.");
       }
     } catch (err) {
       console.error("Failed to update status:", err);
-      alert("Failed to update booking status.");
+      setActionError("Failed to update booking status. Please try again.");
     } finally {
       setActionLoading(null);
     }
@@ -211,6 +221,16 @@ function MentorDashboardContent() {
           ))}
         </div>
 
+        {actionError && (
+          <div className="mb-8 p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm font-bold flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+            <ShieldAlert className="h-5 w-5" />
+            {actionError}
+            <button onClick={() => setActionError(null)} className="ml-auto hover:opacity-70">
+              Dismiss
+            </button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 gap-12">
           {/* Incoming Bookings Section */}
           <section>
@@ -314,8 +334,8 @@ function BookingCard({
             <User className="h-8 w-8 text-zinc-400" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-zinc-900">{booking.user.name}</h3>
-            <p className="text-zinc-500 text-sm font-medium">{booking.user.email}</p>
+            <h3 className="text-xl font-bold text-zinc-900">{booking.user?.name || "Student"}</h3>
+            <p className="text-zinc-500 text-sm font-medium">{booking.user?.email || "No email provided"}</p>
           </div>
         </div>
 

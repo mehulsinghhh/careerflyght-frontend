@@ -154,9 +154,9 @@ function StudentBookingsContent() {
                         <User className="h-8 w-8 text-indigo-600" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-zinc-900">{booking.mentor.user.name}</h3>
+                        <h3 className="text-xl font-bold text-zinc-900">{booking.mentor?.user?.name || "Mentor"}</h3>
                         <p className="text-zinc-500 text-sm font-medium">
-                          {booking.mentor.designation} @ {booking.mentor.company}
+                          {booking.mentor?.designation} @ {booking.mentor?.company}
                         </p>
                       </div>
                     </div>

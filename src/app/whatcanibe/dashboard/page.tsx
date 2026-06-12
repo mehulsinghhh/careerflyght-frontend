@@ -49,6 +49,7 @@ function DashboardContent() {
     }
   }, [user, isMentor, isLoading, router]);
 
+  // Prevent rendering if mentor to avoid flashing student-specific content
   if (isLoading || !user || isMentor) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
