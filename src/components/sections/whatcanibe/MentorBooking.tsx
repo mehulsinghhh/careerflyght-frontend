@@ -38,12 +38,17 @@ export function MentorBooking({ mentorId, mentorName, hourlyRate }: MentorBookin
         method: "POST",
         body: {
           mentorId,
-          ...formData
+          bookingDate: formData.bookingDate,
+          bookingTime: formData.bookingTime,
+          sessionType: formData.sessionType,
+          notes: formData.notes
         }
       });
 
       if (response.success) {
         setIsSuccess(true);
+      } else {
+        setError(response.message || "Failed to create booking.");
       }
     } catch (err) {
       console.error("Booking error:", err);

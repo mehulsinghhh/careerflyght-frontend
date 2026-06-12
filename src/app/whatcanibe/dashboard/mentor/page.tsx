@@ -46,7 +46,7 @@ interface MentorProfile {
 
 function MentorDashboardContent() {
   const router = useRouter();
-  const { isMentor, isLoading: isUserLoading } = useUser();
+  const { user, isMentor, isLoading: isUserLoading } = useUser();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [mentorProfile, setMentorProfile] = useState<MentorProfile | null>(null);
   const [isDataLoading, setIsDataLoading] = useState(true);
@@ -64,16 +64,16 @@ function MentorDashboardContent() {
 
       setIsDataLoading(true);
       try {
-        const [bookingsRes, profileRes] = await Promise.all([
+        const [bookingsRes, profileRes] = await Promise.allSettled([
           apiClient("/bookings/mentor-bookings"),
           apiClient("/mentors/profile")
         ]);
 
-        if (bookingsRes.success) {
-          setBookings(bookingsRes.data);
+        if (bookingsRes.status === "fulfilled" && bookingsRes.value.success) {
+          setBookings(bookingsRes.value.data);
         }
-        if (profileRes.success) {
-          setMentorProfile(profileRes.data);
+        if (profileRes.status === "fulfilled" && profileRes.value.success) {
+          setMentorProfile(profileRes.value.data);
         }
       } catch (err) {
         console.error("Failed to fetch mentor dashboard data:", err);
@@ -105,10 +105,10 @@ function MentorDashboardContent() {
   };
 
   const stats = {
-    total: bookings.length,
-    pending: bookings.filter(b => b.status === "pending").length,
-    confirmed: bookings.filter(b => b.status === "confirmed").length,
-    completed: bookings.filter(b => b.status === "completed").length,
+    total: bookings?.length || 0,
+    pending: (bookings || []).filter(b => b.status === "pending").length,
+    confirmed: (bookings || []).filter(b => b.status === "confirmed").length,
+    completed: (bookings || []).filter(b => b.status === "completed").length,
   };
 
   const getStatusColor = (status: Booking["status"]) => {
@@ -175,7 +175,7 @@ function MentorDashboardContent() {
               Mentor Workspace
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 tracking-tight">
-              Welcome Back, <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">{mentorProfile ? mentorProfile.user.name.split(' ')[0] : "Mentor"}.</span>
+              Welcome Back, <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">{mentorProfile?.user?.name ? mentorProfile.user.name.split(' ')[0] : user?.name ? user.name.split(' ')[0] : "Mentor"}.</span>
             </h1>
             {mentorProfile && (
               <p className="text-zinc-500 mt-2 font-medium flex items-center gap-2">

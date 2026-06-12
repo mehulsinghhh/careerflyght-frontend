@@ -52,12 +52,14 @@ function StudentBookingsContent() {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      if (isUserLoading) return;
+      if (isUserLoading || !user || isMentor) return;
       setIsDataLoading(true);
       try {
         const response = await apiClient("/bookings/my-bookings");
         if (response.success) {
-          setBookings(response.data);
+          setBookings(response.data || []);
+        } else {
+          setError(response.message || "Failed to load bookings");
         }
       } catch (err) {
         console.error("Failed to fetch bookings:", err);
