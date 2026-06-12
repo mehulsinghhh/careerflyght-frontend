@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
-import { motion } from "framer-motion";
 import {
-  Briefcase,
   GraduationCap,
-  DollarSign,
   ArrowLeft,
   Star,
   User,
@@ -14,7 +11,6 @@ import {
   Share2 as Linkedin,
   Calendar,
   Sparkles,
-  ChevronRight,
   Info
 } from "lucide-react";
 import { apiClient } from "@/lib/api-client";

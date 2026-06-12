@@ -1,7 +1,10 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useUser } from "@/hooks/useUser";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +21,7 @@ import {
   Users,
   Bookmark,
   LucideIcon,
-  ShieldCheck
+  CalendarDays
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -27,12 +30,6 @@ import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { PolishedModal } from "@/components/ui/polished-modal";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,
   Award,
@@ -40,46 +37,20 @@ const iconMap: Record<string, LucideIcon> = {
   Bookmark
 };
 
-interface UserWithRole extends User {
-  role: string;
-}
-
 function DashboardContent() {
-  const [user, setUser] = useState<UserWithRole | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const { user, isLoading, isMentor } = useUser();
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
   useEffect(() => {
-    const syncUser = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
+    if (!isLoading && user && isMentor) {
+      router.replace("/whatcanibe/dashboard/mentor");
+    }
+  }, [user, isMentor, isLoading, router]);
 
-      if (!storedUser) {
-        setUser(null);
-        // Even if no user, we should mark as mounted to allow ProtectedRoute to handle redirect
-        setMounted(true);
-        return;
-      }
-
-      try {
-        setUser(JSON.parse(storedUser));
-        setMounted(true);
-      } catch (error) {
-        console.error(error);
-        setMounted(true);
-      }
-    };
-
-    syncUser();
-
-    window.addEventListener("auth-change", syncUser);
-
-    return () => {
-      window.removeEventListener("auth-change", syncUser);
-    };
-  }, []);
-
-  if (!mounted || !user) {
+  // Prevent rendering if mentor to avoid flashing student-specific content
+  if (isLoading || !user || isMentor) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
@@ -153,32 +124,6 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Mentor Access Card (Only for Mentors) */}
-            {user.role === 'mentor' && (
-              <motion.div variants={itemVariants}>
-                <GlowCard className="p-8 border-indigo-500/20 bg-indigo-50/30 rounded-[2.5rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-6">
-                      <div className="h-16 w-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                        <ShieldCheck className="h-8 w-8 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Mentor Access Enabled</h2>
-                        <p className="text-zinc-500 font-medium">Manage your professional presence and student interactions.</p>
-                      </div>
-                    </div>
-                    <Link href="/whatcanibe/dashboard/mentor-profile">
-                      <Button className="h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/10">
-                        Configure Profile
-                        <ChevronRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            )}
-
             {/* Become a Mentor CTA (For non-mentors) */}
             {user.role !== 'mentor' && (
               <motion.div variants={itemVariants}>
@@ -204,6 +149,30 @@ function DashboardContent() {
                 </GlowCard>
               </motion.div>
             )}
+
+            {/* Bookings Access Card */}
+            <motion.div variants={itemVariants}>
+              <GlowCard className="p-8 border-emerald-500/20 bg-emerald-50/30 rounded-[2.5rem] relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                  <div className="flex items-center gap-6">
+                    <div className="h-16 w-16 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/20">
+                      <CalendarDays className="h-8 w-8 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">My Bookings</h2>
+                      <p className="text-zinc-500 font-medium">Track your scheduled sessions and connect with mentors.</p>
+                    </div>
+                  </div>
+                  <Link href="/whatcanibe/dashboard/bookings">
+                    <Button className="h-14 px-8 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-emerald-600/10">
+                      View Sessions
+                      <ChevronRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </div>
+              </GlowCard>
+            </motion.div>
 
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
