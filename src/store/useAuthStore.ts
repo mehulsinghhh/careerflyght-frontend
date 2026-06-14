@@ -1,7 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { User } from '@/types/auth';
-import Cookies from 'js-cookie';
 
 interface AuthStore {
   user: User | null;
@@ -18,26 +17,32 @@ export const useAuthStore = create<AuthStore>()(
       token: null,
       setAuth: (user, token) => {
         set({ user, token });
-        // Mirror to cookies for Middleware access
-        Cookies.set('careerflyghtToken', token, { expires: 7 });
-        Cookies.set('careerflyghtUser', JSON.stringify(user), { expires: 7 });
+        // Manually set localStorage for backward compatibility if needed,
+        // though persist already handles it.
+        if (typeof window !== 'undefined') {
+           localStorage.setItem('careerflyghtToken', token);
+           localStorage.setItem('careerflyghtUser', JSON.stringify(user));
+        }
       },
       clearAuth: () => {
         set({ user: null, token: null });
-        Cookies.remove('careerflyghtToken');
-        Cookies.remove('careerflyghtUser');
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('careerflyghtToken');
+          localStorage.removeItem('careerflyghtUser');
+        }
       },
       updateUser: (updatedFields) =>
         set((state) => {
           const newUser = state.user ? { ...state.user, ...updatedFields } : null;
-          if (newUser) {
-             Cookies.set('careerflyghtUser', JSON.stringify(newUser), { expires: 7 });
+          if (newUser && typeof window !== 'undefined') {
+            localStorage.setItem('careerflyghtUser', JSON.stringify(newUser));
           }
           return { user: newUser };
         }),
     }),
     {
-      name: 'careerflyght-auth',
+      name: 'careerflyght-auth-v2', // Changed key to avoid conflict
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
