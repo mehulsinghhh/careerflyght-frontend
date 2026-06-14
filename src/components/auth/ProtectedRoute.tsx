@@ -1,28 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { useAuth } from '@/providers/AuthProvider';
+import { UserRole } from '@/types/auth';
 
-export function ProtectedRoute({ children }: { children: React.ReactNode }) {
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  allowedRoles?: UserRole[];
+}
+
+export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
+  const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("careerflyghtToken");
-    const user = localStorage.getItem("careerflyghtUser");
+    if (isLoading) return;
 
-    if (!token || !user) {
-      router.push("/whatcanibe/login");
-    } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIsAuthorized(true);
+    if (!isAuthenticated) {
+      router.push(`/login?redirect=${pathname}`);
+      return;
     }
-  }, [router]);
 
-  if (!isAuthorized) {
+    if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+      // Redirect based on primary role if unauthorized for this specific route
+      if (user.role === 'mentor') {
+        router.push('/mentor/dashboard');
+      } else {
+        router.push('/dashboard');
+      }
+      return;
+    }
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsAuthorized(true);
+  }, [isAuthenticated, isLoading, user, allowedRoles, router, pathname]);
+
+  if (isLoading || !isAuthorized) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="h-10 w-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
