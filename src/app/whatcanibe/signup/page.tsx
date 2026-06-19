@@ -15,6 +15,7 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignup = async (e: FormEvent) => {
@@ -28,7 +29,7 @@ export default function SignupPage() {
           name,
           email,
           password,
-          role: "student",
+          role,
         },
       });
 
@@ -49,7 +50,13 @@ export default function SignupPage() {
 
         window.dispatchEvent(new Event("auth-change"));
         setIsLoading(false);
-        router.push("/whatcanibe/dashboard");
+
+        const userRole = loginData.data.user.role;
+        if (userRole === "mentor") {
+          router.push("/whatcanibe/dashboard/mentor");
+        } else {
+          router.push("/whatcanibe/dashboard/student");
+        }
       } else {
         throw new Error("Login failed after registration");
       }
@@ -121,6 +128,34 @@ export default function SignupPage() {
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest ml-1">I want to join as a</label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setRole("student")}
+                  className={`flex items-center justify-center gap-2 h-12 rounded-xl border-2 transition-all font-bold text-sm ${
+                    role === "student"
+                      ? "bg-indigo-50 border-indigo-600 text-indigo-600 shadow-sm"
+                      : "bg-white border-zinc-100 text-zinc-400 hover:border-zinc-200"
+                  }`}
+                >
+                  Student
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole("mentor")}
+                  className={`flex items-center justify-center gap-2 h-12 rounded-xl border-2 transition-all font-bold text-sm ${
+                    role === "mentor"
+                      ? "bg-purple-50 border-purple-600 text-purple-600 shadow-sm"
+                      : "bg-white border-zinc-100 text-zinc-400 hover:border-zinc-200"
+                  }`}
+                >
+                  Mentor
+                </button>
               </div>
             </div>
 

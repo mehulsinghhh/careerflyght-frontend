@@ -1,7 +1,6 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,8 +17,7 @@ import {
   Clock,
   Users,
   Bookmark,
-  LucideIcon,
-  ShieldCheck
+  LucideIcon
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -45,8 +43,7 @@ interface UserWithRole extends User {
   role: string;
 }
 
-function DashboardContent() {
-  const router = useRouter();
+function StudentDashboardContent() {
   const [user, setUser] = useState<UserWithRole | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
@@ -58,22 +55,12 @@ function DashboardContent() {
 
       if (!storedUser) {
         setUser(null);
-        // Even if no user, we should mark as mounted to allow ProtectedRoute to handle redirect
         setMounted(true);
         return;
       }
 
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-
-        // Redirect to role-specific dashboard
-        if (parsedUser.role === "student") {
-          router.push("/whatcanibe/dashboard/student");
-        } else if (parsedUser.role === "mentor") {
-          router.push("/whatcanibe/dashboard/mentor");
-        }
-
+        setUser(JSON.parse(storedUser));
         setMounted(true);
       } catch (error) {
         console.error(error);
@@ -139,7 +126,7 @@ function DashboardContent() {
           <div>
             <div className="flex items-center gap-2 text-indigo-600 text-sm font-bold mb-3 uppercase tracking-widest">
               <div className="h-1 w-8 bg-indigo-600 rounded-full" />
-              Member Dashboard
+              Student Dashboard
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 tracking-tight">
               Welcome back, <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">{user.name.split(' ')[0]}</span>!
@@ -164,58 +151,6 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Mentor Access Card (Only for Mentors) */}
-            {user.role === 'mentor' && (
-              <motion.div variants={itemVariants}>
-                <GlowCard className="p-8 border-indigo-500/20 bg-indigo-50/30 rounded-[2.5rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-6">
-                      <div className="h-16 w-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                        <ShieldCheck className="h-8 w-8 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Mentor Access Enabled</h2>
-                        <p className="text-zinc-500 font-medium">Manage your professional presence and student interactions.</p>
-                      </div>
-                    </div>
-                    <Link href="/whatcanibe/dashboard/mentor-profile">
-                      <Button className="h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/10">
-                        Configure Profile
-                        <ChevronRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            )}
-
-            {/* Become a Mentor CTA (For non-mentors) */}
-            {user.role !== 'mentor' && (
-              <motion.div variants={itemVariants}>
-                <GlowCard className="p-8 border-purple-500/20 bg-purple-50/30 rounded-[2.5rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-6">
-                      <div className="h-16 w-16 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/20">
-                        <Users className="h-8 w-8 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Become a Mentor</h2>
-                        <p className="text-zinc-500 font-medium">Share your expertise and guide the next generation of professionals.</p>
-                      </div>
-                    </div>
-                    <Link href="/whatcanibe/dashboard/mentor-profile">
-                      <Button className="h-14 px-8 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-purple-600/10">
-                        Get Started
-                        <ChevronRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            )}
-
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {MOCK_DASHBOARD_DATA.stats.map((stat, i) => {
@@ -474,10 +409,10 @@ function DashboardContent() {
   );
 }
 
-export default function DashboardPage() {
+export default function StudentDashboardPage() {
   return (
-    <ProtectedRoute>
-      <DashboardContent />
+    <ProtectedRoute allowedRoles={["student"]}>
+      <StudentDashboardContent />
     </ProtectedRoute>
   );
 }

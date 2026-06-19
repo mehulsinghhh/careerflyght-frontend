@@ -12,6 +12,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  role: string;
 }
 
 export default function WhatCanIBeNavbar() {
@@ -67,9 +68,13 @@ export default function WhatCanIBeNavbar() {
     router.push("/whatcanibe/login");
   };
 
+  const dashboardHref = user?.role === "mentor"
+    ? "/whatcanibe/dashboard/mentor"
+    : "/whatcanibe/dashboard/student";
+
   const navLinks = [
     ...(user
-      ? [{ name: "Dashboard", href: "/whatcanibe/dashboard", icon: LayoutDashboard }]
+      ? [{ name: "Dashboard", href: dashboardHref, icon: LayoutDashboard }]
       : []),
     { name: "Careers", href: "/whatcanibe/careers" },
     { name: "Pathways", href: "/whatcanibe/pathways" },
@@ -101,7 +106,7 @@ export default function WhatCanIBeNavbar() {
         <div className="container mx-auto h-full flex items-center justify-between px-10">
           <div className="flex items-center gap-16">
             <Link
-              href={user ? "/whatcanibe/dashboard" : "/whatcanibe"}
+              href={user ? dashboardHref : "/whatcanibe"}
               className="group flex items-center gap-2"
             >
               <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-[0_8px_16px_rgba(79,70,229,0.2)]">
