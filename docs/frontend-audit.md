@@ -64,6 +64,31 @@ List of endpoints currently consumed via `apiClient`:
 
 ---
 
+## Architectural Uncertainties
+The `docs/backend-contract.md` contains ambiguities regarding the Mentor lifecycle that significantly impact the frontend architecture:
+
+1. **`POST /auth/register` accepts a `role` field.** This suggests the possibility of direct mentor accounts.
+2. **`POST /mentors/profile` description states:** "Any (User role is updated to `mentor` upon creation)". This describes a role conversion flow.
+
+This ambiguity leads to three potential interpretations:
+
+### 1. Direct Mentor Registration
+*   **Definition:** Users choose "Mentor" at signup and never exist as students.
+*   **Frontend Dependency:** Current signup is hardcoded to `student`.
+*   **Required Changes:** Add a role selection toggle to `/whatcanibe/signup` and pass it to the register API.
+
+### 2. Student-to-Mentor Conversion
+*   **Definition:** All users start as students and must "convert" via profile creation.
+*   **Frontend Dependency:** Current implementation follows this but is inconsistent with the contract's signup capability.
+*   **Required Changes:** Strictly enforce this flow; remove role selection from signup if it existed.
+
+### 3. Hybrid Architecture
+*   **Definition:** Both direct registration and conversion are supported.
+*   **Frontend Dependency:** Current frontend is "Hybrid-Ready" but incomplete.
+*   **Required Changes:** Allow role selection at signup AND maintain the "Become a Mentor" option for existing students.
+
+---
+
 ## Dashboard Analysis
 The current dashboard (`/whatcanibe/dashboard`) is a **shared experience** for both students and mentors.
 - **How it works:** It uses a single page component that conditionally renders UI elements based on `user.role`.
