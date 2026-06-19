@@ -37,7 +37,13 @@ export default function LoginPage() {
 
         window.dispatchEvent(new Event("auth-change"));
         setIsLoading(false);
-        router.push("/whatcanibe/dashboard");
+
+        const role = data.data.user.role;
+        if (role === "mentor") {
+          router.push("/whatcanibe/dashboard/mentor");
+        } else {
+          router.push("/whatcanibe/dashboard/student");
+        }
       } else {
         throw new Error("Invalid response from server");
       }
