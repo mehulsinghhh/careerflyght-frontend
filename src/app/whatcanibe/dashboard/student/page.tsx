@@ -27,7 +27,8 @@ import {
   Video,
   MapPin,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  Edit2
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -280,10 +281,20 @@ function StudentDashboardContent() {
             <motion.div variants={itemVariants}>
               <Card className="bg-white border-zinc-100 overflow-hidden rounded-[2rem] shadow-sm">
                 <CardHeader className="border-b border-zinc-100 p-8">
-                  <CardTitle className="text-xl font-bold text-zinc-900 flex items-center gap-3">
-                    <User className="h-6 w-6 text-indigo-600" />
-                    Profile Overview
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-xl font-bold text-zinc-900 flex items-center gap-3">
+                      <User className="h-6 w-6 text-indigo-600" />
+                      Profile Overview
+                    </CardTitle>
+                    {profile && (
+                      <Button variant="ghost" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 font-bold rounded-xl" asChild>
+                        <Link href="/whatcanibe/onboarding/student">
+                          <Edit2 className="mr-2 h-4 w-4" />
+                          Edit Profile
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent className="p-8">
                   {!profile ? (
@@ -295,8 +306,10 @@ function StudentDashboardContent() {
                       <p className="text-sm text-zinc-500 max-w-xs mb-6">
                         Tell us more about your background and interests to get personalized career guidance.
                       </p>
-                      <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold h-11 px-8">
-                        Get Started
+                      <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold h-11 px-8" asChild>
+                        <Link href="/whatcanibe/onboarding/student">
+                          Get Started
+                        </Link>
                       </Button>
                     </div>
                   ) : (
