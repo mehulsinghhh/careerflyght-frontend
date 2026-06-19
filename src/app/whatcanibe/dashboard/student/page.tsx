@@ -100,26 +100,41 @@ function StudentDashboardContent() {
     setIsLoading(true);
     setError(null);
     try {
-      // 1. Get User Data
+      // 1. Get User Data - This is mandatory for the dashboard
       const userRes = await apiClient("/users/me");
       setUser(userRes.data);
 
-      // 2. Get Student Profile
+      // 2. Get Student Profile - Handle "not found" as an onboarding state
       try {
         const profileRes = await apiClient("/users/profile");
         setProfile(profileRes.data);
       } catch (err: unknown) {
-        // If 404, profile doesn't exist yet - this is handled in the UI
         const error = err as Error;
-        if (error.message !== "Not Found" && !error.message?.includes("404")) {
+        const isNotFound = error.message === "Student profile not found" ||
+                          error.message === "Not Found" ||
+                          error.message?.includes("404");
+
+        if (!isNotFound) {
           console.error("Profile fetch error:", error);
+          // We don't set global error here, we just show "not found" state in the profile section
         }
         setProfile(null);
       }
 
-      // 3. Get Bookings
-      const bookingsRes = await apiClient("/bookings/my-bookings");
-      setBookings(bookingsRes.data);
+      // 3. Get Bookings - Handle "profile not found" or empty as empty session state
+      try {
+        const bookingsRes = await apiClient("/bookings/my-bookings");
+        setBookings(bookingsRes.data || []);
+      } catch (err: unknown) {
+        const error = err as Error;
+        const isProfileMissing = error.message === "Student profile not found";
+
+        if (!isProfileMissing) {
+          console.error("Bookings fetch error:", error);
+          // We don't set global error here to avoid blocking the whole dashboard
+        }
+        setBookings([]);
+      }
 
     } catch (err: unknown) {
       const error = err as Error;
