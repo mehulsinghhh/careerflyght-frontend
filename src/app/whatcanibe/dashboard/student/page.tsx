@@ -37,6 +37,8 @@ import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { PolishedModal } from "@/components/ui/polished-modal";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { apiClient } from "@/lib/api-client";
+import { Booking } from "@/types/booking";
+import { BookingDetailsModal } from "@/components/sections/whatcanibe/BookingDetailsModal";
 
 // --- Types ---
 
@@ -60,21 +62,6 @@ interface StudentProfile {
   resumeUrl: string | null;
 }
 
-interface Booking {
-  id: string;
-  mentorId: string;
-  bookingDate: string;
-  bookingTime: string;
-  sessionType: 'online' | 'offline';
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-  notes?: string;
-  mentor?: {
-    user: {
-      name: string;
-    }
-  };
-}
-
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,
   Award,
@@ -91,6 +78,7 @@ function StudentDashboardContent() {
   const [user, setUser] = useState<UserData | null>(null);
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -459,7 +447,7 @@ function StudentDashboardContent() {
                             </div>
                           </div>
 
-                          <h4 className="text-zinc-900 font-bold mb-1">{booking.mentor?.user?.name || "Mentor"}</h4>
+                          <h4 className="text-zinc-900 font-bold mb-1">{booking.mentor?.user?.name || `Mentor (ID: ${booking.mentorId.slice(-4).toUpperCase()})`}</h4>
                           <div className="space-y-1.5 mb-4">
                             <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
                               <Calendar className="h-3.5 w-3.5 text-zinc-400" />
@@ -477,7 +465,12 @@ function StudentDashboardContent() {
                             </p>
                           )}
 
-                          <Button variant="outline" size="sm" className="w-full rounded-xl border-zinc-200 text-zinc-600 font-bold bg-white group-hover:border-indigo-500/20 group-hover:text-indigo-600 transition-all">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedBooking(booking)}
+                            className="w-full rounded-xl border-zinc-200 text-zinc-600 font-bold bg-white group-hover:border-indigo-500/20 group-hover:text-indigo-600 transition-all"
+                          >
                             View Details
                             <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
                           </Button>
@@ -725,6 +718,12 @@ function StudentDashboardContent() {
           </Button>
         </div>
       </PolishedModal>
+
+      <BookingDetailsModal
+        isOpen={!!selectedBooking}
+        onClose={() => setSelectedBooking(null)}
+        booking={selectedBooking}
+      />
     </div>
   );
 }
