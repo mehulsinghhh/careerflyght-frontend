@@ -1,6 +1,6 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,12 +13,18 @@ import {
   LucideIcon,
   ShieldCheck,
   Star,
-  DollarSign,
-  Briefcase
+  Briefcase,
+  AlertCircle,
+  Video,
+  MapPin,
+  CheckCircle2,
+  XCircle
 } from "lucide-react";
 
 import { GlowCard } from "@/components/ui/glow-card";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { apiClient } from "@/lib/api-client";
+import { Booking, BookingStatus } from "@/types/booking";
 
 interface User {
   id: string;
@@ -32,40 +38,74 @@ interface UserWithRole extends User {
 
 function MentorDashboardContent() {
   const [user, setUser] = useState<UserWithRole | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [actionInProgress, setActionInProgress] = useState<string | null>(null);
 
-  useEffect(() => {
-    const syncUser = () => {
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
       const storedUser = localStorage.getItem("careerflyghtUser");
-
-      if (!storedUser) {
-        setUser(null);
-        setMounted(true);
-        return;
-      }
-
-      try {
+      if (storedUser) {
         setUser(JSON.parse(storedUser));
-        setMounted(true);
-      } catch (error) {
-        console.error(error);
-        setMounted(true);
       }
-    };
 
-    syncUser();
-
-    window.addEventListener("auth-change", syncUser);
-
-    return () => {
-      window.removeEventListener("auth-change", syncUser);
-    };
+      const bookingsRes = await apiClient("/bookings/mentor-bookings");
+      setBookings(bookingsRes.data || []);
+    } catch (err: unknown) {
+      console.error("Mentor dashboard fetch error:", err);
+      setError("Failed to load dashboard data.");
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  if (!mounted || !user) {
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchData();
+  }, [fetchData]);
+
+  const handleUpdateStatus = async (bookingId: string, status: BookingStatus) => {
+    setActionInProgress(bookingId);
+    try {
+      await apiClient(`/bookings/${bookingId}/status`, {
+        method: "PUT",
+        body: { status }
+      });
+      // Refresh data
+      const bookingsRes = await apiClient("/bookings/mentor-bookings");
+      setBookings(bookingsRes.data || []);
+    } catch (err: unknown) {
+      console.error("Status update error:", err);
+      alert("Failed to update booking status.");
+    } finally {
+      setActionInProgress(null);
+    }
+  };
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (error || !user) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center p-6">
+        <div className="max-w-md w-full text-center">
+          <div className="h-20 w-20 rounded-full bg-red-50 flex items-center justify-center mb-6 mx-auto">
+            <AlertCircle className="h-10 w-10 text-red-500" />
+          </div>
+          <h3 className="text-2xl font-bold text-zinc-900 mb-2">Something went wrong</h3>
+          <p className="text-zinc-500 mb-8">{error || "User session not found."}</p>
+          <Button onClick={() => fetchData()} className="bg-indigo-600 text-white rounded-xl font-bold px-8 h-12">
+            Try Again
+          </Button>
+        </div>
       </div>
     );
   }
@@ -118,7 +158,8 @@ function MentorDashboardContent() {
             </h1>
             <p className="text-zinc-500 mt-2 font-medium flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              May 24, 2024 &mdash; You have 3 pending session requests
+              {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &mdash;
+              You have {bookings.filter(b => b.status === 'pending').length} pending requests
             </p>
           </div>
 
@@ -163,10 +204,10 @@ function MentorDashboardContent() {
             {/* Mentor Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { label: "Total Sessions", value: "42", icon: Users },
-                { label: "Hours Guided", value: "128", icon: Clock },
-                { label: "Total Earnings", value: "$6.4k", icon: DollarSign },
-                { label: "Active Students", value: "12", icon: Star },
+                { label: "Total Sessions", value: bookings.filter(b => b.status === 'completed').length.toString(), icon: Users },
+                { label: "Hours Guided", value: (bookings.filter(b => b.status === 'completed').length * 1).toString(), icon: Clock },
+                { label: "Pending Requests", value: bookings.filter(b => b.status === 'pending').length.toString(), icon: Star },
+                { label: "Confirmed", value: bookings.filter(b => b.status === 'confirmed').length.toString(), icon: ShieldCheck },
               ].map((stat, i) => (
                 <GlowCard key={i} className="p-5 border-zinc-100 bg-white">
                   <div className="h-10 w-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-4">
@@ -188,13 +229,102 @@ function MentorDashboardContent() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-8">
-                  <div className="text-center py-12">
-                     <div className="h-16 w-16 bg-zinc-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-100">
-                        <Calendar className="h-8 w-8 text-zinc-300" />
-                     </div>
-                     <h3 className="text-lg font-bold text-zinc-900">No sessions scheduled for today</h3>
-                     <p className="text-zinc-500 text-sm max-w-xs mx-auto mt-2">New booking requests from students will appear here once they are confirmed.</p>
-                  </div>
+                  {bookings.length === 0 ? (
+                    <div className="text-center py-12">
+                       <div className="h-16 w-16 bg-zinc-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-100">
+                          <Calendar className="h-8 w-8 text-zinc-300" />
+                       </div>
+                       <h3 className="text-lg font-bold text-zinc-900">No session requests yet</h3>
+                       <p className="text-zinc-500 text-sm max-w-xs mx-auto mt-2">New booking requests from students will appear here once they arrive.</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {bookings.sort((a, b) => b.status === 'pending' ? 1 : -1).map((booking) => (
+                        <div key={booking.id} className="p-6 rounded-3xl border border-zinc-100 bg-zinc-50/50 hover:bg-white transition-all group">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-widest border ${
+                              booking.status === 'confirmed' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                              booking.status === 'pending' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                              booking.status === 'completed' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                              'bg-zinc-100 text-zinc-500 border-zinc-200'
+                            }`}>
+                              {booking.status}
+                            </div>
+                            <div className="h-8 w-8 rounded-lg bg-white border border-zinc-100 flex items-center justify-center text-zinc-400">
+                              {booking.sessionType === 'online' ? <Video className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
+                            </div>
+                          </div>
+
+                          <h4 className="text-zinc-900 font-bold mb-1">
+                            {booking.student?.user?.name || `Student (ID: ${booking.studentId.slice(-4).toUpperCase()})`}
+                          </h4>
+
+                          <div className="space-y-1.5 mb-4">
+                            <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+                              <Calendar className="h-3.5 w-3.5 text-zinc-400" />
+                              {new Date(booking.bookingDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+                              <Clock className="h-3.5 w-3.5 text-zinc-400" />
+                              {booking.bookingTime}
+                            </div>
+                          </div>
+
+                          {booking.notes && (
+                            <p className="text-xs text-zinc-400 line-clamp-2 italic border-l-2 border-zinc-200 pl-3 mb-6">
+                              &ldquo;{booking.notes}&rdquo;
+                            </p>
+                          )}
+
+                          <div className="flex gap-2">
+                            {booking.status === 'pending' && (
+                              <>
+                                <Button
+                                  size="sm"
+                                  disabled={actionInProgress === booking.id}
+                                  onClick={() => handleUpdateStatus(booking.id, 'confirmed')}
+                                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold h-10"
+                                >
+                                  {actionInProgress === booking.id ? "..." : "Accept"}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  disabled={actionInProgress === booking.id}
+                                  onClick={() => handleUpdateStatus(booking.id, 'cancelled')}
+                                  className="flex-1 border-zinc-200 text-zinc-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100 rounded-xl font-bold h-10"
+                                >
+                                  Decline
+                                </Button>
+                              </>
+                            )}
+                            {booking.status === 'confirmed' && (
+                               <Button
+                                 size="sm"
+                                 disabled={actionInProgress === booking.id}
+                                 onClick={() => handleUpdateStatus(booking.id, 'completed')}
+                                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold h-10"
+                               >
+                                 Mark Completed
+                               </Button>
+                            )}
+                            {booking.status === 'completed' && (
+                              <div className="w-full flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 bg-emerald-50 h-10 rounded-xl border border-emerald-100">
+                                <CheckCircle2 className="h-4 w-4" />
+                                Session Completed
+                              </div>
+                            )}
+                            {booking.status === 'cancelled' && (
+                              <div className="w-full flex items-center justify-center gap-2 text-xs font-bold text-zinc-400 bg-zinc-100 h-10 rounded-xl border border-zinc-200">
+                                <XCircle className="h-4 w-4" />
+                                Session Cancelled
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
