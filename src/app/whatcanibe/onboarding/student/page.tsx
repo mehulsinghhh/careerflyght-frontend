@@ -1,6 +1,8 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import {
   ArrowLeft,
   User,
@@ -8,22 +10,101 @@ import {
   Briefcase,
   MapPin,
   FileText,
-  Sparkles
+  Sparkles,
+  AlertCircle,
+  CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { apiClient } from "@/lib/api-client";
 
-function StudentOnboardingPlaceholder() {
+interface StudentProfileData {
+  educationLevel: string;
+  preferredCountry: string;
+  careerInterest: string;
+  bio: string;
+  resumeUrl: string | null;
+}
+
+function StudentOnboardingContent() {
   const router = useRouter();
 
-  const requiredFields = [
-    { label: "Education Level", icon: GraduationCap, description: "Your current or most recent academic qualification" },
-    { label: "Target Country", icon: MapPin, description: "Where you plan to pursue your career" },
-    { label: "Career Interests", icon: Briefcase, description: "Specific industries or roles you're interested in" },
-    { label: "Biography", icon: User, description: "A short introduction about yourself" },
-    { label: "Professional Resume", icon: FileText, description: "Upload your latest CV in PDF format" }
-  ];
+  const [formData, setFormData] = useState<StudentProfileData>({
+    educationLevel: "",
+    preferredCountry: "",
+    careerInterest: "",
+    bio: "",
+    resumeUrl: null
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [hasExistingProfile, setHasExistingProfile] = useState(false);
+
+  const fetchProfile = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await apiClient("/users/profile");
+      if (response.success && response.data) {
+        setFormData({
+          educationLevel: response.data.educationLevel || "",
+          preferredCountry: response.data.preferredCountry || "",
+          careerInterest: response.data.careerInterest || "",
+          bio: response.data.bio || "",
+          resumeUrl: response.data.resumeUrl || null
+        });
+        setHasExistingProfile(true);
+      }
+    } catch (err: unknown) {
+      // 404/Not Found is expected for new users
+      console.log("No existing profile found or error fetching profile:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchProfile();
+  }, [fetchProfile]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const method = hasExistingProfile ? "PUT" : "POST";
+      const response = await apiClient("/users/profile", {
+        method,
+        body: formData
+      });
+
+      if (response.success) {
+        setSuccess(true);
+        setTimeout(() => {
+          router.push("/whatcanibe/dashboard/student");
+        }, 2000);
+      }
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message || "Failed to save profile. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-20 px-6">
@@ -53,58 +134,133 @@ function StudentOnboardingPlaceholder() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-indigo-600 text-sm font-bold uppercase tracking-widest">
                 <Sparkles className="h-4 w-4" />
-                Coming Soon
+                Profile Setup
               </div>
               <h1 className="text-4xl font-bold text-zinc-900 tracking-tight">
-                Profile Setup
+                {hasExistingProfile ? "Update Your Profile" : "Tell Us About Yourself"}
               </h1>
               <p className="text-zinc-500 text-lg">
-                We&apos;re building a personalized onboarding experience to help you find the perfect career path.
+                Complete your profile to unlock mentorship sessions and personalized career guidance.
               </p>
             </div>
           </div>
 
-          {/* Placeholder Card */}
           <Card className="bg-white border-zinc-100 overflow-hidden rounded-[2rem] shadow-sm">
-            <CardHeader className="bg-zinc-50/50 border-b border-zinc-100 p-8">
-              <CardTitle className="text-xl font-bold text-zinc-900 flex items-center gap-3">
-                <FileText className="h-6 w-6 text-indigo-600" />
-                Required Fields Preview
-              </CardTitle>
-            </CardHeader>
             <CardContent className="p-8">
-              <div className="space-y-6">
-                <p className="text-sm text-zinc-500 mb-6">
-                  To provide you with the best AI-driven career matches and mentorship recommendations, we will soon require the following information:
-                </p>
-
-                <div className="grid gap-4">
-                  {requiredFields.map((field, i) => (
-                    <div key={i} className="flex items-start gap-4 p-4 rounded-2xl border border-zinc-50 bg-zinc-50/30">
-                      <div className="h-10 w-10 rounded-xl bg-white border border-zinc-100 flex items-center justify-center shrink-0">
-                        <field.icon className="h-5 w-5 text-indigo-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-zinc-900">{field.label}</p>
-                        <p className="text-xs text-zinc-500 mt-1">{field.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 p-6 rounded-2xl bg-indigo-50 border border-indigo-100">
-                  <p className="text-sm text-indigo-900 font-medium leading-relaxed">
-                    Once this feature is live, you&apos;ll be able to complete your profile and unlock personalized roadmaps, AI matches, and mentorship sessions.
+              {success ? (
+                <div className="flex flex-col items-center py-12 text-center">
+                  <div className="h-20 w-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
+                    <CheckCircle2 className="h-10 w-10 text-emerald-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-zinc-900 mb-2">Profile Saved!</h3>
+                  <p className="text-zinc-500 font-medium">
+                    Redirecting you back to your dashboard...
                   </p>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {error && (
+                    <div className="p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3">
+                      <AlertCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+                      <p className="text-sm text-red-600 font-medium">{error}</p>
+                    </div>
+                  )}
 
-                <Button
-                  onClick={() => router.push("/whatcanibe/dashboard/student")}
-                  className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold h-12"
-                >
-                  Return to Dashboard
-                </Button>
-              </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2 block">
+                        Education Level
+                      </label>
+                      <div className="relative">
+                        <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                        <Input
+                          placeholder="e.g. Undergraduate, High School, Master's"
+                          required
+                          value={formData.educationLevel}
+                          onChange={(e) => setFormData({ ...formData, educationLevel: e.target.value })}
+                          className="pl-12 h-14 bg-zinc-50 border-zinc-100 rounded-2xl focus:border-indigo-500/50 transition-all text-zinc-900"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2 block">
+                        Target Country
+                      </label>
+                      <div className="relative">
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                        <Input
+                          placeholder="e.g. USA, UK, Canada"
+                          required
+                          value={formData.preferredCountry}
+                          onChange={(e) => setFormData({ ...formData, preferredCountry: e.target.value })}
+                          className="pl-12 h-14 bg-zinc-50 border-zinc-100 rounded-2xl focus:border-indigo-500/50 transition-all text-zinc-900"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2 block">
+                        Career Interests
+                      </label>
+                      <div className="relative">
+                        <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                        <Input
+                          placeholder="e.g. Software Engineering, Data Science"
+                          required
+                          value={formData.careerInterest}
+                          onChange={(e) => setFormData({ ...formData, careerInterest: e.target.value })}
+                          className="pl-12 h-14 bg-zinc-50 border-zinc-100 rounded-2xl focus:border-indigo-500/50 transition-all text-zinc-900"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2 block">
+                        Biography
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-4 top-6 h-4 w-4 text-zinc-400" />
+                        <textarea
+                          placeholder="Tell us a bit about your background and goals..."
+                          required
+                          value={formData.bio}
+                          onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                          className="w-full min-h-[120px] pl-12 pr-4 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:border-indigo-500/50 transition-all text-zinc-900 text-sm outline-none resize-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2 block">
+                        Resume URL (Optional)
+                      </label>
+                      <div className="relative">
+                        <FileText className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                        <Input
+                          placeholder="https://link-to-your-resume.pdf"
+                          type="url"
+                          value={formData.resumeUrl || ""}
+                          onChange={(e) => setFormData({ ...formData, resumeUrl: e.target.value || null })}
+                          className="pl-12 h-14 bg-zinc-50 border-zinc-100 rounded-2xl focus:border-indigo-500/50 transition-all text-zinc-900"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-indigo-600/20"
+                  >
+                    {isSubmitting ? (
+                      <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      hasExistingProfile ? "Update Profile" : "Complete Setup"
+                    )}
+                  </Button>
+                </form>
+              )}
             </CardContent>
           </Card>
         </motion.div>
@@ -116,7 +272,7 @@ function StudentOnboardingPlaceholder() {
 export default function StudentOnboardingPage() {
   return (
     <ProtectedRoute allowedRoles={["student"]}>
-      <StudentOnboardingPlaceholder />
+      <StudentOnboardingContent />
     </ProtectedRoute>
   );
 }
