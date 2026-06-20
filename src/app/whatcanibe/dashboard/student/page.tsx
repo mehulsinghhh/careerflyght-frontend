@@ -1,6 +1,7 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,17 @@ import {
   Clock,
   Users,
   Bookmark,
-  LucideIcon
+  LucideIcon,
+  User,
+  Mail,
+  GraduationCap,
+  Briefcase,
+  AlertCircle,
+  Video,
+  MapPin,
+  ExternalLink,
+  ShieldCheck,
+  Edit2
 } from "lucide-react";
 
 import { MOCK_DASHBOARD_DATA } from "@/constants/dashboard";
@@ -25,11 +36,43 @@ import { GlowCard } from "@/components/ui/glow-card";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { PolishedModal } from "@/components/ui/polished-modal";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { apiClient } from "@/lib/api-client";
 
-interface User {
+// --- Types ---
+
+interface UserData {
   id: string;
   name: string;
   email: string;
+  role: string;
+  status: string;
+  profilePhoto: string | null;
+  createdAt: string;
+}
+
+interface StudentProfile {
+  id: string;
+  userId: string;
+  educationLevel: string;
+  preferredCountry: string;
+  careerInterest: string;
+  bio: string;
+  resumeUrl: string | null;
+}
+
+interface Booking {
+  id: string;
+  mentorId: string;
+  bookingDate: string;
+  bookingTime: string;
+  sessionType: 'online' | 'offline';
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  notes?: string;
+  mentor?: {
+    user: {
+      name: string;
+    }
+  };
 }
 
 const iconMap: Record<string, LucideIcon> = {
@@ -39,51 +82,108 @@ const iconMap: Record<string, LucideIcon> = {
   Bookmark
 };
 
-interface UserWithRole extends User {
-  role: string;
-}
+// --- Components ---
 
 function StudentDashboardContent() {
-  const [user, setUser] = useState<UserWithRole | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+
+  // State
+  const [user, setUser] = useState<UserData | null>(null);
+  const [profile, setProfile] = useState<StudentProfile | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isPathwaysModalOpen, setIsPathwaysModalOpen] = useState(false);
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
-  useEffect(() => {
-    const syncUser = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // 1. Get User Data - This is mandatory for the dashboard
+      const userRes = await apiClient("/users/me");
+      setUser(userRes.data);
 
-      if (!storedUser) {
-        setUser(null);
-        setMounted(true);
-        return;
-      }
-
+      // 2. Get Student Profile - Handle "not found" as an onboarding state
       try {
-        setUser(JSON.parse(storedUser));
-        setMounted(true);
-      } catch (error) {
-        console.error(error);
-        setMounted(true);
+        const profileRes = await apiClient("/users/profile");
+        setProfile(profileRes.data);
+      } catch (err: unknown) {
+        const error = err as Error;
+        const isNotFound = error.message === "Student profile not found" ||
+                          error.message === "Not Found" ||
+                          error.message?.includes("404");
+
+        if (!isNotFound) {
+          console.error("Profile fetch error:", error);
+          // We don't set global error here, we just show "not found" state in the profile section
+        }
+        setProfile(null);
       }
-    };
 
-    syncUser();
+      // 3. Get Bookings - Handle "profile not found" or empty as empty session state
+      try {
+        const bookingsRes = await apiClient("/bookings/my-bookings");
+        setBookings(bookingsRes.data || []);
+      } catch (err: unknown) {
+        const error = err as Error;
+        const isProfileMissing = error.message === "Student profile not found";
 
-    window.addEventListener("auth-change", syncUser);
+        if (!isProfileMissing) {
+          console.error("Bookings fetch error:", error);
+          // We don't set global error here to avoid blocking the whole dashboard
+        }
+        setBookings([]);
+      }
 
-    return () => {
-      window.removeEventListener("auth-change", syncUser);
-    };
-  }, []);
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error("Dashboard fetch error:", error);
+      if (error.message === "Unauthorized") {
+        router.push("/whatcanibe/login");
+      } else {
+        setError("Failed to load dashboard data. Please refresh the page.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
 
-  if (!mounted || !user) {
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchData();
+  }, [fetchData]);
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-zinc-500 font-medium animate-pulse">Loading your dashboard...</p>
+        </div>
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center p-6">
+        <div className="max-w-md w-full text-center">
+          <div className="h-20 w-20 rounded-full bg-red-50 flex items-center justify-center mb-6 mx-auto">
+            <AlertCircle className="h-10 w-10 text-red-500" />
+          </div>
+          <h3 className="text-2xl font-bold text-zinc-900 mb-2">Something went wrong</h3>
+          <p className="text-zinc-500 mb-8">{error}</p>
+          <Button onClick={() => fetchData()} className="bg-indigo-600 text-white rounded-xl font-bold px-8 h-12">
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -106,6 +206,12 @@ function StudentDashboardContent() {
       },
     },
   };
+
+  const today = new Date().toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-20 px-6">
@@ -133,7 +239,7 @@ function StudentDashboardContent() {
             </h1>
             <p className="text-zinc-500 mt-2 font-medium flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              May 24, 2024 &mdash; You&apos;re on a {MOCK_DASHBOARD_DATA.streak.currentStreak} day streak
+              {today} &mdash; You&apos;re on a {MOCK_DASHBOARD_DATA.streak.currentStreak} day streak
             </p>
           </div>
 
@@ -151,17 +257,19 @@ function StudentDashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-8">
+
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {MOCK_DASHBOARD_DATA.stats.map((stat, i) => {
                 const Icon = iconMap[stat.icon];
+                const value = stat.label === "Mentor Sessions" ? bookings.length : stat.value;
                 return (
                   <GlowCard key={i} className="p-5 border-zinc-100 bg-white">
                     <div className="h-10 w-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-4">
                       <Icon className="h-5 w-5 text-indigo-600" />
                     </div>
                     <p className="text-2xl font-bold text-zinc-900">
-                      <AnimatedCounter value={stat.value} />
+                      <AnimatedCounter value={value} />
                     </p>
                     <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mt-1">{stat.label}</p>
                   </GlowCard>
@@ -169,7 +277,219 @@ function StudentDashboardContent() {
               })}
             </div>
 
-            {/* Vertical Roadmap */}
+            {/* Profile Overview Section */}
+            <motion.div variants={itemVariants}>
+              <Card className="bg-white border-zinc-100 overflow-hidden rounded-[2rem] shadow-sm">
+                <CardHeader className="border-b border-zinc-100 p-8">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-xl font-bold text-zinc-900 flex items-center gap-3">
+                      <User className="h-6 w-6 text-indigo-600" />
+                      Profile Overview
+                    </CardTitle>
+                    {profile && (
+                      <Button variant="ghost" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 font-bold rounded-xl" asChild>
+                        <Link href="/whatcanibe/onboarding/student">
+                          <Edit2 className="mr-2 h-4 w-4" />
+                          Edit Profile
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="p-8">
+                  {!profile ? (
+                    <div className="flex flex-col items-center justify-center py-10 text-center">
+                      <div className="h-16 w-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-4">
+                        <GraduationCap className="h-8 w-8 text-indigo-400" />
+                      </div>
+                      <h4 className="text-lg font-bold text-zinc-900 mb-2">Complete your profile</h4>
+                      <p className="text-sm text-zinc-500 max-w-xs mb-6">
+                        Tell us more about your background and interests to get personalized career guidance.
+                      </p>
+                      <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold h-11 px-8" asChild>
+                        <Link href="/whatcanibe/onboarding/student">
+                          Get Started
+                        </Link>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <div className="flex items-start gap-4">
+                          <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100">
+                            <User className="h-5 w-5 text-zinc-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Full Name</p>
+                            <p className="text-zinc-900 font-bold">{user.name}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-4">
+                          <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100">
+                            <Mail className="h-5 w-5 text-zinc-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Email Address</p>
+                            <p className="text-zinc-900 font-bold">{user.email}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-4">
+                          <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100">
+                            <ShieldCheck className="h-5 w-5 text-zinc-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Account Status</p>
+                            <div className="flex items-center gap-1.5">
+                              <div className={`h-1.5 w-1.5 rounded-full ${user.status === 'active' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                              <p className="text-zinc-900 font-bold capitalize">{user.status}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-6">
+                        <div className="flex items-start gap-4">
+                          <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100">
+                            <GraduationCap className="h-5 w-5 text-zinc-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Education</p>
+                            <p className="text-zinc-900 font-bold">{profile.educationLevel}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-4">
+                          <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100">
+                            <Briefcase className="h-5 w-5 text-zinc-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Career Interests</p>
+                            <p className="text-zinc-900 font-bold">{profile.careerInterest}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-4">
+                          <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100">
+                            <MapPin className="h-5 w-5 text-zinc-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Target Country</p>
+                            <p className="text-zinc-900 font-bold">{profile.preferredCountry}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="md:col-span-2 space-y-6 pt-4 border-t border-zinc-50">
+                        <div>
+                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">About Me</p>
+                          <p className="text-sm text-zinc-600 leading-relaxed bg-zinc-50/50 p-4 rounded-2xl border border-zinc-100">
+                            {profile.bio || "No bio provided yet."}
+                          </p>
+                        </div>
+                        {profile.resumeUrl && (
+                          <div className="flex items-center justify-between p-4 rounded-2xl bg-indigo-50/30 border border-indigo-100/50">
+                            <div className="flex items-center gap-3">
+                              <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+                                <BookOpen className="h-5 w-5 text-indigo-600" />
+                              </div>
+                              <div>
+                                <p className="text-xs font-bold text-zinc-900">Professional Resume</p>
+                                <p className="text-[10px] text-zinc-500 font-medium">Linked Document</p>
+                              </div>
+                            </div>
+                            <Link href={profile.resumeUrl} target="_blank">
+                              <Button size="sm" variant="ghost" className="text-indigo-600 font-bold hover:bg-indigo-50 rounded-lg">
+                                View Resume
+                                <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                              </Button>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* My Sessions Section */}
+            <motion.div variants={itemVariants}>
+              <Card className="bg-white border-zinc-100 overflow-hidden rounded-[2rem] shadow-sm">
+                <CardHeader className="border-b border-zinc-100 p-8">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-xl font-bold text-zinc-900 flex items-center gap-3">
+                      <Users className="h-6 w-6 text-indigo-600" />
+                      My Sessions
+                    </CardTitle>
+                    <Link href="/whatcanibe/mentors">
+                      <Button variant="ghost" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 font-bold rounded-xl">
+                        Find Mentors
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-8">
+                  {bookings.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <div className="h-16 w-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-4">
+                        <Calendar className="h-8 w-8 text-indigo-400" />
+                      </div>
+                      <h4 className="text-lg font-bold text-zinc-900 mb-2">No sessions booked yet</h4>
+                      <p className="text-sm text-zinc-500 max-w-xs mb-8">
+                        Get personalized advice from industry experts to accelerate your career.
+                      </p>
+                      <Link href="/whatcanibe/mentors">
+                        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold h-11 px-8 shadow-lg shadow-indigo-600/10 transition-all hover:scale-[1.02]">
+                          Book your first session
+                        </Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {bookings.map((booking) => (
+                        <div key={booking.id} className="p-6 rounded-2xl border border-zinc-100 bg-zinc-50/50 hover:bg-white hover:border-indigo-500/20 transition-all group">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-widest border ${
+                              booking.status === 'confirmed' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                              booking.status === 'pending' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                              booking.status === 'completed' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                              'bg-zinc-100 text-zinc-500 border-zinc-200'
+                            }`}>
+                              {booking.status}
+                            </div>
+                            <div className="h-8 w-8 rounded-lg bg-white border border-zinc-100 flex items-center justify-center text-zinc-400 group-hover:text-indigo-600 transition-colors">
+                              {booking.sessionType === 'online' ? <Video className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
+                            </div>
+                          </div>
+
+                          <h4 className="text-zinc-900 font-bold mb-1">{booking.mentor?.user?.name || "Mentor"}</h4>
+                          <div className="space-y-1.5 mb-4">
+                            <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+                              <Calendar className="h-3.5 w-3.5 text-zinc-400" />
+                              {new Date(booking.bookingDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+                              <Clock className="h-3.5 w-3.5 text-zinc-400" />
+                              {booking.bookingTime}
+                            </div>
+                          </div>
+
+                          {booking.notes && (
+                            <p className="text-xs text-zinc-400 line-clamp-2 italic border-l-2 border-zinc-200 pl-3 mb-4">
+                              &ldquo;{booking.notes}&rdquo;
+                            </p>
+                          )}
+
+                          <Button variant="outline" size="sm" className="w-full rounded-xl border-zinc-200 text-zinc-600 font-bold bg-white group-hover:border-indigo-500/20 group-hover:text-indigo-600 transition-all">
+                            View Details
+                            <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Vertical Roadmap (Kept as Mock) */}
             <motion.div variants={itemVariants}>
               <Card className="bg-white border-zinc-100 overflow-hidden rounded-[2rem] shadow-sm">
                 <CardHeader className="border-b border-zinc-100 p-8">
@@ -253,7 +573,7 @@ function StudentDashboardContent() {
 
           {/* Sidebar Area */}
           <div className="space-y-8">
-            {/* AI Recommendations */}
+            {/* AI Recommendations (Kept as Mock) */}
             <motion.div variants={itemVariants}>
               <Card className="bg-white border-zinc-100 rounded-[2rem] overflow-hidden shadow-sm">
                 <CardHeader className="p-6 pb-2">
@@ -295,7 +615,7 @@ function StudentDashboardContent() {
               </Card>
             </motion.div>
 
-            {/* Activity Timeline */}
+            {/* Activity Timeline (Kept as Mock) */}
             <motion.div variants={itemVariants}>
               <Card className="bg-white border-zinc-100 rounded-[2rem] overflow-hidden shadow-sm">
                 <CardHeader className="p-6 pb-2">
