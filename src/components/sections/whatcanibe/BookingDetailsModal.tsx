@@ -9,14 +9,22 @@ interface BookingDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   booking: Booking | null;
+  userRole?: string | null;
 }
 
 export function BookingDetailsModal({
   isOpen,
   onClose,
-  booking
+  booking,
+  userRole
 }: BookingDetailsModalProps) {
   if (!booking) return null;
+
+  const isMentorView = userRole === 'mentor';
+  const otherPartyName = isMentorView
+    ? (booking.student?.user?.name || `Student (ID: ${booking.studentId.slice(-4).toUpperCase()})`)
+    : (booking.mentor?.user?.name || `Mentor (ID: ${booking.mentorId.slice(-4).toUpperCase()})`);
+  const otherPartyLabel = isMentorView ? "Student" : "Mentor";
 
   const formattedDate = new Date(booking.bookingDate).toLocaleDateString('en-US', {
     weekday: 'long',
@@ -39,8 +47,8 @@ export function BookingDetailsModal({
                 <User className="h-5 w-5 text-indigo-600" />
              </div>
              <div>
-                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Mentor</p>
-                <p className="font-bold text-zinc-900">{booking.mentor?.user?.name || `Mentor (ID: ${booking.mentorId})`}</p>
+                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{otherPartyLabel}</p>
+                <p className="font-bold text-zinc-900">{otherPartyName}</p>
              </div>
           </div>
           <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${

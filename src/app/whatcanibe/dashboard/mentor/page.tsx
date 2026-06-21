@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Clock,
   Users,
-  LucideIcon,
   ShieldCheck,
   Star,
   Briefcase,
@@ -18,13 +17,15 @@ import {
   Video,
   MapPin,
   CheckCircle2,
-  XCircle
+  XCircle,
+  ExternalLink
 } from "lucide-react";
 
 import { GlowCard } from "@/components/ui/glow-card";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { apiClient } from "@/lib/api-client";
 import { Booking, BookingStatus } from "@/types/booking";
+import { BookingDetailsModal } from "@/components/sections/whatcanibe/BookingDetailsModal";
 
 interface User {
   id: string;
@@ -39,6 +40,7 @@ interface UserWithRole extends User {
 function MentorDashboardContent() {
   const [user, setUser] = useState<UserWithRole | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
@@ -271,10 +273,20 @@ function MentorDashboardContent() {
                           </div>
 
                           {booking.notes && (
-                            <p className="text-xs text-zinc-400 line-clamp-2 italic border-l-2 border-zinc-200 pl-3 mb-6">
+                            <p className="text-xs text-zinc-400 line-clamp-2 italic border-l-2 border-zinc-200 pl-3 mb-4">
                               &ldquo;{booking.notes}&rdquo;
                             </p>
                           )}
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedBooking(booking)}
+                            className="w-full rounded-xl border-zinc-200 text-zinc-600 font-bold bg-white group-hover:border-indigo-500/20 group-hover:text-indigo-600 transition-all mb-4"
+                          >
+                            View Details
+                            <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                          </Button>
 
                           <div className="flex gap-2">
                             {booking.status === 'pending' && (
@@ -360,6 +372,13 @@ function MentorDashboardContent() {
           </div>
         </div>
       </motion.div>
+
+      <BookingDetailsModal
+        isOpen={!!selectedBooking}
+        onClose={() => setSelectedBooking(null)}
+        booking={selectedBooking}
+        userRole="mentor"
+      />
     </div>
   );
 }

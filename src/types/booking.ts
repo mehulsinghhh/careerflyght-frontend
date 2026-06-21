@@ -13,14 +13,15 @@ export interface Booking {
   notes: string | null;
   amount: string | null;
   meetingLink: string | null;
-  // Optional extensions for frontend usage if we decide to fetch details separately
   mentor?: {
     user: {
+      id: string;
       name: string;
     };
   };
   student?: {
     user: {
+      id: string;
       name: string;
     };
   };
