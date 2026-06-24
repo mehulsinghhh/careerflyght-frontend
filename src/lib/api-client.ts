@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://careerflyght-backend-v2-production.up.railway.app/api";
+const API_BASE_URL =
+  "https://careerflyght-backend-v2-production.up.railway.app/api";
 
 type RequestOptions = {
   method?: string;
