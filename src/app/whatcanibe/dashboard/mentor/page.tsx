@@ -1,6 +1,7 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ interface UserWithRole extends User {
 }
 
 function MentorDashboardContent() {
+  const router = useRouter();
   const [user, setUser] = useState<UserWithRole | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
@@ -58,11 +60,19 @@ function MentorDashboardContent() {
       setBookings(bookingsRes.data || []);
     } catch (err: unknown) {
       console.error("Mentor dashboard fetch error:", err);
+      const errorMessage = err instanceof Error ? err.message : "";
+
+      // Auto-redirect if profile is missing
+      if (errorMessage.toLowerCase().includes("mentor profile not found")) {
+        router.push("/whatcanibe/dashboard/mentor-profile");
+        return;
+      }
+
       setError("Failed to load dashboard data.");
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
