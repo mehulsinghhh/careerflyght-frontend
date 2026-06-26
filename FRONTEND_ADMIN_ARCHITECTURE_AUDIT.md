@@ -96,7 +96,23 @@ The frontend must handle the mentor's `status` field returned by the backend.
 
 ---
 
-## 10. Page Reuse Opportunities
+## 10. State Management & Data Fetching (TanStack Query)
+It is highly recommended to introduce **TanStack Query** for all new Admin Panel data fetching.
+
+### Why TanStack Query for Admin Panel?
+*   **Simplified Caching:** Admin workflows involve frequent updates to list states (e.g., approving a mentor and expecting them to disappear from the "Pending" list). TanStack Query's automatic cache invalidation (`invalidateQueries`) makes this trivial compared to manual state management.
+*   **Mutation Management:** Handling the loading, success, and error states of administrative actions (Approve/Reject) becomes more robust and consistent across modules.
+*   **Background Synchronization:** Admins benefit from "live" data. TanStack Query can ensure the approval queue is kept up-to-date in the background without manual refreshes.
+*   **Maintainability:** Reduces the boilerplate code required for `useEffect` and `useState` in complex data tables.
+
+### Incremental Adoption Strategy:
+*   Introduce TanStack Query exclusively for the `/admin` route group.
+*   The existing student and mentor flows (`/whatcanibe`) can remain unchanged, continuing to use the existing `apiClient` patterns.
+*   The `apiClient` should be used as the underlying `queryFn` for TanStack Query, ensuring that JWT injection and authentication headers are preserved without duplication.
+
+---
+
+## 11. Page Reuse Opportunities
 *   **Component Reuse:** Re-use the `MentorProfileContent` form logic in a "Read-Only" mode for the Admin's review page.
 *   **Modal Reuse:** Re-use `PolishedModal` for the rejection feedback form.
 *   **Auth Wrapper:** Extend `ProtectedRoute` to accept a `loginPath` prop to avoid hardcoded redirects to the student login.
@@ -104,21 +120,22 @@ The frontend must handle the mentor's `status` field returned by the backend.
 
 ---
 
-## 11. Scalability Recommendations
+## 12. Scalability Recommendations
 *   **Module-Based Directory Structure:** Organize admin features by module (e.g., `src/app/admin/mentors`, `src/app/admin/users`) to allow independent scaling.
 *   **Shared Types:** Ensure the `User` and `Mentor` types in `src/types` are comprehensive to serve both the public marketplace and the admin management views.
 *   **Admin-Specific UI Library:** Create a subset of components (e.g., `AdminTable`, `AdminStatCard`) that are optimized for density and data management rather than "marketing" aesthetics.
 
 ---
 
-## 12. Suggested Implementation Order
+## 13. Suggested Implementation Order
 1.  **Foundation:** Create `src/app/admin/layout.tsx` and a basic sidebar shell.
-2.  **Auth Extension:** Refactor `ProtectedRoute` to support custom redirect paths.
-3.  **Admin Login:** Implement `/admin/login` using a simplified version of the existing login logic.
-4.  **Mentor Queue:** Build the `/admin/mentors` table and hook it up to the Admin-only APIs.
-5.  **Approval Detail:** Build the `/admin/mentors/[id]` review page.
-6.  **Mentor State Handlers:** Add status-based redirection logic to the mentor dashboard (`/whatcanibe/dashboard/mentor/page.tsx`).
-7.  **Rejected/Pending Pages:** Create the restricted mentor experience pages.
+2.  **Infrastructure:** Set up TanStack Query `QueryClientProvider` within the Admin layout.
+3.  **Auth Extension:** Refactor `ProtectedRoute` to support custom redirect paths.
+4.  **Admin Login:** Implement `/admin/login` using a simplified version of the existing login logic.
+5.  **Mentor Queue:** Build the `/admin/mentors` table using `useQuery`.
+6.  **Approval Detail:** Build the `/admin/mentors/[id]` review page and implement approval/rejection via `useMutation`.
+7.  **Mentor State Handlers:** Add status-based redirection logic to the mentor dashboard (`/whatcanibe/dashboard/mentor/page.tsx`).
+8.  **Rejected/Pending Pages:** Create the restricted mentor experience pages.
 
 ---
 **Audit Completed By:** Jules
