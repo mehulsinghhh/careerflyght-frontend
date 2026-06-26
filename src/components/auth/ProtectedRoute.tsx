@@ -26,7 +26,7 @@ export function ProtectedRoute({
       const userStr = localStorage.getItem("careerflyghtUser");
 
       if (!token || !userStr) {
-        router.push("/whatcanibe/login");
+        if (isMounted) router.push("/whatcanibe/login");
         return;
       }
 
@@ -36,35 +36,57 @@ export function ProtectedRoute({
 
         // 1. Role Authorization
         if (allowedRoles && !allowedRoles.includes(userRole)) {
-          if (userRole === "student") {
-            router.push("/whatcanibe/dashboard/student");
-          } else if (userRole === "mentor") {
-            router.push("/whatcanibe/dashboard/mentor");
-          } else {
-            router.push("/whatcanibe/login");
+          if (isMounted) {
+            if (userRole === "student") {
+              router.push("/whatcanibe/dashboard/student");
+            } else if (userRole === "mentor") {
+              router.push("/whatcanibe/dashboard/mentor");
+            } else {
+              router.push("/whatcanibe/login");
+            }
           }
           return;
         }
 
-        // 2. Mentor Profile Verification (if required)
+        // 2. Mentor Profile & Approval Verification (if required)
         if (userRole === "mentor" && requireMentorProfile) {
           try {
-            await apiClient("/mentors/profile");
-            // Profile exists, we are good
+            const profileRes = await apiClient("/mentors/profile");
+            const profile = profileRes.data;
+
+            if (!profile) {
+              if (isMounted && !pathname.includes("/dashboard/mentor-profile")) {
+                router.push("/whatcanibe/dashboard/mentor-profile");
+                return;
+              }
+            } else {
+              const approvalStatus = profile.approvalStatus || "PENDING";
+              const isPendingPage = pathname.includes("/dashboard/mentor/pending");
+              const isProfilePage = pathname.includes("/dashboard/mentor-profile");
+
+              if (approvalStatus === "PENDING") {
+                if (isMounted && !isPendingPage && !isProfilePage) {
+                  router.push("/whatcanibe/dashboard/mentor/pending");
+                  return;
+                }
+              } else if (approvalStatus === "APPROVED") {
+                if (isMounted && isPendingPage) {
+                  router.push("/whatcanibe/dashboard/mentor");
+                  return;
+                }
+              }
+            }
           } catch (error) {
             if (error instanceof ApiError && error.status === 404) {
-              // Profile not found, redirect to onboarding
-              if (isMounted) {
+              if (isMounted && !pathname.includes("/dashboard/mentor-profile")) {
                 router.push("/whatcanibe/dashboard/mentor-profile");
+                return;
               }
+            } else {
+              console.error("Mentor profile check failed:", error);
+              // On unexpected error, we don't authorize to be safe
               return;
             }
-            // Other errors (network, 500, etc.)
-            console.error("Mentor profile check failed:", error);
-            // We might want to handle this differently, but for now, let's not block access
-            // unless it's a confirmed 404. Or maybe we SHOULD block?
-            // Given the requirement "Never attempt to render the mentor dashboard before profile completion",
-            // if we can't verify the profile, maybe we should show an error state.
           }
         }
 
@@ -74,7 +96,7 @@ export function ProtectedRoute({
         }
       } catch (error) {
         console.error("Error during protection check:", error);
-        router.push("/whatcanibe/login");
+        if (isMounted) router.push("/whatcanibe/login");
       }
     }
 

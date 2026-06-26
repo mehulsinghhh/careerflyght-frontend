@@ -112,7 +112,7 @@ function MentorProfileContent() {
 
         setSuccess(true);
         setTimeout(() => {
-          router.push("/whatcanibe/dashboard/mentor");
+          router.push("/whatcanibe/dashboard/mentor/pending");
         }, 1500);
       } else {
         try {
@@ -135,7 +135,7 @@ function MentorProfileContent() {
 
             setSuccess(true);
             setTimeout(() => {
-              router.push("/whatcanibe/dashboard/mentor");
+              router.push("/whatcanibe/dashboard/mentor/pending");
             }, 1500);
           } else {
             throw putErr;
