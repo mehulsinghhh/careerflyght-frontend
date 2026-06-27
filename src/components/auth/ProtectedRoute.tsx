@@ -18,7 +18,11 @@ export function ProtectedRoute({
     const userStr = localStorage.getItem("careerflyghtUser");
 
     if (!token || !userStr) {
-      router.push("/whatcanibe/login");
+      if (window.location.pathname.startsWith("/admin")) {
+        router.push("/admin/login");
+      } else {
+        router.push("/whatcanibe/login");
+      }
       return;
     }
 
@@ -32,8 +36,14 @@ export function ProtectedRoute({
           router.push("/whatcanibe/dashboard/student");
         } else if (userRole === "mentor") {
           router.push("/whatcanibe/dashboard/mentor");
+        } else if (userRole === "admin") {
+          router.push("/admin/dashboard");
         } else {
-          router.push("/whatcanibe/login");
+          if (window.location.pathname.startsWith("/admin")) {
+            router.push("/admin/login");
+          } else {
+            router.push("/whatcanibe/login");
+          }
         }
         return;
       }
@@ -42,7 +52,11 @@ export function ProtectedRoute({
       setIsAuthorized(true);
     } catch (error) {
       console.error("Error parsing user for protection:", error);
-      router.push("/whatcanibe/login");
+      if (window.location.pathname.startsWith("/admin")) {
+        router.push("/admin/login");
+      } else {
+        router.push("/whatcanibe/login");
+      }
     }
   }, [router, allowedRoles]);
 

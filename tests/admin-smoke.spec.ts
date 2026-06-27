@@ -11,12 +11,8 @@ test.describe('Admin Smoke Tests', () => {
     // Attempt to visit admin dashboard without token
     await page.goto('/admin/dashboard');
 
-    // Should show the loading state of ProtectedRoute and then redirect
-    // Since we are not logged in, ProtectedRoute should redirect to /whatcanibe/login by default
-    // or we can check if it stays on login if we were at /admin/login
-
-    // In our implementation, ProtectedRoute redirects to /whatcanibe/login if no token
-    await expect(page).toHaveURL(/\/whatcanibe\/login/);
+    // Unauthenticated user on /admin path should be sent to /admin/login
+    await expect(page).toHaveURL(/\/admin\/login/);
   });
 
   test('Student user is redirected from /admin/dashboard', async ({ page }) => {
@@ -34,5 +30,22 @@ test.describe('Admin Smoke Tests', () => {
 
     // ProtectedRoute should redirect student to their dashboard
     await expect(page).toHaveURL(/\/whatcanibe\/dashboard\/student/);
+  });
+
+  test('Admin user is redirected from standard login', async ({ page }) => {
+     // Mock admin user in localStorage
+     await page.addInitScript(() => {
+        localStorage.setItem('careerflyghtToken', 'mock-token');
+        localStorage.setItem('careerflyghtUser', JSON.stringify({
+          id: 'admin-123',
+          role: 'admin',
+          email: 'admin@example.com'
+        }));
+      });
+
+      await page.goto('/whatcanibe/login');
+
+      // ProtectedRoute should redirect admin to their dashboard
+      await expect(page).toHaveURL(/\/admin\/dashboard/);
   });
 });
