@@ -7,6 +7,18 @@ type RequestOptions = {
   body?: unknown;
 };
 
+export class ApiError extends Error {
+  status: number;
+  data: any;
+
+  constructor(message: string, status: number, data: any) {
+    super(message);
+    this.status = status;
+    this.data = data;
+    this.name = "ApiError";
+  }
+}
+
 export async function apiClient(endpoint: string, options: RequestOptions = {}) {
   const token = typeof window !== "undefined" ? localStorage.getItem("careerflyghtToken") : null;
 
@@ -30,7 +42,7 @@ export async function apiClient(endpoint: string, options: RequestOptions = {}) 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Request failed");
+    throw new ApiError(data.message || "Request failed", response.status, data);
   }
 
   return data;

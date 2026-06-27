@@ -476,7 +476,7 @@ function DashboardContent() {
 
 export default function DashboardPage() {
   return (
-    <ProtectedRoute>
+    <ProtectedRoute requireMentorProfile={true}>
       <DashboardContent />
     </ProtectedRoute>
   );
