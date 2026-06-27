@@ -1,19 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { apiClient } from "@/lib/api-client";
 
 export function ProtectedRoute({
   children,
   allowedRoles,
+  requireMentorProfile = false,
 }: {
   children: React.ReactNode;
   allowedRoles?: string[];
+  requireMentorProfile?: boolean;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     const token = localStorage.getItem("careerflyghtToken");
     const userStr = localStorage.getItem("careerflyghtUser");
 
@@ -48,7 +53,42 @@ export function ProtectedRoute({
         return;
       }
 
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // Centralized Mentor Profile & Status Verification
+      if (userRole === "mentor" && requireMentorProfile) {
+        // Skip check if already on public-facing dashboard pages
+        const isOnPendingPage = pathname === "/whatcanibe/dashboard/mentor/pending";
+        const isOnProfilePage = pathname === "/whatcanibe/dashboard/mentor-profile";
+
+        if (!isOnPendingPage && !isOnProfilePage) {
+          apiClient("/mentors/profile")
+            .then((res) => {
+              if (!isMounted) return;
+
+              const profile = res.data;
+              if (profile.approvalStatus === "PENDING") {
+                router.push("/whatcanibe/dashboard/mentor/pending");
+              } else if (profile.approvalStatus === "APPROVED") {
+                setIsAuthorized(true);
+              } else {
+                // Handle REJECTED or other states if necessary
+                setIsAuthorized(true);
+              }
+            })
+            .catch((err) => {
+              if (!isMounted) return;
+
+              const errorMessage = err.message || "";
+              if (errorMessage.includes("404") || errorMessage.toLowerCase().includes("not found") || errorMessage.toLowerCase().includes("mentor profile not found")) {
+                router.push("/whatcanibe/dashboard/mentor-profile");
+              } else {
+                console.error("Error verifying mentor profile:", err);
+                setIsAuthorized(true); // Fallback to allow access if API fails
+              }
+            });
+          return;
+        }
+      }
+
       setIsAuthorized(true);
     } catch (error) {
       console.error("Error parsing user for protection:", error);
@@ -58,7 +98,8 @@ export function ProtectedRoute({
         router.push("/whatcanibe/login");
       }
     }
-  }, [router, allowedRoles]);
+    return () => { isMounted = false; };
+  }, [router, pathname, allowedRoles, requireMentorProfile]);
 
   if (!isAuthorized) {
     return (

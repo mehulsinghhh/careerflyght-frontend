@@ -60,14 +60,6 @@ function MentorDashboardContent() {
       setBookings(bookingsRes.data || []);
     } catch (err: unknown) {
       console.error("Mentor dashboard fetch error:", err);
-      const errorMessage = err instanceof Error ? err.message : "";
-
-      // Auto-redirect if profile is missing
-      if (errorMessage.toLowerCase().includes("mentor profile not found")) {
-        router.push("/whatcanibe/dashboard/mentor-profile");
-        return;
-      }
-
       setError("Failed to load dashboard data.");
     } finally {
       setIsLoading(false);
@@ -400,7 +392,7 @@ function cn(...classes: string[]) {
 
 export default function MentorDashboardPage() {
   return (
-    <ProtectedRoute allowedRoles={["mentor"]}>
+    <ProtectedRoute allowedRoles={["mentor"]} requireMentorProfile={true}>
       <MentorDashboardContent />
     </ProtectedRoute>
   );
