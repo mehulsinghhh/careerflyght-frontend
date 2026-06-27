@@ -22,7 +22,7 @@ export default function Navbar() {
             9thBox
           </Link>
 
-          <Link href="/admin" className="hover:text-indigo-600 transition-colors">
+          <Link href="/admin/login" className="hover:text-indigo-600 transition-colors">
             Admin
           </Link>
 
