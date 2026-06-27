@@ -30,19 +30,19 @@ export default function AdminLoginPage() {
       });
 
       if (data.data.token && data.data.user) {
+        const role = data.data.user.role;
+
+        if (role !== "admin") {
+          setIsLoading(false);
+          setError("Access denied. This portal is restricted to administrators only.");
+          return;
+        }
+
         localStorage.setItem("careerflyghtToken", data.data.token);
         localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
 
         window.dispatchEvent(new Event("auth-change"));
-
-        const role = data.data.user.role;
-        if (role === "admin") {
-          router.push("/admin/dashboard");
-        } else if (role === "mentor") {
-          router.push("/whatcanibe/dashboard/mentor");
-        } else {
-          router.push("/whatcanibe/dashboard/student");
-        }
+        router.push("/admin/dashboard");
       } else {
         throw new Error("Invalid response from server");
       }
