@@ -10,7 +10,7 @@ export default function LayoutWrapper({
 }) {
   const pathname = usePathname();
 
-  const hideNavbar = pathname.startsWith("/whatcanibe");
+  const hideNavbar = pathname.startsWith("/whatcanibe") || pathname.startsWith("/admin");
 
   return (
     <>
