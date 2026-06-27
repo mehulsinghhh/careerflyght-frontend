@@ -39,7 +39,9 @@ export default function LoginPage() {
         setIsLoading(false);
 
         const role = data.data.user.role;
-        if (role === "mentor") {
+        if (role === "admin") {
+          router.push("/admin/dashboard");
+        } else if (role === "mentor") {
           router.push("/whatcanibe/dashboard/mentor");
         } else {
           router.push("/whatcanibe/dashboard/student");
