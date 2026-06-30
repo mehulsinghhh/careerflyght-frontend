@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,24 @@ import { apiClient } from "@/lib/api-client";
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("careerflyghtToken");
+    const userStr = localStorage.getItem("careerflyghtUser");
+
+    if (token && userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        if (user.role === "admin") {
+          router.push("/admin/dashboard");
+        }
+      } catch (e) {
+        // Clear invalid data
+        localStorage.removeItem("careerflyghtToken");
+        localStorage.removeItem("careerflyghtUser");
+      }
+    }
+  }, [router]);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
