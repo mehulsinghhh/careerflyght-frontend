@@ -1,3 +1,32 @@
+export type MentorStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  profilePhoto: string | null;
+  createdAt: string;
+}
+
+export interface Mentor {
+  id: string;
+  userId: string;
+  company: string;
+  designation: string;
+  experienceYears: number;
+  hourlyRate: string;
+  approvalStatus: MentorStatus;
+  user: AdminUser;
+}
+
+export interface MentorActionResponse {
+  id: string;
+  approvalStatus: MentorStatus;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  reviewNotes?: string;
+}
+
 export interface DashboardStats {
   totalStudents: number;
   totalMentors: number;
@@ -7,14 +36,16 @@ export interface DashboardStats {
   totalBookings: number;
 }
 
+export interface PaginationData {
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+}
+
 export interface AdminApiResponse<T> {
   success: boolean;
   data: T;
   message?: string;
-  pagination?: {
-    page: number;
-    limit: number;
-    totalItems: number;
-    totalPages: number;
-  };
+  pagination?: PaginationData;
 }
