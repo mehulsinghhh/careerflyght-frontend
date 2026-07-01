@@ -29,7 +29,10 @@ export function AdminProtectedRoute({
       try {
         // Validate with backend
         const response = await apiClient("/auth/me");
-        const user = response.data;
+
+        // Backend /auth/me returns { success: true, data: { user: { ... } } }
+        // but sometimes it might be flat { success: true, data: { ...user } }
+        const user = response.data.user || response.data;
 
         if (user.role !== "admin") {
           // Clear invalid session
@@ -48,7 +51,7 @@ export function AdminProtectedRoute({
           return;
         }
 
-        // Sync local storage if needed
+        // Sync local storage
         localStorage.setItem("adminUser", JSON.stringify(user));
 
         if (isMounted) {

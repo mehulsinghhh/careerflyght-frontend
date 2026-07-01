@@ -33,7 +33,10 @@ export function ProtectedRoute({
       try {
         // 1. Validate session with backend
         const authResponse = await apiClient("/auth/me");
-        const user = authResponse.data;
+
+        // Backend /auth/me returns { success: true, data: { user: { ... } } }
+        // but sometimes it might be flat { success: true, data: { ...user } }
+        const user = authResponse.data.user || authResponse.data;
         const userRole = user.role;
 
         // 2. Role Authorization
