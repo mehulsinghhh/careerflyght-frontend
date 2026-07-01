@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { apiClient } from "@/lib/api-client";
 
 export function AdminProtectedRoute({
   children,
@@ -14,44 +15,60 @@ export function AdminProtectedRoute({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    function checkAuthorization() {
-      const token = localStorage.getItem("careerflyghtToken");
-      const userStr = localStorage.getItem("careerflyghtUser");
+    let isMounted = true;
+
+    async function checkAuthorization() {
+      const token = localStorage.getItem("adminToken");
+      const userStr = localStorage.getItem("adminUser");
 
       if (!token || !userStr) {
-        router.push("/admin/login");
+        if (isMounted) router.push("/admin/login");
         return;
       }
 
       try {
-        const user = JSON.parse(userStr);
-        const userRole = user.role;
+        // Validate with backend
+        const response = await apiClient("/auth/me");
+        const user = response.data;
 
-        if (userRole !== "admin") {
-          // If authenticated but not admin, we could redirect to their respective dashboard
-          // but for the admin portal, we strictly want to stay away if not admin.
-          // For now, let's redirect to login with an error would be nice, but
-          // let's stick to simple redirect or a forbidden state.
-          // Based on requirements: "Authenticated but not admin → redirect away (or show Unauthorized)"
-          if (userRole === "student") {
-            router.push("/whatcanibe/dashboard/student");
-          } else if (userRole === "mentor") {
-            router.push("/whatcanibe/dashboard/mentor");
-          } else {
-            router.push("/admin/login");
+        if (user.role !== "admin") {
+          // Clear invalid session
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("adminUser");
+
+          if (isMounted) {
+            if (user.role === "student") {
+              router.push("/whatcanibe/dashboard/student");
+            } else if (user.role === "mentor") {
+              router.push("/whatcanibe/dashboard/mentor");
+            } else {
+              router.push("/admin/login");
+            }
           }
           return;
         }
 
-        setIsAuthorized(true);
-        setIsLoading(false);
+        // Sync local storage if needed
+        localStorage.setItem("adminUser", JSON.stringify(user));
+
+        if (isMounted) {
+          setIsAuthorized(true);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error("Error during admin protection check:", error);
-        router.push("/admin/login");
+        // Clear session on error (e.g. invalid token)
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUser");
+        if (isMounted) router.push("/admin/login");
       }
     }
 
     checkAuthorization();
+
+    return () => {
+      isMounted = false;
+    };
   }, [router, pathname]);
 
   if (isLoading || !isAuthorized) {

@@ -22,51 +22,53 @@ export function ProtectedRoute({
     let isMounted = true;
 
     async function checkAuthorization() {
-      const token = localStorage.getItem("careerflyghtToken");
-      const userStr = localStorage.getItem("careerflyghtUser");
+      const token = localStorage.getItem("platformToken");
+      const userStr = localStorage.getItem("platformUser");
 
       if (!token || !userStr) {
-        router.push("/whatcanibe/login");
+        if (isMounted) router.push("/whatcanibe/login");
         return;
       }
 
       try {
-        const user = JSON.parse(userStr);
+        // 1. Validate session with backend
+        const authResponse = await apiClient("/auth/me");
+        const user = authResponse.data;
         const userRole = user.role;
 
-        // 1. Role Authorization
+        // 2. Role Authorization
         if (allowedRoles && !allowedRoles.includes(userRole)) {
-          if (userRole === "student") {
-            router.push("/whatcanibe/dashboard/student");
-          } else if (userRole === "mentor") {
-            router.push("/whatcanibe/dashboard/mentor");
-          } else {
-            router.push("/whatcanibe/login");
+          if (isMounted) {
+            if (userRole === "student") {
+              router.push("/whatcanibe/dashboard/student");
+            } else if (userRole === "mentor") {
+              router.push("/whatcanibe/dashboard/mentor");
+            } else if (userRole === "admin") {
+              router.push("/admin/dashboard");
+            } else {
+              router.push("/whatcanibe/login");
+            }
           }
           return;
         }
 
-        // 2. Mentor Profile Verification (if required)
+        // 3. Mentor Profile Verification (if required)
         if (userRole === "mentor" && requireMentorProfile) {
           try {
             await apiClient("/mentors/profile");
-            // Profile exists, we are good
           } catch (error) {
             if (error instanceof ApiError && error.status === 404) {
-              // Profile not found, redirect to onboarding
               if (isMounted) {
                 router.push("/whatcanibe/dashboard/mentor-profile");
               }
               return;
             }
-            // Other errors (network, 500, etc.)
             console.error("Mentor profile check failed:", error);
-            // We might want to handle this differently, but for now, let's not block access
-            // unless it's a confirmed 404. Or maybe we SHOULD block?
-            // Given the requirement "Never attempt to render the mentor dashboard before profile completion",
-            // if we can't verify the profile, maybe we should show an error state.
           }
         }
+
+        // Sync local storage
+        localStorage.setItem("platformUser", JSON.stringify(user));
 
         if (isMounted) {
           setIsAuthorized(true);
@@ -74,7 +76,10 @@ export function ProtectedRoute({
         }
       } catch (error) {
         console.error("Error during protection check:", error);
-        router.push("/whatcanibe/login");
+        // Clear invalid session
+        localStorage.removeItem("platformToken");
+        localStorage.removeItem("platformUser");
+        if (isMounted) router.push("/whatcanibe/login");
       }
     }
 

@@ -15,10 +15,12 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
     try {
       const data = await apiClient("/auth/login", {
@@ -29,19 +31,23 @@ export default function LoginPage() {
         },
       });
 
-      // Backend auth response format:
-      // { "success": true, "data": { "token": "...", "user": { ... } } }
       if (data.data.token && data.data.user) {
-        localStorage.setItem("careerflyghtToken", data.data.token);
-        localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
+        const user = data.data.user;
+        const role = user.role;
+
+        if (role === "admin") {
+          setIsLoading(false);
+          setError("Administrator accounts must sign in through the Admin Portal.");
+          return;
+        }
+
+        localStorage.setItem("platformToken", data.data.token);
+        localStorage.setItem("platformUser", JSON.stringify(user));
 
         window.dispatchEvent(new Event("auth-change"));
         setIsLoading(false);
 
-        const role = data.data.user.role;
-        if (role === "admin") {
-          router.push("/admin/dashboard");
-        } else if (role === "mentor") {
+        if (role === "mentor") {
           router.push("/whatcanibe/dashboard/mentor");
         } else {
           router.push("/whatcanibe/dashboard/student");
@@ -52,8 +58,8 @@ export default function LoginPage() {
     } catch (error) {
       const err = error as Error;
       console.error(err);
+      setError(err.message || "Invalid credentials");
       setIsLoading(false);
-      alert(err.message || "Something went wrong");
     }
   };
 
@@ -137,6 +143,12 @@ export default function LoginPage() {
                 />
               </div>
             </div>
+
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-xs font-medium text-red-600">
+                {error}
+              </div>
+            )}
 
             <Button
               type="submit"

@@ -73,13 +73,13 @@ function MentorProfileContent() {
   }, []);
 
   const updateMentorRoleLocally = () => {
-    const storedUser = localStorage.getItem("careerflyghtUser");
+    const storedUser = localStorage.getItem("platformUser");
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
         if (user.role !== "mentor") {
           user.role = "mentor";
-          localStorage.setItem("careerflyghtUser", JSON.stringify(user));
+          localStorage.setItem("platformUser", JSON.stringify(user));
           window.dispatchEvent(new Event("auth-change"));
         }
       } catch (err) {
