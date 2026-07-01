@@ -51,8 +51,9 @@ export function AdminProtectedRoute({
           return;
         }
 
-        // Sync local storage
-        localStorage.setItem("adminUser", JSON.stringify(user));
+        // Sync local storage - merge with existing to preserve profile data
+        const existingUser = JSON.parse(localStorage.getItem("adminUser") || "{}");
+        localStorage.setItem("adminUser", JSON.stringify({ ...existingUser, ...user }));
 
         if (isMounted) {
           setIsAuthorized(true);

@@ -70,8 +70,9 @@ export function ProtectedRoute({
           }
         }
 
-        // Sync local storage
-        localStorage.setItem("platformUser", JSON.stringify(user));
+        // Sync local storage - merge with existing to preserve profile data (like name/email)
+        const existingUser = JSON.parse(localStorage.getItem("platformUser") || "{}");
+        localStorage.setItem("platformUser", JSON.stringify({ ...existingUser, ...user }));
 
         if (isMounted) {
           setIsAuthorized(true);
