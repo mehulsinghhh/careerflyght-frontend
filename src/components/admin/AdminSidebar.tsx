@@ -26,8 +26,8 @@ export function AdminSidebar() {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("careerflyghtToken");
-    localStorage.removeItem("careerflyghtUser");
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminUser");
     window.dispatchEvent(new Event("auth-change"));
     router.push("/admin/login");
   };

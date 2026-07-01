@@ -21,8 +21,8 @@ export default function Hero() {
     if (!mounted) return;
 
     const syncUser = () => {
-      const token = localStorage.getItem("careerflyghtToken");
-      const user = localStorage.getItem("careerflyghtUser");
+      const token = localStorage.getItem("platformToken");
+      const user = localStorage.getItem("platformUser");
       setIsLoggedIn(!!token && !!user);
     };
 

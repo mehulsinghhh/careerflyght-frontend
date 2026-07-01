@@ -31,7 +31,7 @@ export default function WhatCanIBeNavbar() {
 
   useEffect(() => {
     const syncUser = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
+      const storedUser = localStorage.getItem("platformUser");
 
       if (storedUser) {
         try {
@@ -61,8 +61,8 @@ export default function WhatCanIBeNavbar() {
   }, [pathname]);
 
   const handleLogout = () => {
-    localStorage.removeItem("careerflyghtUser");
-    localStorage.removeItem("careerflyghtToken");
+    localStorage.removeItem("platformUser");
+    localStorage.removeItem("platformToken");
     window.dispatchEvent(new Event("auth-change"));
     setUser(null);
     router.push("/whatcanibe/login");

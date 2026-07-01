@@ -17,10 +17,12 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
     try {
       await apiClient("/auth/register", {
@@ -42,11 +44,9 @@ export default function SignupPage() {
         },
       });
 
-      // Backend login response format:
-      // { "success": true, "data": { "token": "...", "user": { ... } } }
       if (loginData.data.token && loginData.data.user) {
-        localStorage.setItem("careerflyghtToken", loginData.data.token);
-        localStorage.setItem("careerflyghtUser", JSON.stringify(loginData.data.user));
+        localStorage.setItem("platformToken", loginData.data.token);
+        localStorage.setItem("platformUser", JSON.stringify(loginData.data.user));
 
         window.dispatchEvent(new Event("auth-change"));
         setIsLoading(false);
@@ -63,8 +63,8 @@ export default function SignupPage() {
     } catch (error) {
       const err = error as Error;
       console.error(err);
+      setError(err.message || "Something went wrong");
       setIsLoading(false);
-      alert(err.message || "Something went wrong");
     }
   };
 
@@ -188,6 +188,12 @@ export default function SignupPage() {
                 />
               </div>
             </div>
+
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-xs font-medium text-red-600">
+                {error}
+              </div>
+            )}
 
             <Button
               type="submit"

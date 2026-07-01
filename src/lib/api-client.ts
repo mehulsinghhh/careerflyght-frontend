@@ -19,8 +19,19 @@ export class ApiError extends Error {
   }
 }
 
+export function getAuthKeys() {
+  if (typeof window === "undefined") return { tokenKey: "platformToken", userKey: "platformUser" };
+
+  const isAdminPath = window.location.pathname.startsWith("/admin");
+  return {
+    tokenKey: isAdminPath ? "adminToken" : "platformToken",
+    userKey: isAdminPath ? "adminUser" : "platformUser"
+  };
+}
+
 export async function apiClient(endpoint: string, options: RequestOptions = {}) {
-  const token = typeof window !== "undefined" ? localStorage.getItem("careerflyghtToken") : null;
+  const { tokenKey } = getAuthKeys();
+  const token = typeof window !== "undefined" ? localStorage.getItem(tokenKey) : null;
 
   const defaultHeaders: Record<string, string> = {
     "Content-Type": "application/json",
