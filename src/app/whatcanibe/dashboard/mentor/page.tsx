@@ -51,7 +51,7 @@ function MentorDashboardContent() {
     setIsLoading(true);
     setError(null);
     try {
-      const storedUser = localStorage.getItem("careerflyghtUser");
+      const storedUser = localStorage.getItem("platformUser");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }

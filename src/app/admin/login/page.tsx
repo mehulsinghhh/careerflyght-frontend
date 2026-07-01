@@ -11,10 +11,13 @@ import { apiClient } from "@/lib/api-client";
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("careerflyghtToken");
-    const userStr = localStorage.getItem("careerflyghtUser");
+    const token = localStorage.getItem("adminToken");
+    const userStr = localStorage.getItem("adminUser");
 
     if (token && userStr) {
       try {
@@ -23,15 +26,11 @@ export default function AdminLoginPage() {
           router.push("/admin/dashboard");
         }
       } catch (e) {
-        // Clear invalid data
-        localStorage.removeItem("careerflyghtToken");
-        localStorage.removeItem("careerflyghtUser");
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUser");
       }
     }
   }, [router]);
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,23 +40,20 @@ export default function AdminLoginPage() {
     try {
       const data = await apiClient("/auth/login", {
         method: "POST",
-        body: {
-          email,
-          password,
-        },
+        body: { email, password },
       });
 
       if (data.data.token && data.data.user) {
-        const role = data.data.user.role;
+        const user = data.data.user;
 
-        if (role !== "admin") {
+        if (user.role !== "admin") {
           setIsLoading(false);
-          setError("Access denied. This portal is restricted to administrators only.");
+          setError("Administrator accounts must sign in through the Admin Portal. Student and Mentor accounts are not permitted here.");
           return;
         }
 
-        localStorage.setItem("careerflyghtToken", data.data.token);
-        localStorage.setItem("careerflyghtUser", JSON.stringify(data.data.user));
+        localStorage.setItem("adminToken", data.data.token);
+        localStorage.setItem("adminUser", JSON.stringify(user));
 
         window.dispatchEvent(new Event("auth-change"));
         router.push("/admin/dashboard");

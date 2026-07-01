@@ -54,7 +54,7 @@ function DashboardContent() {
 
   useEffect(() => {
     const syncUser = () => {
-      const storedUser = localStorage.getItem("careerflyghtUser");
+      const storedUser = localStorage.getItem("platformUser");
 
       if (!storedUser) {
         setUser(null);
