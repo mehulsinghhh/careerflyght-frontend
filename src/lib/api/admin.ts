@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api-client";
-import { DashboardStats, AdminApiResponse, Mentor, MentorStatus, MentorActionResponse } from "@/types/admin";
+import { DashboardStats, AdminApiResponse, Mentor, MentorStatus, MentorActionResponse, Student } from "@/types/admin";
 
 export const adminApi = {
   getDashboardStats: async (): Promise<DashboardStats> => {
@@ -55,5 +55,19 @@ export const adminApi = {
       method: "PATCH",
       body: { status, reviewNotes },
     }) as AdminApiResponse<MentorActionResponse>;
+  },
+
+  getStudents: async (params: {
+    page?: number;
+    limit?: number
+  }): Promise<AdminApiResponse<Student[]>> => {
+    const query = new URLSearchParams();
+    if (params.page) query.append("page", params.page.toString());
+    if (params.limit) query.append("limit", params.limit.toString());
+
+    const queryString = query.toString();
+    const endpoint = `/admin/students${queryString ? `?${queryString}` : ""}`;
+
+    return await apiClient(endpoint) as AdminApiResponse<Student[]>;
   },
 };
