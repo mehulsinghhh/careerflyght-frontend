@@ -19,6 +19,15 @@ export interface Mentor {
   user: AdminUser;
 }
 
+export interface Student {
+  id: string;
+  userId: string;
+  educationLevel: string;
+  preferredCountry: string;
+  careerInterests?: string[];
+  user: AdminUser;
+}
+
 export interface MentorActionResponse {
   id: string;
   approvalStatus: MentorStatus;
