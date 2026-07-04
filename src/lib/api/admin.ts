@@ -70,4 +70,12 @@ export const adminApi = {
 
     return await apiClient(endpoint) as AdminApiResponse<Student[]>;
   },
+
+  getStudentById: async (studentId: string): Promise<AdminApiResponse<Student>> => {
+    return await apiClient(`/admin/students/${studentId}`) as AdminApiResponse<Student>;
+  },
+
+  getStudentBookings: async (studentId: string): Promise<AdminApiResponse<any[]>> => {
+    return await apiClient(`/admin/students/${studentId}/bookings`) as AdminApiResponse<any[]>;
+  },
 };
