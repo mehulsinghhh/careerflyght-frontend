@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api-client";
-import { DashboardStats, AdminApiResponse, Mentor, MentorStatus, MentorActionResponse, Student } from "@/types/admin";
+import { DashboardStats, AdminApiResponse, Mentor, MentorStatus, MentorActionResponse, Student, AdminBooking } from "@/types/admin";
 
 export const adminApi = {
   getDashboardStats: async (): Promise<DashboardStats> => {
@@ -77,5 +77,23 @@ export const adminApi = {
 
   getStudentBookings: async (studentId: string): Promise<AdminApiResponse<any[]>> => {
     return await apiClient(`/admin/students/${studentId}/bookings`) as AdminApiResponse<any[]>;
+  },
+
+  getBookings: async (params: {
+    page?: number;
+    limit?: number
+  }): Promise<AdminApiResponse<AdminBooking[]>> => {
+    const query = new URLSearchParams();
+    if (params.page) query.append("page", params.page.toString());
+    if (params.limit) query.append("limit", params.limit.toString());
+
+    const queryString = query.toString();
+    const endpoint = `/admin/bookings${queryString ? `?${queryString}` : ""}`;
+
+    return await apiClient(endpoint) as AdminApiResponse<AdminBooking[]>;
+  },
+
+  getBookingById: async (bookingId: string): Promise<AdminApiResponse<AdminBooking>> => {
+    return await apiClient(`/admin/bookings/${bookingId}`) as AdminApiResponse<AdminBooking>;
   },
 };
