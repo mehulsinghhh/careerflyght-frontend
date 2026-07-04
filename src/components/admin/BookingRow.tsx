@@ -10,23 +10,22 @@ interface BookingRowProps {
 }
 
 export const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
-  const displayDate = booking.createdAt || booking.bookingDate;
-  let createdDate = 'N/A';
-
-  if (displayDate) {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A';
     try {
-      const date = new Date(displayDate);
-      if (!isNaN(date.getTime())) {
-        createdDate = date.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        });
-      }
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'N/A';
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
     } catch (e) {
-      createdDate = 'N/A';
+      return 'N/A';
     }
-  }
+  };
+
+  const createdDate = formatDate(booking.createdAt);
 
   const studentName = booking.student?.user?.name || 'Unknown Student';
   const mentorName = booking.mentor?.user?.name || 'Unknown Mentor';
