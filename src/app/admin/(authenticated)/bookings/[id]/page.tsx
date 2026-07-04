@@ -42,14 +42,31 @@ export default function BookingDetailPage() {
   }
 
   const booking = data?.data;
+
+  if (data && !booking) {
+    return (
+      <AdminErrorState
+        title="Booking Not Found"
+        message="The requested booking does not exist or has no data."
+      />
+    );
+  }
+
   if (!booking) return null;
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const formatDate = (dateStr?: string) => {
+    if (!dateStr) return "-";
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return "-";
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch {
+      return "-";
+    }
   };
 
   return (
@@ -154,15 +171,15 @@ export default function BookingDetailPage() {
               <div className="p-6 space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 font-bold overflow-hidden">
-                    {booking.student.user.profilePhoto ? (
+                    {booking.student?.user?.profilePhoto ? (
                       <img src={booking.student.user.profilePhoto} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      booking.student.user.name.charAt(0)
+                      (booking.student?.user?.name || '?').charAt(0).toUpperCase()
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-zinc-900">{booking.student.user.name}</p>
-                    <p className="text-sm text-zinc-500">{booking.student.user.email}</p>
+                    <p className="font-bold text-zinc-900">{booking.student?.user?.name || "Unknown Student"}</p>
+                    <p className="text-sm text-zinc-500">{booking.student?.user?.email || "-"}</p>
                   </div>
                 </div>
                 <div className="space-y-4 pt-4 border-t border-zinc-50">
@@ -170,32 +187,38 @@ export default function BookingDetailPage() {
                     <GraduationCap className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Education</p>
-                      <p className="text-sm text-zinc-700">{booking.student.educationLevel}</p>
+                      <p className="text-sm text-zinc-700">{booking.student?.educationLevel || "-"}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <MapPin className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Preferred Country</p>
-                      <p className="text-sm text-zinc-700">{booking.student.preferredCountry}</p>
+                      <p className="text-sm text-zinc-700">{booking.student?.preferredCountry || "-"}</p>
                     </div>
                   </div>
-                  {booking.student.careerInterest && booking.student.careerInterest.length > 0 && (
+                  {booking.student?.careerInterest && (
                     <div className="flex items-start gap-2">
                       <Briefcase className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                       <div>
                         <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Interests</p>
                         <div className="flex flex-wrap gap-1 mt-1">
-                          {booking.student.careerInterest.map((interest, i) => (
-                            <span key={i} className="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded">
-                              {interest}
+                          {Array.isArray(booking.student.careerInterest) ? (
+                            booking.student.careerInterest.map((interest, i) => (
+                              <span key={i} className="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded">
+                                {interest}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-[10px] bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded">
+                              {booking.student.careerInterest}
                             </span>
-                          ))}
+                          )}
                         </div>
                       </div>
                     </div>
                   )}
-                  {booking.student.resumeUrl && (
+                  {booking.student?.resumeUrl && (
                     <div className="flex items-start gap-2">
                       <FileText className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                       <div>
@@ -211,7 +234,7 @@ export default function BookingDetailPage() {
                       </div>
                     </div>
                   )}
-                  {booking.student.bio && (
+                  {booking.student?.bio && (
                     <div className="pt-2">
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Bio</p>
                       <p className="text-sm text-zinc-600 mt-1 line-clamp-3 italic">{booking.student.bio}</p>
@@ -230,15 +253,15 @@ export default function BookingDetailPage() {
               <div className="p-6 space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 font-bold overflow-hidden">
-                    {booking.mentor.user.profilePhoto ? (
+                    {booking.mentor?.user?.profilePhoto ? (
                       <img src={booking.mentor.user.profilePhoto} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      booking.mentor.user.name.charAt(0)
+                      (booking.mentor?.user?.name || '?').charAt(0).toUpperCase()
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-zinc-900">{booking.mentor.user.name}</p>
-                    <p className="text-sm text-zinc-500">{booking.mentor.user.email}</p>
+                    <p className="font-bold text-zinc-900">{booking.mentor?.user?.name || "Unknown Mentor"}</p>
+                    <p className="text-sm text-zinc-500">{booking.mentor?.user?.email || "-"}</p>
                   </div>
                 </div>
                 <div className="space-y-4 pt-4 border-t border-zinc-50">
@@ -246,35 +269,43 @@ export default function BookingDetailPage() {
                     <Briefcase className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Work</p>
-                      <p className="text-sm text-zinc-700 font-medium">{booking.mentor.designation}</p>
-                      <p className="text-xs text-zinc-500">{booking.mentor.company}</p>
+                      <p className="text-sm text-zinc-700 font-medium">{booking.mentor?.designation || "-"}</p>
+                      <p className="text-xs text-zinc-500">{booking.mentor?.company || "-"}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Clock3 className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Experience</p>
-                      <p className="text-sm text-zinc-700">{booking.mentor.yearsExperience} Years</p>
+                      <p className="text-sm text-zinc-700">{booking.mentor?.yearsExperience !== undefined ? `${booking.mentor.yearsExperience} Years` : "-"}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <DollarSign className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Hourly Rate</p>
-                      <p className="text-sm text-zinc-700 font-semibold">${parseFloat(booking.mentor.hourlyRate).toFixed(2)}</p>
+                      <p className="text-sm text-zinc-700 font-semibold">
+                        {booking.mentor?.hourlyRate ? `$${parseFloat(booking.mentor.hourlyRate).toFixed(2)}` : "-"}
+                      </p>
                     </div>
                   </div>
-                  {booking.mentor.expertise && booking.mentor.expertise.length > 0 && (
+                  {booking.mentor?.expertise && (
                     <div className="flex items-start gap-2">
                       <FileText className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                       <div>
                         <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Expertise</p>
                         <div className="flex flex-wrap gap-1 mt-1">
-                          {booking.mentor.expertise.map((exp, i) => (
-                            <span key={i} className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-100">
-                              {exp}
+                          {Array.isArray(booking.mentor.expertise) ? (
+                            booking.mentor.expertise.map((exp, i) => (
+                              <span key={i} className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-100">
+                                {exp}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-100">
+                              {booking.mentor.expertise}
                             </span>
-                          ))}
+                          )}
                         </div>
                       </div>
                     </div>
@@ -316,21 +347,35 @@ export default function BookingDetailPage() {
                 variant="outline"
                 size="sm"
                 className="w-full bg-white/5 border-white/10 text-white hover:bg-white/10 hover:text-white justify-start"
+                disabled={!booking.student?.user?.email}
                 asChild
               >
-                <a href={`mailto:${booking.student.user.email}`}>
-                  <Mail className="w-4 h-4 mr-2 text-zinc-400" /> Email Student
-                </a>
+                {booking.student?.user?.email ? (
+                  <a href={`mailto:${booking.student.user.email}`}>
+                    <Mail className="w-4 h-4 mr-2 text-zinc-400" /> Email Student
+                  </a>
+                ) : (
+                  <span>
+                    <Mail className="w-4 h-4 mr-2 text-zinc-400" /> Email Student
+                  </span>
+                )}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 className="w-full bg-white/5 border-white/10 text-white hover:bg-white/10 hover:text-white justify-start"
+                disabled={!booking.mentor?.user?.email}
                 asChild
               >
-                <a href={`mailto:${booking.mentor.user.email}`}>
-                  <Mail className="w-4 h-4 mr-2 text-zinc-400" /> Email Mentor
-                </a>
+                {booking.mentor?.user?.email ? (
+                  <a href={`mailto:${booking.mentor.user.email}`}>
+                    <Mail className="w-4 h-4 mr-2 text-zinc-400" /> Email Mentor
+                  </a>
+                ) : (
+                  <span>
+                    <Mail className="w-4 h-4 mr-2 text-zinc-400" /> Email Mentor
+                  </span>
+                )}
               </Button>
             </div>
           </section>

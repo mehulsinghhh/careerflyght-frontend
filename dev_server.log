@@ -30,3 +30,48 @@
  GET /admin/dashboard 200 in 38ms (next.js: 4ms, application-code: 34ms)
  GET /admin/bookings 200 in 66ms (next.js: 4ms, application-code: 62ms)
  GET /admin/bookings/1 200 in 112ms (next.js: 24ms, application-code: 88ms)
+ GET /admin/login 200 in 509ms (next.js: 65ms, application-code: 444ms)
+ GET /admin/dashboard 200 in 88ms (next.js: 18ms, application-code: 70ms)
+ GET /admin/bookings 200 in 241ms (next.js: 14ms, application-code: 227ms)
+ GET /admin/bookings/resilient-1 200 in 191ms (next.js: 113ms, application-code: 78ms)
+ GET /admin/bookings 200 in 65ms (next.js: 3ms, application-code: 62ms)
+ GET /admin/bookings 200 in 84ms (next.js: 3ms, application-code: 80ms)
+ GET /admin/bookings/resilient-1 200 in 103ms (next.js: 26ms, application-code: 77ms)
+ GET /admin/login 200 in 171ms (next.js: 10ms, application-code: 161ms)
+ GET /admin/bookings 200 in 187ms (next.js: 14ms, application-code: 173ms)
+ GET /admin/bookings/resilient-1 200 in 124ms (next.js: 29ms, application-code: 95ms)
+ GET /admin/login 200 in 72ms (next.js: 4ms, application-code: 68ms)
+ GET /admin/dashboard 200 in 54ms (next.js: 9ms, application-code: 45ms)
+ GET /admin/bookings 200 in 184ms (next.js: 5ms, application-code: 179ms)
+ GET /admin/login 200 in 83ms (next.js: 6ms, application-code: 77ms)
+ GET /admin/bookings 200 in 72ms (next.js: 5ms, application-code: 67ms)
+ GET /admin/bookings/crash-test-1 200 in 106ms (next.js: 27ms, application-code: 79ms)
+ GET /admin/bookings 200 in 120ms (next.js: 6ms, application-code: 113ms)
+ GET /admin/login 200 in 90ms (next.js: 17ms, application-code: 73ms)
+ GET /admin/login 200 in 65ms (next.js: 3ms, application-code: 62ms)
+ GET /admin/dashboard 200 in 80ms (next.js: 20ms, application-code: 59ms)
+ GET /admin/bookings 200 in 162ms (next.js: 3ms, application-code: 159ms)
+[browser] Error during admin protection check: ApiError: Unauthorized
+    at apiClient (src/lib/api-client.ts:56:11)
+    at async checkAuthorization (src/components/admin/AdminProtectedRoute.tsx:31:26)
+  54 |
+  55 |   if (!response.ok) {
+> 56 |     throw new ApiError(data.message || "Request failed", response.status, data);
+     |           ^
+  57 |   }
+  58 |
+  59 |   return data; (src/components/admin/AdminProtectedRoute.tsx:63:17)
+ GET /admin/login 200 in 60ms (next.js: 3ms, application-code: 56ms)
+ GET /admin/login 200 in 78ms (next.js: 5ms, application-code: 73ms)
+ GET /admin/dashboard 200 in 38ms (next.js: 4ms, application-code: 35ms)
+ GET /admin/bookings 200 in 126ms (next.js: 3ms, application-code: 123ms)
+ GET /admin/login 200 in 60ms (next.js: 9ms, application-code: 51ms)
+[browser] Error during admin protection check: TypeError: Cannot read properties of undefined (reading 'user')
+    at checkAuthorization (src/components/admin/AdminProtectedRoute.tsx:35:36)
+  33 |         // Backend /auth/me returns { success: true, data: { user: { ... } } }
+  34 |         // but sometimes it might be flat { success: true, data: { ...user } }
+> 35 |         const user = response.data.user || response.data;
+     |                                    ^
+  36 |
+  37 |         if (user.role !== "admin") {
+  38 |           // Clear invalid session (src/components/admin/AdminProtectedRoute.tsx:63:17)

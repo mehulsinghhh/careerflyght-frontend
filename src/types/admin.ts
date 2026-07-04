@@ -37,23 +37,23 @@ export interface AdminBooking {
   amount: string | null;
   meetingLink: string | null;
   notes: string | null;
-  createdAt: string;
-  student: {
+  createdAt?: string;
+  student?: {
     id: string;
     educationLevel: string;
     preferredCountry: string;
-    careerInterest?: string[];
+    careerInterest?: string[] | string;
     resumeUrl?: string | null;
     bio?: string | null;
     user: AdminUser;
   };
-  mentor: {
+  mentor?: {
     id: string;
     company: string;
     designation: string;
     yearsExperience: number;
     hourlyRate: string;
-    expertise?: string[];
+    expertise?: string[] | string;
     user: AdminUser;
   };
 }

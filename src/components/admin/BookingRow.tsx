@@ -10,44 +10,60 @@ interface BookingRowProps {
 }
 
 export const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
-  const createdDate = new Date(booking.createdAt).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  const displayDate = booking.createdAt || booking.bookingDate;
+  let createdDate = 'N/A';
+
+  if (displayDate) {
+    try {
+      const date = new Date(displayDate);
+      if (!isNaN(date.getTime())) {
+        createdDate = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+      }
+    } catch (e) {
+      createdDate = 'N/A';
+    }
+  }
+
+  const studentName = booking.student?.user?.name || 'Unknown Student';
+  const mentorName = booking.mentor?.user?.name || 'Unknown Mentor';
+  const mentorCompany = booking.mentor?.company || '-';
 
   return (
     <tr className="hover:bg-zinc-50/50 transition-colors border-b border-zinc-100 last:border-0">
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-8 w-8 flex-shrink-0">
-            {booking.student.user.profilePhoto ? (
+            {booking.student?.user?.profilePhoto ? (
               <img className="h-8 w-8 rounded-full object-cover" src={booking.student.user.profilePhoto} alt="" />
             ) : (
               <div className="h-8 w-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 text-xs font-bold">
-                {booking.student.user.name.charAt(0)}
+                {studentName.charAt(0)}
               </div>
             )}
           </div>
           <div className="ml-3">
-            <div className="text-sm font-medium text-zinc-900">{booking.student.user.name}</div>
+            <div className="text-sm font-medium text-zinc-900">{studentName}</div>
           </div>
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-8 w-8 flex-shrink-0">
-            {booking.mentor.user.profilePhoto ? (
+            {booking.mentor?.user?.profilePhoto ? (
               <img className="h-8 w-8 rounded-full object-cover" src={booking.mentor.user.profilePhoto} alt="" />
             ) : (
               <div className="h-8 w-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 text-xs font-bold">
-                {booking.mentor.user.name.charAt(0)}
+                {mentorName.charAt(0)}
               </div>
             )}
           </div>
           <div className="ml-3">
-            <div className="text-sm font-medium text-zinc-900">{booking.mentor.user.name}</div>
-            <div className="text-xs text-zinc-500">{booking.mentor.company}</div>
+            <div className="text-sm font-medium text-zinc-900">{mentorName}</div>
+            <div className="text-xs text-zinc-500">{mentorCompany}</div>
           </div>
         </div>
       </td>

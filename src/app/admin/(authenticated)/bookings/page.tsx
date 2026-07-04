@@ -22,8 +22,8 @@ export default function AdminBookingsPage() {
     const query = searchQuery.toLowerCase();
     return data.data.filter(
       (booking) =>
-        booking.student.user.name.toLowerCase().includes(query) ||
-        booking.mentor.user.name.toLowerCase().includes(query)
+        booking.student?.user?.name?.toLowerCase().includes(query) ||
+        booking.mentor?.user?.name?.toLowerCase().includes(query)
     );
   }, [data?.data, searchQuery]);
 
