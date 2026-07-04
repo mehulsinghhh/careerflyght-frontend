@@ -53,11 +53,18 @@ export default function StudentDetailPage() {
   const bookings = bookingsResponse?.data || [];
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    if (!dateString) return 'N/A';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'N/A';
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (e) {
+      return 'N/A';
+    }
   };
 
   return (
@@ -225,9 +232,9 @@ export default function StudentDetailPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-500">
                           <div className="flex flex-col">
-                            <span>{formatDate(booking.createdAt)}</span>
-                            {booking.bookingDate && (
-                              <span className="text-[10px] text-zinc-400">Scheduled: {formatDate(booking.bookingDate)}</span>
+                            <span>{formatDate(booking.bookingDate || booking.createdAt)}</span>
+                            {booking.bookingDate && booking.createdAt && (
+                              <span className="text-[10px] text-zinc-400">Recorded: {formatDate(booking.createdAt)}</span>
                             )}
                           </div>
                         </td>
