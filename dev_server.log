@@ -5,8 +5,28 @@
 ▲ Next.js 16.2.6 (Turbopack)
 - Local:         http://localhost:3000
 - Network:       http://192.168.0.2:3000
-✓ Ready in 521ms
+✓ Ready in 522ms
 
-○ Compiling /admin/users/[id] ...
- GET /admin/users/test-student-id 200 in 5.6s (next.js: 5.2s, application-code: 394ms)
- GET /admin/login 200 in 787ms (next.js: 740ms, application-code: 47ms)
+○ Compiling /admin/login ...
+ GET /admin/login 200 in 4.6s (next.js: 4.0s, application-code: 580ms)
+ GET /admin/dashboard 200 in 1713ms (next.js: 1488ms, application-code: 225ms)
+ GET /admin/bookings 200 in 1570ms (next.js: 1456ms, application-code: 114ms)
+ GET /admin/login 200 in 34ms (next.js: 4ms, application-code: 30ms)
+[browser] Error during admin protection check: ApiError: Unauthorized
+    at apiClient (src/lib/api-client.ts:56:11)
+    at async checkAuthorization (src/components/admin/AdminProtectedRoute.tsx:31:26)
+  54 |
+  55 |   if (!response.ok) {
+> 56 |     throw new ApiError(data.message || "Request failed", response.status, data);
+     |           ^
+  57 |   }
+  58 |
+  59 |   return data; (src/components/admin/AdminProtectedRoute.tsx:63:17)
+ GET /admin/login 200 in 78ms (next.js: 5ms, application-code: 73ms)
+ GET /admin/dashboard 200 in 41ms (next.js: 4ms, application-code: 37ms)
+ GET /admin/bookings 200 in 123ms (next.js: 3ms, application-code: 120ms)
+ GET /admin/bookings/1 200 in 1344ms (next.js: 1291ms, application-code: 53ms)
+ GET /admin/login 200 in 70ms (next.js: 5ms, application-code: 66ms)
+ GET /admin/dashboard 200 in 38ms (next.js: 4ms, application-code: 34ms)
+ GET /admin/bookings 200 in 66ms (next.js: 4ms, application-code: 62ms)
+ GET /admin/bookings/1 200 in 112ms (next.js: 24ms, application-code: 88ms)
