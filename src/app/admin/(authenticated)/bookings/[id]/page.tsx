@@ -277,7 +277,13 @@ export default function BookingDetailPage() {
                     <Clock3 className="w-4 h-4 text-zinc-400 mt-1 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Experience</p>
-                      <p className="text-sm text-zinc-700">{booking.mentor?.yearsExperience !== undefined ? `${booking.mentor.yearsExperience} Years` : "-"}</p>
+                      <p className="text-sm text-zinc-700">
+                        {booking.mentor?.experienceYears !== undefined
+                          ? `${booking.mentor.experienceYears} Years`
+                          : (booking.mentor?.yearsExperience !== undefined
+                            ? `${booking.mentor.yearsExperience} Years`
+                            : "-")}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">

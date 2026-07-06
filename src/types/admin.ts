@@ -51,7 +51,8 @@ export interface AdminBooking {
     id: string;
     company: string;
     designation: string;
-    yearsExperience: number;
+    experienceYears?: number;
+    yearsExperience?: number;
     hourlyRate: string;
     expertise?: string[] | string;
     user: AdminUser;
