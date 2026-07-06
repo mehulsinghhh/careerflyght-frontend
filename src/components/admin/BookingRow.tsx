@@ -25,7 +25,7 @@ export const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
     }
   };
 
-  const createdDate = formatDate(booking.createdAt);
+  const createdDate = formatDate(booking.bookingDate || booking.createdAt);
 
   const studentName = booking.student?.user?.name || 'Unknown Student';
   const mentorName = booking.mentor?.user?.name || 'Unknown Mentor';

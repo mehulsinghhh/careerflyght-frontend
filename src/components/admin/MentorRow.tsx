@@ -2,7 +2,8 @@ import React from 'react';
 import { Mentor } from '@/types/admin';
 import { StatusBadge } from './StatusBadge';
 import { Button } from '@/components/ui/button';
-import { Check, X } from 'lucide-react';
+import { Check, X, UserCircle } from 'lucide-react';
+import Link from 'next/link';
 
 interface MentorRowProps {
   mentor: Mentor;
@@ -53,28 +54,39 @@ export const MentorRow: React.FC<MentorRowProps> = ({ mentor, onApprove, onRejec
         {joinedDate}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        {mentor.approvalStatus === 'PENDING' ? (
-          <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 h-8 px-2"
-              onClick={() => onApprove(mentor)}
-            >
-              <Check className="w-4 h-4 mr-1" /> Approve
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 h-8 px-2"
-              onClick={() => onReject(mentor)}
-            >
-              <X className="w-4 h-4 mr-1" /> Reject
-            </Button>
-          </div>
-        ) : (
-          <span className="text-zinc-300 italic text-xs font-normal">Read-only</span>
-        )}
+        <div className="flex justify-end gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            className="text-zinc-600 border-zinc-200 hover:bg-zinc-50 h-8 px-3"
+          >
+            <Link href={`/whatcanibe/mentors/${mentor.id}`}>
+              <UserCircle className="w-4 h-4 mr-1" /> View Profile
+            </Link>
+          </Button>
+
+          {mentor.approvalStatus === 'PENDING' && (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 h-8 px-2"
+                onClick={() => onApprove(mentor)}
+              >
+                <Check className="w-4 h-4 mr-1" /> Approve
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 h-8 px-2"
+                onClick={() => onReject(mentor)}
+              >
+                <X className="w-4 h-4 mr-1" /> Reject
+              </Button>
+            </>
+          )}
+        </div>
       </td>
     </tr>
   );
